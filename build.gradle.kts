@@ -38,5 +38,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
-group="com.optum.gradle.tigergraph"
-version="0.1.0"
+group = "com.optum.gradle.tigergraph"
+version = "0.1.0"
