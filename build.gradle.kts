@@ -37,3 +37,6 @@ dependencies {
     // Use the Kotlin JUnit integration.
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
+
+group="com.optum.gradle.tigergraph"
+version="0.1.0"
