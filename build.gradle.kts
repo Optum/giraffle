@@ -6,7 +6,19 @@
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
-    id("org.jetbrains.kotlin.jvm").version("1.3.11")
+    id("org.jetbrains.kotlin.jvm") version Versions.kotlin
+    id("org.jmailen.kotlinter") version Versions.kotlinter
+    `java-gradle-plugin`
+}
+
+gradlePlugin {
+    plugins {
+        create("GsqlPlugin") {
+            id = "com.optum.gradle.tigergraph"
+            implementationClass = "com.optum.gradle.tigergraph.GsqlPlugin"
+        }
+
+    }
 }
 
 repositories {
