@@ -9,17 +9,16 @@ import java.io.File
 import org.junit.rules.TemporaryFolder
 
 class GsqlPluginTest {
+    @Rule
+    @JvmField
+    val testProjectDir = TemporaryFolder()
+    lateinit var buildFile: File
+
     @Test
     fun `plugin can be installed and initialized`() {
 
         val expected = "GSQL Plugin successfully applied"
-        givenBuildScript(
-                """
-                plugins {
-                    id("com.optum.gradle.tigergraph")
-                }
-            """.trimIndent()
-        )
+        testProjectDir.newFile("build.gradle").fillFromResource("simple.gradle")
 
         val bOutput = build("tasks")
         println(bOutput.output.trimEnd())
@@ -28,14 +27,9 @@ class GsqlPluginTest {
 
     @Test
     fun `plugin creates gsqlCopySources task`() {
-        givenBuildScript("""
-            plugins {
-                id("com.optum.gradle.tigergraph")
-            }
-        """.trimIndent()
-        )
-        temporaryFolder.newFolder("db_scripts")
-        temporaryFolder.newFile("db_scripts/schema.gsql").apply {
+        testProjectDir.newFile("build.gradle").fillFromResource("simple.gradle")
+        testProjectDir.newFolder("db_scripts")
+        testProjectDir.newFile("db_scripts/schema.gsql").apply {
             writeText("""
                 create vertex Name ( primary_id name STRING )
                 create vertex Address ( primary_id address_id STRING )
@@ -43,8 +37,8 @@ class GsqlPluginTest {
             """.trimIndent())
         }
         val bOutput = build("gsqlCopySources")
-        val gsqlInput = File(temporaryFolder.root, "db_scripts/schema.gsql")
-        val gsqlOutput = File(temporaryFolder.root, "build/db_scripts/schema.gsql")
+        val gsqlInput = File(testProjectDir.root, "db_scripts/schema.gsql")
+        val gsqlOutput = File(testProjectDir.root, "build/db_scripts/schema.gsql")
         println(gsqlInput.toString())
         println(gsqlOutput.toString())
         println(bOutput.output)
@@ -54,7 +48,7 @@ class GsqlPluginTest {
     private fun build(vararg args: String): BuildResult =
             GradleRunner
                     .create()
-                    .withProjectDir(temporaryFolder.root)
+                    .withProjectDir(testProjectDir.root)
                     .withPluginClasspath()
                     .withArguments(*args)
                     .build()
@@ -65,9 +59,5 @@ class GsqlPluginTest {
         }
     }
 
-    private fun newFile(fileName: String): File = temporaryFolder.newFile(fileName)
-
-    @Rule
-    @JvmField
-    val temporaryFolder = TemporaryFolder()
+    private fun newFile(fileName: String): File = testProjectDir.newFile(fileName)
 }
