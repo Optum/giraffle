@@ -8,6 +8,8 @@ plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
     id("org.jetbrains.kotlin.jvm") version Versions.kotlin
     id("org.jmailen.kotlinter") version Versions.kotlinter
+    // id("com.gradle.plugin-publish") version "0.9.10"
+    `maven-publish`
     `java-gradle-plugin`
 }
 
@@ -40,3 +42,8 @@ dependencies {
 
 group = "com.optum.gradle.tigergraph"
 version = "0.1.0"
+
+publishing {
+    repositories {}
+    publications {}
+}
