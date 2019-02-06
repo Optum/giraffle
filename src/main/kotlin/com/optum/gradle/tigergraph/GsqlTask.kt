@@ -10,7 +10,7 @@ open class GsqlTask() : JavaExec() {
     private val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
 
     @Input
-    var scriptPath: String? = null
+    lateinit var scriptPath: String
     @Input
     var superUser: Boolean = false
 
@@ -25,8 +25,9 @@ open class GsqlTask() : JavaExec() {
 
         main = "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"
         args = buildArgs()
+        logger.lifecycle("Args: ${args.toString()}")
+        super.exec()
 
-        args.add("${project.buildDir}/$scriptPath")
     }
 
     private fun buildArgs(): List<String> {
@@ -36,7 +37,7 @@ open class GsqlTask() : JavaExec() {
         newArgs.add(extension.serverName)
         newArgs += determineUser(superUser)
 
-        newArgs.add(scriptPath!!)
+        newArgs.add("${project.buildDir}/$scriptPath")
 
         return newArgs
     }
