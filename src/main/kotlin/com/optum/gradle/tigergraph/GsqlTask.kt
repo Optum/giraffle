@@ -25,6 +25,8 @@ open class GsqlTask() : JavaExec() {
 
         main = "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"
         args = buildArgs()
+
+        args.add("${project.buildDir}/$scriptPath")
     }
 
     private fun buildArgs(): List<String> {
