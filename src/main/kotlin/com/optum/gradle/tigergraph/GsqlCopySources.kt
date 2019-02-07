@@ -29,6 +29,8 @@ open class GsqlCopySources : DefaultTask() {
     fun copyFiles() {
         inputDir.apply { parentFile.mkdirs() }
 
+        project.logger.lifecycle("tokens: ", tokens)
+
         project.copy {
             it.run {
                 from(inputDir) {
