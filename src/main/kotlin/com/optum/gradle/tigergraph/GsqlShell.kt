@@ -1,17 +1,11 @@
 package com.optum.gradle.tigergraph
 
 import org.gradle.api.artifacts.Configuration
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-open class GsqlTask() : GsqlAbstract() {
-
-    @Input
-    lateinit var scriptPath: String
-
+open class GsqlShell : GsqlAbstract() {
     @TaskAction
     override fun exec() {
-
         val cfg: Configuration? = project.configurations.findByName("tigergraph")
 
         if (cfg != null) {
@@ -19,6 +13,7 @@ open class GsqlTask() : GsqlAbstract() {
         }
 
         main = "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"
+        standardInput = System.`in`
         args = buildArgs()
         logger.info("Args: $args")
         super.exec()
@@ -30,8 +25,6 @@ open class GsqlTask() : GsqlAbstract() {
         newArgs.add("--ip")
         newArgs.add(extension.serverName)
         newArgs += determineUser(superUser)
-
-        newArgs.add("${project.buildDir}/$scriptPath")
 
         return newArgs
     }

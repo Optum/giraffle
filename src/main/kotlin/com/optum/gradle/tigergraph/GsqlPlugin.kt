@@ -14,6 +14,10 @@ open class GsqlPlugin : Plugin<Project> {
             create("gsqlCopySources", GsqlCopySources::class.java) {
                 it.group = "Development"
             }
+            create("gsqlShell", GsqlShell::class.java) {
+                it.group = "GSQL Shell Tasks"
+                it.description = "Invokes a gsql shell for executing ad-hoc gsql commands."
+            }
         }
 
         with(project) {
