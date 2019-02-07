@@ -8,8 +8,6 @@ open class GsqlTask() : GsqlAbstract() {
 
     @Input
     lateinit var scriptPath: String
-    @Input
-    var superUser: Boolean = false
 
     @TaskAction
     override fun exec() {
