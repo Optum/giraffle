@@ -10,18 +10,19 @@ open class GsqlPlugin : Plugin<Project> {
         extensions.create("tigergraph", GsqlPluginExtension::class.java)
 
         // Create CopySources task
+        val gsqlCopySources = project.tasks.run {
+            create("gsqlCopySources", GsqlCopySources::class.java)
+        }
         project.tasks.run {
-            create("gsqlCopySources", GsqlCopySources::class.java) {
-                it.group = "Development"
-            }
-            create("gsqlShell", GsqlShell::class.java) {
-                it.group = "GSQL Shell Tasks"
-                it.description = "Invokes a gsql shell for executing ad-hoc gsql commands."
-            }
+            create("gsqlShell", GsqlShell::class.java)
         }
 
         with(project) {
-            logger.lifecycle("GSQL Plugin successfully applied to {$project.name}")
+            logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
+            tasks.withType(GsqlTask::class.java) { task ->
+                logger.info("${task.name}: is of type GsqlTask")
+                task.dependsOn(gsqlCopySources)
+            }
         }
     }
 }
