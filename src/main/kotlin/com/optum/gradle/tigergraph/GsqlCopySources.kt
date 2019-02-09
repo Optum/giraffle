@@ -21,7 +21,7 @@ open class GsqlCopySources : DefaultTask() {
     val outputDir: File = project.file("${project.buildDir}/${extension.scriptDir}")
 
     init {
-        group = "Development Tasks"
+        group = "Development"
         description = "Copy gsql script from scriptDir to build directory."
     }
 
