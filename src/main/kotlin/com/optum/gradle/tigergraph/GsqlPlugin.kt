@@ -25,9 +25,14 @@ open class GsqlPlugin : Plugin<Project> {
      */
     val GSQL_SHELL_TASK_NAME = "gsqlShell"
 
+    val DEFAULT_GSQL_SCRIPT_DIR = "db_scripts"
+
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
-        extensions.create(EXTENSION_NAME, GsqlPluginExtension::class.java)
+        val gsqlPluginExtension = extensions.create(EXTENSION_NAME, GsqlPluginExtension::class.java, project)
+        gsqlPluginExtension.scriptDir.set(
+                layout.projectDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR)
+        )
 
         // Create CopySources task
         val gsqlCopySources = project.tasks.run {
