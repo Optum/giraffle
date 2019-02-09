@@ -4,10 +4,15 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 open class GsqlPlugin : Plugin<Project> {
+    /**
+     * The name of the extension for configuring the runtime behavior of the plugin
+     *
+     */
+    val EXTENSION_NAME = "tigergraph"
 
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
-        extensions.create("tigergraph", GsqlPluginExtension::class.java)
+        extensions.create(EXTENSION_NAME, GsqlPluginExtension::class.java)
 
         // Create CopySources task
         val gsqlCopySources = project.tasks.run {
