@@ -12,7 +12,7 @@ open class GsqlCopySources : DefaultTask() {
     private val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
 
     @InputDirectory
-    val inputDir: File = project.file("${project.rootDir}/${extension.scriptDir}")
+    val inputDir: File = project.file(extension.scriptDir)
 
     @Input
     val tokens: Map<String, String> = extension.tokens
