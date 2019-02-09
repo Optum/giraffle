@@ -9,6 +9,18 @@ abstract class GsqlAbstract : JavaExec() {
     protected val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
 
     @Input
+    private val adminUserName: String? = extension.adminUserName
+
+    @Input
+    private val userName: String? = extension.userName
+
+    @Input
+    private val adminPassword: String? = extension.adminPassword
+
+    @Input
+    private val password: String? = extension.password
+
+    @Input
     var superUser: Boolean = false
 
     @Input
