@@ -23,18 +23,6 @@ abstract class GsqlAbstract : JavaExec() {
     @Input
     var superUser: Boolean = false
 
-    @Input
-    protected val adminUserName = extension.adminUserName
-
-    @Input
-    protected val adminPassword = extension.adminPassword
-
-    @Input
-    protected val userName = extension.userName
-
-    @Input
-    protected val password = extension.password
-
     abstract fun buildArgs(): List<String>
 
     protected fun determineUser(superUser: Boolean): List<String> =
