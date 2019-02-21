@@ -2,12 +2,15 @@ package com.optum.gradle.tigergraph
 
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.GradleException
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Nested
 
 abstract class GsqlAbstract : JavaExec() {
     @Input
     protected val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
 
+    /*
     @Input
     private val adminUserName: String? = extension.adminUserName
 
@@ -19,6 +22,10 @@ abstract class GsqlAbstract : JavaExec() {
 
     @Input
     private val password: String? = extension.password
+    */
+
+    @get:Nested
+    val adminUserName = extension.adminUserName
 
     @Input
     var superUser: Boolean = false

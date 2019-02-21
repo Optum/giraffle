@@ -1,3 +1,7 @@
 plugins {
     id("com.optum.gradle.tigergraph")
 }
+
+tigergraph {
+    scriptDir.set(file("$rootDir/db_scripts"))
+}
