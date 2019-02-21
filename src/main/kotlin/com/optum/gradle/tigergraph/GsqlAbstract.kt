@@ -11,6 +11,18 @@ abstract class GsqlAbstract : JavaExec() {
     @Input
     var superUser: Boolean = false
 
+    @Input
+    protected val adminUserName = extension.adminUserName
+
+    @Input
+    protected val adminPassword = extension.adminPassword
+
+    @Input
+    protected val userName = extension.userName
+
+    @Input
+    protected val password = extension.password
+
     abstract fun buildArgs(): List<String>
 
     protected fun determineUser(superUser: Boolean): List<String> =
@@ -21,26 +33,18 @@ abstract class GsqlAbstract : JavaExec() {
 
     private fun getAdminCredentials(): List<String> =
             getCredentials(
-                    extension.adminUserName,
-                    extension.adminPassword,
+                    adminUserName,
+                    adminPassword,
                     "Admin username and password needs to be provided.")
 
     private fun getNonPrivCredentials(): List<String> =
             getCredentials(
-                    extension.userName,
-                    extension.password,
+                    userName,
+                    password,
                     "Username and password need to be provided.")
 
     private fun getCredentials(usernameProperty: String?, passwordProperty: String?, message: String): List<String> {
         if (usernameProperty == null || passwordProperty == null) throw GradleException(message)
         return listOf("-u", usernameProperty, "-p", passwordProperty)
     }
-
-    protected fun getAdminUsername(): String? = extension.adminUserName
-
-    protected fun getAdminPassword(): String? = extension.password
-
-    protected fun getUsername(): String? = extension.userName
-
-    protected fun getPassword(): String? = extension.password
 }
