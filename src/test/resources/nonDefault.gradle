@@ -1,0 +1,7 @@
+plugins {
+    id("com.optum.gradle.tigergraph")
+}
+
+tigergraph {
+    scriptDir = "scripts"
+}

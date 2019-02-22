@@ -33,13 +33,8 @@ class GsqlPluginTest {
     fun `plugin creates gsqlCopySources task`() {
         testProjectDir.newFile("build.gradle").fillFromResource("simple.gradle")
         testProjectDir.newFolder("db_scripts")
-        testProjectDir.newFile("db_scripts/schema.gsql").apply {
-            writeText("""
-                create vertex Name ( primary_id name STRING )
-                create vertex Address ( primary_id address_id STRING )
-                create directed edge lives_at (FROM Name, TO Address)
-            """.trimIndent())
-        }
+        testProjectDir.newFile("db_scripts/schema.gsql").fillFromResource("schema.gsql")
+
         val bOutput = build("gsqlCopySources")
         val gsqlInput = File(testProjectDir.root, "db_scripts/schema.gsql")
         val gsqlOutput = File(testProjectDir.root, "build/db_scripts/schema.gsql")
@@ -53,13 +48,7 @@ class GsqlPluginTest {
     fun `apply gsqlCopyTask twice - should show up to date`() {
         testProjectDir.newFile("build.gradle").fillFromResource("simple.gradle")
         testProjectDir.newFolder("db_scripts")
-        testProjectDir.newFile("db_scripts/schema.gsql").apply {
-            writeText("""
-                create vertex Name ( primary_id name STRING )
-                create vertex Address ( primary_id address_id STRING )
-                create directed edge lives_at (FROM Name, TO Address)
-            """.trimIndent())
-        }
+        testProjectDir.newFile("db_scripts/schema.gsql").fillFromResource("schema.gsql")
 
         val taskToTest: String = ":gsqlCopySources"
 
@@ -68,6 +57,20 @@ class GsqlPluginTest {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(taskToTest)!!.outcome)
         assertEquals(TaskOutcome.UP_TO_DATE, resultUpToDate.task(taskToTest)!!.outcome)
+
+    }
+
+    @Test
+    fun `init plugin with non-default script directory`() {
+        testProjectDir.newFile("build.gradle").fillFromResource("nonDefault.gradle")
+        testProjectDir.newFolder("scripts")
+        testProjectDir.newFile("scripts/schema.gsql").fillFromResource("schema.gsql")
+
+        // val gsqlInput = File(testProjectDir.root, "scripts/schema.gsql")
+        build(":gsqlCopySources")
+        val gsqlOutput = File(testProjectDir.root, "build/scripts/schema.gsql")
+
+        assert(gsqlOutput.exists())
 
     }
 
