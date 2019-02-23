@@ -34,7 +34,6 @@ class GsqlPluginTest {
         testProjectDir.newFolder("db_scripts")
         testProjectDir.newFile("db_scripts/schema.gsql").fillFromResource("schema.gsql")
 
-
         val bOutput = build(copyTaskName)
         val gsqlInput = File(testProjectDir.root, "db_scripts/schema.gsql")
         val gsqlOutput = File(testProjectDir.root, "build/db_scripts/schema.gsql")
@@ -57,7 +56,6 @@ class GsqlPluginTest {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(taskToTest)!!.outcome)
         assertEquals(TaskOutcome.UP_TO_DATE, resultUpToDate.task(taskToTest)!!.outcome)
-
     }
 
     @Test
@@ -70,7 +68,7 @@ class GsqlPluginTest {
         // val gsqlOutput = File(testProjectDir.root, "build/scripts/schema.gsql")
         val bOutput = build(copyTaskName)
 
-        assertEquals(TaskOutcome.SUCCESS, bOutput.task(copyTaskName)!!.outcome )
+        assertEquals(TaskOutcome.SUCCESS, bOutput.task(copyTaskName)!!.outcome)
     }
 
     private fun build(vararg args: String): BuildResult =
