@@ -1,5 +1,7 @@
 package com.optum.gradle.tigergraph
 
+import com.optum.gradle.tigergraph.data.ConnectDataSerializable
+import com.optum.gradle.tigergraph.data.ConnectionData
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
@@ -10,22 +12,11 @@ abstract class GsqlAbstract : JavaExec() {
     @Input
     protected val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
 
-    /*
-    @Input
-    private val adminUserName: String? = extension.adminUserName
-
-    @Input
-    private val userName: String? = extension.userName
-
-    @Input
-    private val adminPassword: String? = extension.adminPassword
-
-    @Input
-    private val password: String? = extension.password
-    */
+    @get:Nested
+    val connectionDataS: Property<ConnectDataSerializable> = project.objects.property(ConnectDataSerializable::class.java)
 
     @get:Nested
-    val adminUserName = extension.adminUserName
+    val connectionData: ConnectionData = ConnectionData(project)
 
     @Input
     var superUser: Boolean = false
@@ -40,14 +31,14 @@ abstract class GsqlAbstract : JavaExec() {
 
     private fun getAdminCredentials(): List<String> =
             getCredentials(
-                    adminUserName,
-                    adminPassword,
+                    connectionData.getAdminUserName(),
+                    connectionData.getAdminPassword(),
                     "Admin username and password needs to be provided.")
 
     private fun getNonPrivCredentials(): List<String> =
             getCredentials(
-                    userName,
-                    password,
+                    connectionData.getUserName(),
+                    connectionData.getPassword(),
                     "Username and password need to be provided.")
 
     private fun getCredentials(usernameProperty: String?, passwordProperty: String?, message: String): List<String> {
