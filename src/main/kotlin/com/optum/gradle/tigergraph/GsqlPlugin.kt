@@ -2,6 +2,8 @@ package com.optum.gradle.tigergraph
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaBasePlugin
+import org.gradle.api.tasks.TaskProvider
 
 open class GsqlPlugin : Plugin<Project> {
     /**
@@ -34,20 +36,32 @@ open class GsqlPlugin : Plugin<Project> {
                 layout.projectDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR)
         )
 
+        registerGsqlCopySourcesTask(gsqlPluginExtension)
+
         // Create CopySources task
-        val gsqlCopySources = project.tasks.run {
-            create(COPY_SOURCES_TASK_NAME, GsqlCopySources::class.java)
-        }
+        /*
         project.tasks.run {
             create(GSQL_SHELL_TASK_NAME, GsqlShell::class.java)
         }
+        */
 
         with(project) {
             logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
+            /*
             tasks.withType(GsqlTask::class.java) { task ->
                 logger.info("${task.name}: is of type GsqlTask")
                 task.dependsOn(gsqlCopySources)
             }
+            */
         }
     }
+
+    private fun Project.registerGsqlCopySourcesTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlCopySources> =
+            tasks.register(COPY_SOURCES_TASK_NAME, GsqlCopySources::class.java) { gsqlCopySources ->
+                gsqlCopySources.group = JavaBasePlugin.BUILD_TASK_NAME
+                gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
+                gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
+                // gsqlCopySources.outputDir
+                // gsqlCopySources.tokens.set(gsqlPluginExtension.tokens)
+            }
 }
