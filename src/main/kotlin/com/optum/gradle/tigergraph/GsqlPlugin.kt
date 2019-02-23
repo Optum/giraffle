@@ -32,9 +32,8 @@ open class GsqlPlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
         val gsqlPluginExtension = extensions.create(EXTENSION_NAME, GsqlPluginExtension::class.java, project)
-        gsqlPluginExtension.scriptDir.set(
-                layout.projectDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR)
-        )
+        gsqlPluginExtension.scriptDir.set(layout.projectDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR))
+        gsqlPluginExtension.outputDir.set(layout.buildDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR))
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlTask(gsqlPluginExtension)
@@ -62,6 +61,7 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlCopySources.group = JavaBasePlugin.BUILD_TASK_NAME
                 gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
                 gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
+                gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir)
                 // gsqlCopySources.outputDir
                 // gsqlCopySources.tokens.set(gsqlPluginExtension.tokens)
             }

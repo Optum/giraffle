@@ -8,7 +8,6 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 
 open class GsqlCopySources : DefaultTask() {
     private val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
@@ -22,7 +21,7 @@ open class GsqlCopySources : DefaultTask() {
     */
 
     @get:OutputDirectory
-    val outputDir: File = project.file("${project.buildDir}/${extension.scriptDir}")
+    val outputDir: DirectoryProperty = project.objects.directoryProperty()
 
     @TaskAction
     fun copyFiles() {

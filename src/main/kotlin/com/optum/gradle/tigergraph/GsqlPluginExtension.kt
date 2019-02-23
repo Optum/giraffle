@@ -13,6 +13,13 @@ open class GsqlPluginExtension(project: Project) {
     val scriptDir: DirectoryProperty = project.objects.directoryProperty()
 
     /**
+     * Returns the directory for gsql script output.
+     *
+     * @return The output script directory
+     */
+    val outputDir: DirectoryProperty = project.objects.directoryProperty()
+
+    /**
      * Returns the tokens intended to be used in the Ant style filter.
      *
      * @return The map for token replacement
