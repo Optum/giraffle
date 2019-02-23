@@ -5,7 +5,6 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 open class GsqlTask() : GsqlAbstract() {
-
     @Input
     lateinit var scriptPath: String
 
@@ -28,7 +27,7 @@ open class GsqlTask() : GsqlAbstract() {
         val newArgs: MutableList<String> = mutableListOf<String>()
 
         newArgs.add("--ip")
-        newArgs.add(extension.serverName)
+        newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
 
         newArgs.add("${project.buildDir}/$scriptPath")
