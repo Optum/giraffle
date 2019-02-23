@@ -37,6 +37,7 @@ open class GsqlPlugin : Plugin<Project> {
         )
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
+        registerGsqlTask(gsqlPluginExtension)
 
         // Create CopySources task
         /*
@@ -63,5 +64,15 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
                 // gsqlCopySources.outputDir
                 // gsqlCopySources.tokens.set(gsqlPluginExtension.tokens)
+            }
+
+    private fun Project.registerGsqlTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTask> =
+            tasks.register(GSQL_SHELL_TASK_NAME, GsqlTask::class.java) { gsqlShell ->
+                gsqlShell.dependsOn(COPY_SOURCES_TASK_NAME)
+                gsqlShell.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
+                gsqlShell.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
+                gsqlShell.connectionData.setUserName(gsqlPluginExtension.userName)
+                gsqlShell.connectionData.setPassword(gsqlPluginExtension.password)
+                gsqlShell.connectionData.setServerName(gsqlPluginExtension.serverName)
             }
 }
