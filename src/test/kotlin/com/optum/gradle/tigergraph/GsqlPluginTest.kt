@@ -3,20 +3,19 @@ package com.optum.gradle.tigergraph
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.Rule
 import org.junit.Assert.assertTrue
 import java.io.File
 import org.junit.rules.TemporaryFolder
 import kotlin.test.assertEquals
-import kotlin.test.asserter
 
 class GsqlPluginTest {
     @Rule
     @JvmField
     val testProjectDir = TemporaryFolder()
     lateinit var buildFile: File
+    private val copyTaskName: String = ":gsqlCopySources"
 
     @Test
     fun `plugin can be installed and initialized`() {
@@ -35,13 +34,14 @@ class GsqlPluginTest {
         testProjectDir.newFolder("db_scripts")
         testProjectDir.newFile("db_scripts/schema.gsql").fillFromResource("schema.gsql")
 
-        val bOutput = build("gsqlCopySources")
+
+        val bOutput = build(copyTaskName)
         val gsqlInput = File(testProjectDir.root, "db_scripts/schema.gsql")
         val gsqlOutput = File(testProjectDir.root, "build/db_scripts/schema.gsql")
         println(gsqlInput.toString())
         println(gsqlOutput.toString())
         println(bOutput.output)
-        assert(gsqlOutput.exists())
+        assertEquals(TaskOutcome.SUCCESS, bOutput.task(copyTaskName)!!.outcome)
     }
 
     @Test
@@ -67,11 +67,10 @@ class GsqlPluginTest {
         testProjectDir.newFile("scripts/schema.gsql").fillFromResource("schema.gsql")
 
         // val gsqlInput = File(testProjectDir.root, "scripts/schema.gsql")
-        build(":gsqlCopySources")
-        val gsqlOutput = File(testProjectDir.root, "build/scripts/schema.gsql")
+        // val gsqlOutput = File(testProjectDir.root, "build/scripts/schema.gsql")
+        val bOutput = build(copyTaskName)
 
-        assert(gsqlOutput.exists())
-
+        assertEquals(TaskOutcome.SUCCESS, bOutput.task(copyTaskName)!!.outcome )
     }
 
     private fun build(vararg args: String): BuildResult =
