@@ -3,5 +3,5 @@ plugins {
 }
 
 tigergraph {
-    scriptDir = "scripts"
+    scriptDir.set(file("scripts"))
 }
