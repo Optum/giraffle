@@ -16,7 +16,7 @@ open class GsqlShell() : GsqlAbstract() {
             classpath = cfg
         }
 
-        main = "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"
+        main = "com.tigergraph.client.Driver"
         standardInput = System.`in`
         args = buildArgs()
         logger.info("Args: $args")

@@ -17,7 +17,7 @@ open class GsqlTask() : GsqlAbstract() {
             classpath = cfg
         }
 
-        main = "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"
+        main = "com.tigergraph.client.Driver"
         args = buildArgs()
         logger.info("Args: $args")
         super.exec()
