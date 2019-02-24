@@ -12,13 +12,23 @@ plugins {
     `maven-publish`
     `java-gradle-plugin`
     `build-scan`
+    id("gradle.site") version "0.6"
 }
+
+val webUrl = ""
+val githubUrl = "https://github.optum.com/ATC/${project.name}.git"
 
 buildScan {
     termsOfServiceUrl = "https://gradle.com/terms-of-service"
     termsOfServiceAgree = "yes"
 
     publishAlways()
+}
+
+site {
+    outputDir.set(file("$rootDir/docs"))
+    websiteUrl.set(webUrl)
+    vcsUrl.set(githubUrl)
 }
 
 gradlePlugin {
@@ -35,11 +45,19 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenLocal()
 }
 
 dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    /*
+    implementation("com.tigergraph.client:Driver:2.1.7")
+    implementation("commons-cli:commons-cli:1.4")
+    implementation("jline:jline:2.11")
+    implementation("org.json:json:20180130")
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    */
 
     // Use the Kotlin test library.
     testImplementation("org.jetbrains.kotlin:kotlin-test")
