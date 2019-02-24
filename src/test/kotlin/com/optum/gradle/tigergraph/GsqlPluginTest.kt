@@ -9,6 +9,7 @@ import org.junit.Assert.assertTrue
 import java.io.File
 import org.junit.rules.TemporaryFolder
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class GsqlPluginTest {
     @Rule
@@ -40,6 +41,7 @@ class GsqlPluginTest {
         println(gsqlInput.toString())
         println(gsqlOutput.toString())
         println(bOutput.output)
+        assertTrue("Output files should exist", gsqlOutput.exists())
         assertEquals(TaskOutcome.SUCCESS, bOutput.task(copyTaskName)!!.outcome)
     }
 
