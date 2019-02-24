@@ -11,6 +11,14 @@ plugins {
     // id("com.gradle.plugin-publish") version "0.9.10"
     `maven-publish`
     `java-gradle-plugin`
+    `build-scan`
+}
+
+buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
+
+    publishAlways()
 }
 
 gradlePlugin {
