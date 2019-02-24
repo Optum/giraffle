@@ -1,10 +1,8 @@
 package com.optum.gradle.tigergraph
 
-import com.optum.gradle.tigergraph.data.ConnectDataSerializable
 import com.optum.gradle.tigergraph.data.ConnectionData
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.GradleException
-import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Nested
 
@@ -12,8 +10,10 @@ abstract class GsqlAbstract : JavaExec() {
     @Input
     protected val extension: GsqlPluginExtension = project.extensions.findByName("tigergraph") as GsqlPluginExtension
 
+    /*
     @get:Nested
     val connectionDataS: Property<ConnectDataSerializable> = project.objects.property(ConnectDataSerializable::class.java)
+    */
 
     @get:Nested
     val connectionData: ConnectionData = ConnectionData(project)
