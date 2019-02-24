@@ -3,8 +3,7 @@ package com.optum.gradle.tigergraph
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.TaskAction
 
-open class GsqlShell : GsqlAbstract() {
-
+open class GsqlShell() : GsqlAbstract() {
     init {
         group = "GSQL Shell"
         description = "Invokes a gsql shell for executing ad-hoc gsql commands."
@@ -28,7 +27,7 @@ open class GsqlShell : GsqlAbstract() {
         val newArgs: MutableList<String> = mutableListOf<String>()
 
         newArgs.add("--ip")
-        newArgs.add(extension.serverName)
+        newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
 
         return newArgs
