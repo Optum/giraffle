@@ -1,5 +1,6 @@
 package com.optum.gradle.tigergraph
 
+import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -53,6 +54,14 @@ open class GsqlPlugin : Plugin<Project> {
                 task.dependsOn(gsqlCopySources)
             }
             */
+            configurations.maybeCreate(gsqlRuntime)
+                    .description = "Gsql Runtime for Tigergraph Plugin"
+
+            dependencies.add(gsqlRuntime, "com.tigergraph.client:Driver:2.1.7")
+            dependencies.add(gsqlRuntime, "commons-cli:commons-cli:1.4")
+            dependencies.add(gsqlRuntime, "jline:jline:2.11")
+            dependencies.add(gsqlRuntime, "org.json:json:20180130")
+            dependencies.add(gsqlRuntime, "javax.xml.bind:jaxb-api:2.3.1")
         }
     }
 
