@@ -12,29 +12,29 @@ open class GsqlPlugin : Plugin<Project> {
      *
      * @see com.optum.gradle.tigergraph.GsqlPluginExtension
      */
-    val EXTENSION_NAME = "tigergraph"
+    val extensionName = "tigergraph"
 
     /**
      * The name of the task that copies the GSQL source files into the build directory.
      *
      * @see com.optum.gradle.tigergraph.GsqlCopySources
      */
-    val COPY_SOURCES_TASK_NAME = "gsqlCopySources"
+    val copySourcesTaskName = "gsqlCopySources"
 
     /**
      * The name of the task that runs the interactive GSQL shell.
      *
      * @see com.optum.gradle.tigergraph.GsqlShell
      */
-    val GSQL_SHELL_TASK_NAME = "gsqlShell"
+    val gsqlShellTaskName = "gsqlShell"
 
-    val DEFAULT_GSQL_SCRIPT_DIR = "db_scripts"
+    val defaultGsqlScriptsDirectory = "db_scripts"
 
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
-        val gsqlPluginExtension = extensions.create(EXTENSION_NAME, GsqlPluginExtension::class.java, project)
-        gsqlPluginExtension.scriptDir.set(layout.projectDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR))
-        gsqlPluginExtension.outputDir.set(layout.buildDirectory.dir(DEFAULT_GSQL_SCRIPT_DIR))
+        val gsqlPluginExtension = extensions.create(extensionName, GsqlPluginExtension::class.java, project)
+        gsqlPluginExtension.scriptDir.set(layout.projectDirectory.dir(defaultGsqlScriptsDirectory))
+        gsqlPluginExtension.outputDir.set(layout.buildDirectory.dir(defaultGsqlScriptsDirectory))
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlTask(gsqlPluginExtension)
@@ -42,7 +42,7 @@ open class GsqlPlugin : Plugin<Project> {
         // Create CopySources task
         /*
         project.tasks.run {
-            create(GSQL_SHELL_TASK_NAME, GsqlShell::class.java)
+            create(gsqlShellTaskName, GsqlShell::class.java)
         }
         */
 
@@ -66,7 +66,7 @@ open class GsqlPlugin : Plugin<Project> {
     }
 
     private fun Project.registerGsqlCopySourcesTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlCopySources> =
-            tasks.register(COPY_SOURCES_TASK_NAME, GsqlCopySources::class.java) { gsqlCopySources ->
+            tasks.register(copySourcesTaskName, GsqlCopySources::class.java) { gsqlCopySources ->
                 gsqlCopySources.group = JavaBasePlugin.BUILD_TASK_NAME
                 gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
                 gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
@@ -76,8 +76,8 @@ open class GsqlPlugin : Plugin<Project> {
             }
 
     private fun Project.registerGsqlTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTask> =
-            tasks.register(GSQL_SHELL_TASK_NAME, GsqlTask::class.java) { gsqlShell ->
-                gsqlShell.dependsOn(COPY_SOURCES_TASK_NAME)
+            tasks.register(gsqlShellTaskName, GsqlTask::class.java) { gsqlShell ->
+                gsqlShell.dependsOn(copySourcesTaskName)
                 gsqlShell.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
                 gsqlShell.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
                 gsqlShell.connectionData.setUserName(gsqlPluginExtension.userName)
