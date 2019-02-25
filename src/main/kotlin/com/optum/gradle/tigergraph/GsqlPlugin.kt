@@ -1,5 +1,6 @@
 package com.optum.gradle.tigergraph
 
+import com.optum.gradle.tigergraph.Configurations.extensionName
 import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -7,13 +8,6 @@ import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.TaskProvider
 
 open class GsqlPlugin : Plugin<Project> {
-    /**
-     * The name of the extension for configuring the runtime behavior of the plugin.
-     *
-     * @see com.optum.gradle.tigergraph.GsqlPluginExtension
-     */
-    val extensionName = "tigergraph"
-
     /**
      * The name of the task that copies the GSQL source files into the build directory.
      *
