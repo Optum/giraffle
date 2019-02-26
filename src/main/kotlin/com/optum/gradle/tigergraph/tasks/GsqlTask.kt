@@ -1,11 +1,14 @@
 package com.optum.gradle.tigergraph.tasks
 
+import com.optum.gradle.tigergraph.Configurations.extensionName
 import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
+import com.optum.gradle.tigergraph.GsqlPluginExtension
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
 open class GsqlTask() : GsqlAbstract() {
+
     @Input
     lateinit var scriptPath: String
 
@@ -13,6 +16,15 @@ open class GsqlTask() : GsqlAbstract() {
     override fun exec() {
 
         val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
+        val gsqlPluginExtension: GsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java).also {
+            project.extensions.getByName(extensionName)
+        }
+
+        this.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
+        this.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
+        this.connectionData.setUserName(gsqlPluginExtension.userName)
+        this.connectionData.setPassword(gsqlPluginExtension.password)
+        this.connectionData.setServerName(gsqlPluginExtension.serverName)
 
         if (cfg != null) {
             classpath = cfg
