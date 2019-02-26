@@ -4,4 +4,6 @@ plugins {
 
 tigergraph {
     scriptDir.set(file("$rootDir/db_scripts"))
+    userName.set("JoeUser")
+    password.set("Joe'sPassword")
 }

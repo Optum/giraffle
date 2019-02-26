@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.tigergraph.tasks
 
 import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
 import org.gradle.api.artifacts.Configuration
