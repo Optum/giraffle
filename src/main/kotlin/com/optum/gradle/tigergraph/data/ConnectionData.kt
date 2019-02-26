@@ -15,12 +15,14 @@ class ConnectionData(project: Project) {
     private val serverName: Property<String> = project.objects.property(String::class.java)
 
     @Input
-    fun getUserName(): String = userName.getOrElse("tigergraph")
+    @Optional
+    fun getUserName(): String? = userName.orNull
 
     fun setUserName(name: Provider<String>) = this.userName.set(name)
 
     @Input
-    fun getPassword(): String = password.getOrElse("tigergraph")
+    @Optional
+    fun getPassword(): String? = password.orNull
 
     fun setPassword(name: Provider<String>) = this.password.set(name)
 
