@@ -2,7 +2,6 @@ package com.optum.gradle.tigergraph
 
 import com.optum.gradle.tigergraph.Configurations.extensionName
 import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
-import com.optum.gradle.tigergraph.tasks.GsqlAbstract
 import com.optum.gradle.tigergraph.tasks.GsqlCopySources
 import com.optum.gradle.tigergraph.tasks.GsqlShell
 import com.optum.gradle.tigergraph.tasks.GsqlTask
@@ -51,12 +50,7 @@ open class GsqlPlugin : Plugin<Project> {
         registerGsqlTask(gsqlPluginExtension)
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
-        /*
-        tasks.withType(GsqlTask::class.java) { task ->
-            logger.info("${task.name}: is of type GsqlTask")
-            task.dependsOn(gsqlCopySources)
-        }
-        */
+
         configurations.maybeCreate(gsqlRuntime)
             .description = "Gsql Runtime for Tigergraph Plugin"
 
@@ -65,14 +59,6 @@ open class GsqlPlugin : Plugin<Project> {
         dependencies.add(gsqlRuntime, "jline:jline:2.11")
         dependencies.add(gsqlRuntime, "org.json:json:20180130")
         dependencies.add(gsqlRuntime, "javax.xml.bind:jaxb-api:2.3.1")
-
-        /*
-        afterEvaluate {
-            tasks.withType(GsqlTask::class.java) { gsqlTask ->
-                gsqlTask.dependsOn(copySourcesTaskName)
-            }
-        }
-        */
     }
 
     private fun Project.registerGsqlCopySourcesTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlCopySources> =
@@ -81,8 +67,6 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
                 gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
                 gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir)
-                // gsqlCopySources.outputDir
-                // gsqlCopySources.tokens.set(gsqlPluginExtension.tokens)
             }
 
     private fun Project.registerGsqlTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTask> =
@@ -92,14 +76,5 @@ open class GsqlPlugin : Plugin<Project> {
             tasks.register(gsqlShellTaskName, GsqlShell::class.java) { gsqlShell ->
                 gsqlShell.group = "GSQL Interactive"
                 gsqlShell.description = "Run an interactive gsql shell session"
-                injectConnectionData(gsqlShell, gsqlPluginExtension)
             }
-
-    private fun injectConnectionData(task: GsqlAbstract, gsqlPluginExtension: GsqlPluginExtension) {
-        task.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
-        task.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
-        task.connectionData.setUserName(gsqlPluginExtension.userName)
-        task.connectionData.setPassword(gsqlPluginExtension.password)
-        task.connectionData.setServerName(gsqlPluginExtension.serverName)
-    }
 }
