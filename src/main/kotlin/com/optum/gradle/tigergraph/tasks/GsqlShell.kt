@@ -1,5 +1,6 @@
 package com.optum.gradle.tigergraph.tasks
 
+import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.TaskAction
 
@@ -10,7 +11,7 @@ open class GsqlShell() : GsqlAbstract() {
     }
     @TaskAction
     override fun exec() {
-        val cfg: Configuration? = project.configurations.findByName("tigergraph")
+        val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
 
         if (cfg != null) {
             classpath = cfg
