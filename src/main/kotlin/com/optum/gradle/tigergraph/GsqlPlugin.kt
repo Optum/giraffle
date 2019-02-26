@@ -2,6 +2,8 @@ package com.optum.gradle.tigergraph
 
 import com.optum.gradle.tigergraph.Configurations.extensionName
 import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
+import com.optum.gradle.tigergraph.tasks.GsqlCopySources
+import com.optum.gradle.tigergraph.tasks.GsqlTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -34,6 +36,7 @@ open class GsqlPlugin : Plugin<Project> {
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlTask(gsqlPluginExtension)
+        logger.info("serverName: ${gsqlPluginExtension.serverName.getOrElse("localhost")}")
 
         // Create CopySources task
         /*

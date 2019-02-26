@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.tigergraph.tasks
 
 // import org.apache.tools.ant.filters.ReplaceTokens
 import org.gradle.api.DefaultTask

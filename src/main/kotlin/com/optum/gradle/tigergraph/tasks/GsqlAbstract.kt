@@ -1,5 +1,6 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.tigergraph.tasks
 
+import com.optum.gradle.tigergraph.GsqlPluginExtension
 import com.optum.gradle.tigergraph.data.ConnectionData
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.GradleException
