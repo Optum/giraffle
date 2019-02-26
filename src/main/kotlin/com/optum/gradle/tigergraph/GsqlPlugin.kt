@@ -22,6 +22,8 @@ open class GsqlPlugin : Plugin<Project> {
      */
     val gsqlShellTaskName = "gsqlShell"
 
+    val gsqlTaskTypeName = "gslTaskType"
+
     val defaultGsqlScriptsDirectory = "db_scripts"
 
     override fun apply(project: Project): Unit = project.run {
@@ -70,12 +72,12 @@ open class GsqlPlugin : Plugin<Project> {
             }
 
     private fun Project.registerGsqlTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTask> =
-            tasks.register(gsqlShellTaskName, GsqlTask::class.java) { gsqlShell ->
-                gsqlShell.dependsOn(copySourcesTaskName)
-                gsqlShell.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
-                gsqlShell.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
-                gsqlShell.connectionData.setUserName(gsqlPluginExtension.userName)
-                gsqlShell.connectionData.setPassword(gsqlPluginExtension.password)
-                gsqlShell.connectionData.setServerName(gsqlPluginExtension.serverName)
+            tasks.register(gsqlTaskTypeName, GsqlTask::class.java) { gsqlTask ->
+                gsqlTask.dependsOn(copySourcesTaskName)
+                gsqlTask.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
+                gsqlTask.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
+                gsqlTask.connectionData.setUserName(gsqlPluginExtension.userName)
+                gsqlTask.connectionData.setPassword(gsqlPluginExtension.password)
+                gsqlTask.connectionData.setServerName(gsqlPluginExtension.serverName)
             }
 }
