@@ -51,6 +51,13 @@ repositories {
 dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    /*
+    implementation("com.tigergraph.client:Driver:2.1.7")
+    implementation("commons-cli:commons-cli:1.4")
+    implementation("jline:jline:2.11")
+    implementation("org.json:json:20180130")
+    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    */
 
     runtime("com.tigergraph.client:Driver:2.1.7")
     runtime("commons-cli:commons-cli:1.4")
