@@ -18,7 +18,7 @@ object TigergraphPluginFunctionTest : Spek({
 
     fun Path.printFiles(): String {
         return this.toFile().walkTopDown().fold("") {
-            acc: String, file: File ->  "$acc\n${file.toString()}"
+            acc: String, file: File -> "$acc\n$file"
         }
     }
 
@@ -33,7 +33,7 @@ object TigergraphPluginFunctionTest : Spek({
 
         context("with plugin applied") {
             val testProjectDir: Path = Files.createTempDirectory("tigergraph_plugi_test")
-            val scriptsDir = Files.createDirectories(testProjectDir.resolve( "db_scripts"))
+            val scriptsDir = Files.createDirectories(testProjectDir.resolve("db_scripts"))
             scriptsDir.toFile().mkdirs()
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             val gsqlScript = Files.createFile(testProjectDir.resolve("db_scripts/schema.gsql")).toFile()
@@ -42,26 +42,25 @@ object TigergraphPluginFunctionTest : Spek({
 
             it("provides GsqlCopySources, GsqShell, and GsqlTaskType task") {
                 val buildResult: BuildResult = execute(testProjectDir.toFile(), "tasks", "--all")
-                assert(buildResult.output.contains(copySourcesTaskName)){ "gsqlCopySources should be created" }
+                assert(buildResult.output.contains(copySourcesTaskName)) { "gsqlCopySources should be created" }
                 assert(buildResult.output.contains(gsqlShellTaskName)) { "gsqlShell should be created" }
                 assert(buildResult.output.contains(gsqlTaskTypeName)) { "gsqlTaskType should be created\n\n${buildResult.output}" }
-
             }
 
-            it ("gsqlCopySources should copy sources to build directory and should when run twice mark the second run UP-TO-DATE") {
+            it("gsqlCopySources should copy sources to build directory and should when run twice mark the second run UP-TO-DATE") {
                 val firstRun: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
                 val secondRun: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
                 val buildDir: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
 
                 assertTrue(buildDir.toFile().exists(), "files should be copied from script dir to build directory")
-                assertEquals(TaskOutcome.SUCCESS, firstRun.task(":$copySourcesTaskName")!!.outcome,"Task should be marked SUCCESS")
+                assertEquals(TaskOutcome.SUCCESS, firstRun.task(":$copySourcesTaskName")!!.outcome, "Task should be marked SUCCESS")
                 assertEquals(TaskOutcome.UP_TO_DATE, secondRun.task(":$copySourcesTaskName")!!.outcome, "Task should be marked UP-TO-DATE")
             }
         }
 
         context("plugin applied, non-standard layout") {
             val testProjectDir: Path = Files.createTempDirectory("tigergraph_plugin_test_2")
-            val scriptsDir = Files.createDirectories(testProjectDir.resolve( "scripts"))
+            val scriptsDir = Files.createDirectories(testProjectDir.resolve("scripts"))
             scriptsDir.toFile().mkdirs()
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             val gsqlScript = Files.createFile(testProjectDir.resolve("scripts/schema.gsql")).toFile()
@@ -83,7 +82,7 @@ object TigergraphPluginFunctionTest : Spek({
                 )
             }
 
-            it (description = "token replacements should occur throughout all script files") {}
+            it(description = "token replacements should occur throughout all script files") {}
         }
     }
 })
