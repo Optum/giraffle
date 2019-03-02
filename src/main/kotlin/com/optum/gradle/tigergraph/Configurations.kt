@@ -13,4 +13,9 @@ internal object Configurations {
      * @see com.optum.gradle.tigergraph.GsqlPluginExtension
      */
     const val extensionName = "tigergraph"
+
+    /**
+     * The location for script directory defaults
+     */
+    const val scriptDirectoryName = "db_scripts"
 }

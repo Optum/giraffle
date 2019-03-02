@@ -70,7 +70,7 @@ object TigergraphPluginFunctionTest : Spek({
 
             it("should get scripts from non-default script directory") {
                 val buildResult: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
-                val builtScript: Path = testProjectDir.resolve("build/scripts/schema.gsql")
+                val builtScript: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
 
                 assertTrue(
                         actual = builtScript.toFile().exists(),

@@ -2,6 +2,7 @@ package com.optum.gradle.tigergraph
 
 import com.optum.gradle.tigergraph.Configurations.extensionName
 import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
+import com.optum.gradle.tigergraph.Configurations.scriptDirectoryName
 import com.optum.gradle.tigergraph.tasks.GsqlCopySources
 import com.optum.gradle.tigergraph.tasks.GsqlShell
 import com.optum.gradle.tigergraph.tasks.GsqlTask
@@ -32,18 +33,11 @@ open class GsqlPlugin : Plugin<Project> {
      */
     val gsqlTaskTypeName = "gsqlTaskType"
 
-    /**
-     * The default location, relative to the project root that contains the gsql scripts to be executed.
-     *
-     * @see com.optum.gradle.tigergraph.GsqlPluginExtension
-     */
-    val defaultGsqlScriptsDirectory = "db_scripts"
-
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
         val gsqlPluginExtension = extensions.create(extensionName, GsqlPluginExtension::class.java, project)
-        gsqlPluginExtension.scriptDir.convention(layout.projectDirectory.dir(defaultGsqlScriptsDirectory))
-        gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(defaultGsqlScriptsDirectory))
+        gsqlPluginExtension.scriptDir.convention(layout.projectDirectory.dir(scriptDirectoryName))
+        gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(scriptDirectoryName))
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell(gsqlPluginExtension)

@@ -1,6 +1,7 @@
 package com.optum.gradle.tigergraph.tasks
 
 // import org.apache.tools.ant.filters.ReplaceTokens
+import com.optum.gradle.tigergraph.Configurations.scriptDirectoryName
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.InputDirectory
@@ -28,7 +29,7 @@ open class GsqlCopySources : DefaultTask() {
 
     @TaskAction
     fun copyFiles() {
-        outputDir.set(project.layout.buildDirectory.dir("db_scripts"))
+        outputDir.set(project.layout.buildDirectory.dir(scriptDirectoryName))
         // project.logger.lifecycle("tokens: ", tokens)
         project.copy {
             it.run {
