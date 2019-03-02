@@ -38,6 +38,7 @@ open class GsqlPlugin : Plugin<Project> {
         val gsqlPluginExtension = extensions.create(extensionName, GsqlPluginExtension::class.java, project)
         gsqlPluginExtension.scriptDir.convention(layout.projectDirectory.dir(scriptDirectoryName))
         gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(scriptDirectoryName))
+        gsqlPluginExtension.tokens.convention(emptyMap())
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()
@@ -61,6 +62,7 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
                 gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
                 gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir)
+                gsqlCopySources.tokens.putAll(gsqlPluginExtension.tokens)
             }
 
     private fun Project.registerGsqlTask(): TaskProvider<GsqlTask> =
