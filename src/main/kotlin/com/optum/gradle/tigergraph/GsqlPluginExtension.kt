@@ -2,6 +2,7 @@ package com.optum.gradle.tigergraph
 
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 
 open class GsqlPluginExtension(project: Project) {
@@ -24,7 +25,7 @@ open class GsqlPluginExtension(project: Project) {
      *
      * @return The map for token replacement
      */
-    val tokens: Map<String, String> = emptyMap<String, String>()
+    val tokens: MapProperty<String, String> = project.objects.mapProperty(String::class.java, String::class.java)
 
     /**
      * Returns the server name for the tigergraph server.
