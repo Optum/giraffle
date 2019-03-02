@@ -30,7 +30,7 @@ open class GsqlPlugin : Plugin<Project> {
      *
      * @see com.optum.gradle.tigergraph.tasks.GsqlTask
      */
-    val gsqlTaskTypeName = "gslTaskType"
+    val gsqlTaskTypeName = "gsqlTaskType"
 
     /**
      * The default location, relative to the project root that contains the gsql scripts to be executed.
