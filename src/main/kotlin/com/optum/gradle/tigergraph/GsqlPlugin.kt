@@ -42,8 +42,8 @@ open class GsqlPlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
         val gsqlPluginExtension = extensions.create(extensionName, GsqlPluginExtension::class.java, project)
-        gsqlPluginExtension.scriptDir.set(layout.projectDirectory.dir(defaultGsqlScriptsDirectory))
-        gsqlPluginExtension.outputDir.set(layout.buildDirectory.dir(defaultGsqlScriptsDirectory))
+        gsqlPluginExtension.scriptDir.convention(layout.projectDirectory.dir(defaultGsqlScriptsDirectory))
+        gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(defaultGsqlScriptsDirectory))
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell(gsqlPluginExtension)

@@ -28,6 +28,7 @@ open class GsqlCopySources : DefaultTask() {
 
     @TaskAction
     fun copyFiles() {
+        outputDir.set(project.layout.buildDirectory.dir("db_scripts"))
         // project.logger.lifecycle("tokens: ", tokens)
         project.copy {
             it.run {
