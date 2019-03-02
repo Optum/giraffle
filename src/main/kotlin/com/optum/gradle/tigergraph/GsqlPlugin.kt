@@ -40,8 +40,8 @@ open class GsqlPlugin : Plugin<Project> {
         gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(scriptDirectoryName))
 
         registerGsqlCopySourcesTask(gsqlPluginExtension)
-        registerGsqlShell(gsqlPluginExtension)
-        registerGsqlTask(gsqlPluginExtension)
+        registerGsqlShell()
+        registerGsqlTask()
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
 
@@ -63,10 +63,10 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir)
             }
 
-    private fun Project.registerGsqlTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTask> =
+    private fun Project.registerGsqlTask(): TaskProvider<GsqlTask> =
             tasks.register(gsqlTaskTypeName, GsqlTask::class.java)
 
-    private fun Project.registerGsqlShell(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlShell> =
+    private fun Project.registerGsqlShell(): TaskProvider<GsqlShell> =
             tasks.register(gsqlShellTaskName, GsqlShell::class.java) { gsqlShell ->
                 gsqlShell.group = "GSQL Interactive"
                 gsqlShell.description = "Run an interactive gsql shell session"
