@@ -1,44 +1,58 @@
-# Tigergraph Gradle Plugin
+= Tigergraph Gradle Plugin
+Josh Meekhof <joshua_meekhof@optum.com>
+:toc:
+:homepage: https://github.optum.com/atc/tigergraph-gradle-plugin.git
+
 This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
-## Status
+== Status
 The Tigergraph plugin is still under development. To use this plugin, you'll
 need to publish it to your local maven repository. This is typically is
 `~/.m2/repository`. Soon we'll publish this plugin to an Artifactory
 repository.
 
-## Development Assistance
+== Development Assistance
 Fork and clone this repository. After this you should be able to make changes,
 compile, test and publish.  The `publishToMavenLocal` will make the plugin
 available to your Gradle projects.
 
-## Using the plugin
+== Using the plugin
 This plugin requires a jar file that currently needs to be obtained from your
 Tigergraph installation. Once you've obtained the plugin, I find it handy to
 publish it to your local Maven repository.
 
 The jar you'll need is the `gsql_client.jar`. Instructions to find it can be
-found at [Tigergraph's documentation site](tds)
+found at https://docs.tigergraph.com/dev/using-a-remote-gsql-client[Tigergraph's documentation site]
 
-After obtaining the jar, use Maven's [install plugin](mip) to install it in
-your local repository.
+After obtaining the jar, use Maven's
+https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html[install plugin]
+to install it in your local repository.
 
 Example:
-```sh
-mvn install:install-file \
-    -Dfile=./gsql_client.jar \
-    -DgroupId=com.tigergraph.client \
-    -DartifactId=Driver \
-    -Dversion=2.1.7 \
-    -Dpackaging=jar
-```
+
+[source,shell]
+----
+mvn install:install-file \ // <1>
+    -Dfile=./gsql_client.jar \ // <2>
+    -DgroupId=com.tigergraph.client \ // <3>
+    -DartifactId=Driver \ // <4>
+    -Dversion=2.1.7 \ // <5>
+    -Dpackaging=jar // <6>
+----
+<1> The maven command to package and install your code.
+<2> The source file for this command.
+<3> The group to install this code to.
+<4> The name of the artifact we are creating.
+<5> The version to create when installing this artifact.
+<6> The type of package to create.
 
 At this point you should have 2 jars installed locally. With these installed
 you can create your gradle build file that uses the plugin.
 
 init.gradle.kts
-```
+[source,kotlin]
+----
 initscript {
     repositories {
         mavenLocal()
@@ -47,10 +61,11 @@ initscript {
         classpath("com.optum.gradle.tigergraph:tigergraph-gradle-plugin:0.1.0")
     }
 }
-```
+----
 
 build.gradle.kts
-```kts
+[source,kotlin]
+----
 plugins {
     id("com.optum.gradle.tigergraph) version "0.1.0"
 }
@@ -61,24 +76,15 @@ dependencies {
 }
 
 tigergraph {
-    scriptDir = ""
-    tokens = ""
-    serverName = ""
-    userName = ""
-    password = ""
-    adminUserName = ""
-    adminPassword = ""
+    scriptDir.set(file("scripts"))
+    tokens.set(emptyMap())
+    serverName.set("")
+    userName.set("")
+    password.set("")
+    adminUserName.set("")
+    adminPassword.set("")
 }
-```
+----
 
 This should put everything in order. The plugin defines a couple of tasks, and
 a dsl to handle connection parameters to your Tigergraph server(s).
-
-
-
-
-
-
-
-[tds](https://docs.tigergraph.com/dev/using-a-remote-gsql-client)
-[mip](https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html)
