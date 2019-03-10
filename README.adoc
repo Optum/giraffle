@@ -12,33 +12,43 @@ need to publish it to your local maven repository. This is typically is
 `~/.m2/repository`. Soon we'll publish this plugin to an Artifactory
 repository.
 
+[#development-assistance]
 == Development Assistance
 Fork and clone this repository. After this you should be able to make changes,
 compile, test and publish.  The `publishToMavenLocal` will make the plugin
 available to your Gradle projects.
 
+[#plugin-use]
 == Using the plugin
-This plugin requires a jar file that currently needs to be obtained from your
-Tigergraph installation. Once you've obtained the plugin, I find it handy to
-publish it to your local Maven repository.
+In order to use this plugin you'll need to install this plugin and Tigergraph's
+gsql client.
+
+To install the gradle plugin, follow the instructions outlined in <<Development
+Assistance>>.
+
+To install the gsql client, you'll need to obtain it from your Tigergraph
+installation. Once you've obtained the plugin, I find it handy to publish it to
+your local Maven repository.
 
 The jar you'll need is the `gsql_client.jar`. Instructions to find it can be
-found at https://docs.tigergraph.com/dev/using-a-remote-gsql-client[Tigergraph's documentation site]
+found at
+https://docs.tigergraph.com/dev/using-a-remote-gsql-client[Tigergraph's
+documentation site]
 
 After obtaining the jar, use Maven's
-https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html[install plugin]
-to install it in your local repository.
+https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html[install
+plugin] to install it in your local repository.
 
 Example:
 
 [source,shell]
 ----
-mvn install:install-file \ // <1>
-    -Dfile=./gsql_client.jar \ // <2>
-    -DgroupId=com.tigergraph.client \ // <3>
-    -DartifactId=Driver \ // <4>
-    -Dversion=2.1.7 \ // <5>
-    -Dpackaging=jar // <6>
+mvn install:install-file \ # <1>
+    -Dfile=./gsql_client.jar \ # <2>
+    -DgroupId=com.tigergraph.client \ # <3>
+    -DartifactId=Driver \ # <4>
+    -Dversion=2.1.7 \ # <5>
+    -Dpackaging=jar # <6>
 ----
 <1> The maven command to package and install your code.
 <2> The source file for this command.
@@ -55,13 +65,14 @@ init.gradle.kts
 ----
 initscript {
     repositories {
-        mavenLocal()
+        mavenLocal() // <1>
     }
     dependencies {
         classpath("com.optum.gradle.tigergraph:tigergraph-gradle-plugin:0.1.0")
     }
 }
 ----
+<1> This is where we've installed this plugin and the Tigergraph gsql client.
 
 build.gradle.kts
 [source,kotlin]
@@ -70,7 +81,7 @@ plugins {
     id("com.optum.gradle.tigergraph) version "0.1.0"
 }
 
-val tigergraph by configurations.creating
+val tigergraph by configurations.creating // <1>
 dependencies {
     tigergraph("com.tigergraph.client:Driver:2.1.7")
 }
@@ -85,6 +96,127 @@ tigergraph {
     adminPassword.set("")
 }
 ----
+<1> This configuration isn't required. The defaults within the plugin provide
+this dependency already. However, if you need to override the defaults, this is
+how you do that.
 
 This should put everything in order. The plugin defines a couple of tasks, and
 a dsl to handle connection parameters to your Tigergraph server(s).
+
+== Plugin DSL and Tasks
+The plugin creates a dsl, custom task types, and custom tasks.
+
+=== Tigergraph DSL
+The dsl provided by this plugin allow configuration that applies to all the
+tasks and types created by the plugin.
+
+[#dsl-components]
+==== DSL Components
+All the components belong within a `tigergraph` closure. All of these are
+properties, and need to be `set` accordingly.
+
+===== scriptDir
+The `scriptDir` configuration is a `file` path location for where the gsql
+scripts for your project live.
+
+The default value for `scriptDir` is `db_scripts`. It is not necessary to set
+this value if you've placed you scripts in this directory already.
+
+Example:
+Kotlin
+
+build.gradle.kts
+[source,kotlin]
+----
+tigergraph {
+    scriptDir.set(file("scripts"))
+}
+----
+
+Example:
+Groovy
+
+build.gradle
+[source,groovy]
+----
+tigergraph {
+    scriptDir = file("scripts")
+}
+----
+
+===== tokens
+This plugin supports token replacement within your source scripts. Internally
+it uses an
+https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html[Ant
+filter]. Simply provide a map as the parameter to this property, and your
+sources will have the tokens replaced before execution.
+
+Example:
+Kotlin
+
+build.gradl.kts
+[source,kotlin]
+----
+val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to "hc")
+
+tigergraph {
+    tokens.set(tokenMap)
+}
+----
+
+This configuration will take each occurrence of `@graphname@` and replace it
+with the value of `hc` within the source scripts.
+
+===== serverName
+The `serverName` property configures which server to execute your scripts against.
+
+Example:
+Kotlin
+
+build.gradle.kts
+[source,kotlin]
+----
+tigergraph {
+    serverName.set("dbsw00001")
+}
+----
+
+===== userName
+The `userName` property configures the username to use for connecting to
+tigergraph. This is the default username to use. When a script requires
+elevated privileges, see <<adminUserName>> and  <<superUser>>.
+
+===== password
+The `password` property configures the password to use for connecting to
+tigergraph. This is property is used in conjunction with <<userName>>.
+
+===== adminUserName
+The `adminUserName` property configures the username to use for connecting to
+tigergraph. This is used when the `superUser` property is set on a gsql script.
+See <<superUser>>.
+
+===== adminPassword
+The `adminPassword` property configures the password to use for connecting to
+tigergraph. This is property is used in conjunction with <<adminUserName>>.
+
+=== gsqlCopyTasks
+The plugin defines this task, and adds it to the project. This task copies
+files from the <<dsl-components,scriptDir>> directory and copies the files to
+the project's `buildDir`.
+
+This is the step where token replacement occurs, as defined by the
+<<dsl-components,tokens>> property.
+
+=== gsqlTaskType
+This defines a task type that allows you to execute your scripts against the
+tigergraph server with the properties set by the <<Tigergraph DSL>>
+
+To use this task type you simply need to define the name of the script to
+execute, and optionally the <<superUser>> directive.
+
+==== scriptPath
+The path, relative to <<dsl-components,scriptDir>> to execute.
+
+==== superUser
+The directive that indicates whether this can be executed by the default user
+(`false`), or the superUser (`true`).
