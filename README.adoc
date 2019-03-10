@@ -220,3 +220,60 @@ The path, relative to <<dsl-components,scriptDir>> to execute.
 ==== superUser
 The directive that indicates whether this can be executed by the default user
 (`false`), or the superUser (`true`).
+
+== Examples
+I like using this with plugin in conjunction with the
+https://github.com/stevesaliman/gradle-properties-plugin[Properties] plugin.
+This allows you to use and configure different environments.
+
+gradle.properties
+[source,properties]
+----
+username=joe
+password=joehasabadpassword
+host=dbsrv001
+graphname=hc
+----
+
+build.gradle.kts
+[source,kotlin]
+----
+import com.optum.gradle.tigergraph.tasks.GsqlCopySources
+import com.optum.gradle.tigergraph.tasks.GsqlTask
+
+plugins {
+    id("com.optum.gradle.tigergraph") version "0.1.0"
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+val graphname: String by project // <1>
+val host: String by project
+val username: String by project
+val password: String by project
+val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to graphname) // <2>
+
+tigergraph { // <3>
+    scriptDir.set(file("db_scripts"))
+    tokens.set(tokenMap)
+    serverName.set(host)
+    userName.set(username)
+    password.set(password)
+}
+
+val createSchema by tasks.creating(GsqlTask::class) {
+    group = "Tigergraph Schema"
+    description = "Create the schema on the database"
+    scriptPath = "schema.gsql" // <4>
+    superUser = true // <5>
+}
+
+----
+<1> `by project` is how you references project properties using the Kotlin DSL for Gradle.
+<2> This is how you create a Kotlin map to pass to a property.
+<3> Our Tigergraph DSL. These settings apply for all interactions with Tigergraph.
+<4> The path to the source script relative to `scriptDir`.
+<5> Informs the plugin which credentials to use.
