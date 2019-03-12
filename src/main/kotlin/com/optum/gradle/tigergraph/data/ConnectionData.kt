@@ -15,12 +15,14 @@ class ConnectionData(project: Project) {
     private val serverName: Property<String> = project.objects.property(String::class.java)
 
     @Input
-    fun getUserName(): String = userName.toString()
+    @Optional
+    fun getUserName(): String? = userName.orNull
 
     fun setUserName(name: Provider<String>) = this.userName.set(name)
 
     @Input
-    fun getPassword(): String = password.toString()
+    @Optional
+    fun getPassword(): String? = password.orNull
 
     fun setPassword(name: Provider<String>) = this.password.set(name)
 
@@ -37,7 +39,7 @@ class ConnectionData(project: Project) {
     fun setAdminPassword(name: Provider<String>) = this.adminPassword.set(name)
 
     @Input
-    fun getServerName(): String = serverName.toString()
+    fun getServerName(): String = serverName.getOrElse("localhost")
 
     fun setServerName(name: Provider<String>) = this.serverName.set(name)
 }
