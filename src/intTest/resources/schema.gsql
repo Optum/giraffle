@@ -1,3 +1,5 @@
+use graph @graphname@
+
 create vertex Name ( primary_id name STRING )
 create vertex Address ( primary_id address_id STRING )
 create directed edge lives_at (FROM Name, TO Address)
