@@ -61,7 +61,7 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlCopySources.group = JavaBasePlugin.BUILD_TASK_NAME
                 gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
                 gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
-                gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir)
+                gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir) // This isn't overridable at the moment. Should it be a property?
                 gsqlCopySources.tokens.putAll(gsqlPluginExtension.tokens)
             }
 
