@@ -83,15 +83,10 @@ object TigergraphPluginFunctionTest : Spek({
                 )
             }
             it(description = "token replacements should occur throughout all script files") {
-                val buildResult: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
+                execute(testProjectDir.toFile(), copySourcesTaskName)
                 val builtScript: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
-
-                val startContents = testProjectDir.resolve("scripts/schema.gsql").toFile().readText(Charsets.UTF_8)
                 val contents: String = builtScript.toFile().readText(Charsets.UTF_8)
 
-                assert(contents.contains("abc")){
-                    contents + buildResult.output + startContents
-                }
                 assertTrue(
                         actual = contents.contains("abc"),
                         message = "Token replacement should have replaced @graphname@."
