@@ -17,9 +17,11 @@ abstract class GsqlAbstract() : JavaExec() {
     @Input
     var superUser: Boolean = false
 
+    protected val gsqlPluginExtension: GsqlPluginExtension
+
     init {
         val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
-        val gsqlPluginExtension: GsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java).also {
+        this.gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java).also {
             project.extensions.getByName(extensionName)
         }
 
