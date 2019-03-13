@@ -1,0 +1,10 @@
+plugins {
+    id("com.optum.gradle.tigergraph")
+}
+
+tigergraph {
+    scriptDir.set(file("scripts"))
+
+    userName.set("JoeUser")
+    tokens = [graphname: "abc"]
+}

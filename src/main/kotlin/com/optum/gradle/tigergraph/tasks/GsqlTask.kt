@@ -1,6 +1,6 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.tigergraph.tasks
 
-import org.gradle.api.artifacts.Configuration
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
@@ -11,14 +11,6 @@ open class GsqlTask() : GsqlAbstract() {
 
     @TaskAction
     override fun exec() {
-
-        val cfg: Configuration? = project.configurations.findByName("tigergraph")
-
-        if (cfg != null) {
-            classpath = cfg
-        }
-
-        main = "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"
         args = buildArgs()
         logger.info("Args: $args")
         super.exec()
@@ -26,12 +18,13 @@ open class GsqlTask() : GsqlAbstract() {
 
     override fun buildArgs(): List<String> {
         val newArgs: MutableList<String> = mutableListOf<String>()
+        val outputDir: DirectoryProperty = gsqlPluginExtension.outputDir
 
         newArgs.add("--ip")
-        newArgs.add(extension.serverName)
+        newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
 
-        newArgs.add("${project.buildDir}/$scriptPath")
+        newArgs.add("${outputDir.get()}/$scriptPath")
 
         return newArgs
     }

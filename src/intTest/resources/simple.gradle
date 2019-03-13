@@ -1,0 +1,9 @@
+plugins {
+    id("com.optum.gradle.tigergraph")
+}
+
+tigergraph {
+    scriptDir = file("$rootDir/db_scripts")
+    userName = "JoeUser"
+    password = "Joe'sPassword"
+}
