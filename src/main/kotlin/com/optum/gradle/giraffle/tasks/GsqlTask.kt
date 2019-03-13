@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph.tasks
+package com.optum.gradle.giraffle.tasks
 
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input

@@ -68,7 +68,7 @@ initscript {
         mavenLocal() // <1>
     }
     dependencies {
-        classpath("com.optum.gradle.tigergraph:tigergraph-gradle-plugin:0.1.0")
+        classpath("com.optum.gradle.giraffle:tigergraph-gradle-plugin:0.1.0")
     }
 }
 ----
@@ -78,7 +78,7 @@ build.gradle.kts
 [source,kotlin]
 ----
 plugins {
-    id("com.optum.gradle.tigergraph) version "0.1.0"
+    id("com.optum.gradle.giraffle) version "0.1.0"
 }
 
 val tigergraph by configurations.creating // <1>
@@ -238,11 +238,11 @@ graphname=hc
 build.gradle.kts
 [source,kotlin]
 ----
-import com.optum.gradle.tigergraph.tasks.GsqlCopySources
-import com.optum.gradle.tigergraph.tasks.GsqlTask
+import com.optum.gradle.giraffle.tasks.GsqlCopySources
+import com.optum.gradle.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.gradle.tigergraph") version "0.1.0"
+    id("com.optum.gradle.giraffle") version "0.1.0"
 }
 
 repositories {
