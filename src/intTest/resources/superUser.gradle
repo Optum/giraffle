@@ -1,9 +1,9 @@
 plugins {
-    id("com.optum.gradle.tigergraph")
+    id("com.optum.gradle.giraffle")
 }
 
 tigergraph {
-    adminUserName.set("tigergraph")
+    adminUserName.set("giraffle")
     adminPassword.set("tig22")
     userName.set("joe_user")
     password.set("s3cr3t")

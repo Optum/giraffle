@@ -1,5 +1,5 @@
 plugins {
-    id("com.optum.gradle.tigergraph")
+    id("com.optum.gradle.giraffle")
 }
 
 tigergraph {

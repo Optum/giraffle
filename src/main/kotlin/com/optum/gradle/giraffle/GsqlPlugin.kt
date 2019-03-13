@@ -1,11 +1,11 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.giraffle
 
-import com.optum.gradle.tigergraph.Configurations.extensionName
-import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
-import com.optum.gradle.tigergraph.Configurations.scriptDirectoryName
-import com.optum.gradle.tigergraph.tasks.GsqlCopySources
-import com.optum.gradle.tigergraph.tasks.GsqlShell
-import com.optum.gradle.tigergraph.tasks.GsqlTask
+import com.optum.gradle.giraffle.Configurations.extensionName
+import com.optum.gradle.giraffle.Configurations.gsqlRuntime
+import com.optum.gradle.giraffle.Configurations.scriptDirectoryName
+import com.optum.gradle.giraffle.tasks.GsqlCopySources
+import com.optum.gradle.giraffle.tasks.GsqlShell
+import com.optum.gradle.giraffle.tasks.GsqlTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -15,21 +15,21 @@ open class GsqlPlugin : Plugin<Project> {
     /**
      * The name of the task that copies the GSQL source files into the build directory.
      *
-     * @see com.optum.gradle.tigergraph.tasks.GsqlCopySources
+     * @see com.optum.gradle.giraffle.tasks.GsqlCopySources
      */
     val copySourcesTaskName = "gsqlCopySources"
 
     /**
      * The name of the task that runs the interactive GSQL shell.
      *
-     * @see com.optum.gradle.tigergraph.tasks.GsqlShell
+     * @see com.optum.gradle.giraffle.tasks.GsqlShell
      */
     val gsqlShellTaskName = "gsqlShell"
 
     /**
      * The name of the task type for build scripts gsql tasks.
      *
-     * @see com.optum.gradle.tigergraph.tasks.GsqlTask
+     * @see com.optum.gradle.giraffle.tasks.GsqlTask
      */
     val gsqlTaskTypeName = "gsqlTaskType"
 

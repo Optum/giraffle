@@ -1,12 +1,13 @@
-package com.optum.gradle.tigergraph.tasks
+package com.optum.gradle.giraffle.tasks
 
-import com.optum.gradle.tigergraph.Configurations.extensionName
-import com.optum.gradle.tigergraph.Configurations.gsqlRuntime
-import com.optum.gradle.tigergraph.GsqlPluginExtension
-import com.optum.gradle.tigergraph.data.ConnectionData
+import com.optum.gradle.giraffle.Configurations.extensionName
+import com.optum.gradle.giraffle.Configurations.gsqlRuntime
+import com.optum.gradle.giraffle.GsqlPluginExtension
+import com.optum.gradle.giraffle.data.ConnectionData
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 
 abstract class GsqlAbstract() : JavaExec() {
@@ -17,6 +18,7 @@ abstract class GsqlAbstract() : JavaExec() {
     @Input
     var superUser: Boolean = false
 
+    @Internal
     protected val gsqlPluginExtension: GsqlPluginExtension
 
     init {

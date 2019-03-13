@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.giraffle
 
 internal object Configurations {
     /**
@@ -10,7 +10,7 @@ internal object Configurations {
     /**
      * The name of the extension for configuring the runtime behavior of the plugin.
      *
-     * @see com.optum.gradle.tigergraph.GsqlPluginExtension
+     * @see com.optum.gradle.giraffle.GsqlPluginExtension
      */
     const val extensionName = "tigergraph"
 

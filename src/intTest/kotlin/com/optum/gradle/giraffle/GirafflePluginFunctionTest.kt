@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.giraffle
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-object TigergraphPluginFunctionTest : Spek({
+object GirafflePluginFunctionTest : Spek({
     val copySourcesTaskName = "gsqlCopySources"
     val gsqlShellTaskName = "gsqlShell"
     val gsqlTaskTypeName = "gsqlTaskType"
@@ -23,7 +23,7 @@ object TigergraphPluginFunctionTest : Spek({
         }
     }
 
-    describe("Tigergraph Plugin") {
+    describe("Giraffle Plugin") {
         fun execute(projectDir: File, vararg arguments: String): BuildResult {
             return GradleRunner.create()
                     .withProjectDir(projectDir)
@@ -33,7 +33,7 @@ object TigergraphPluginFunctionTest : Spek({
         }
 
         context("with plugin applied") {
-            val testProjectDir: Path = Files.createTempDirectory("tigergraph_plugi_test")
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_plugin_test")
             val scriptsDir = Files.createDirectories(testProjectDir.resolve("db_scripts"))
             scriptsDir.toFile().mkdirs()
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
@@ -60,7 +60,7 @@ object TigergraphPluginFunctionTest : Spek({
         }
 
         context("plugin applied, non-standard layout") {
-            val testProjectDir: Path = Files.createTempDirectory("tigergraph_plugin_test_2")
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_plugin_test")
             val scriptsDir = Files.createDirectories(testProjectDir.resolve("scripts"))
             scriptsDir.toFile().mkdirs()
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()

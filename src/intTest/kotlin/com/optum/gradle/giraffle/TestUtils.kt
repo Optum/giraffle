@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.giraffle
 
 import java.io.File
 

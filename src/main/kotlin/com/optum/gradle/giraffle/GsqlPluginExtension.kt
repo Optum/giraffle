@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph
+package com.optum.gradle.giraffle
 
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
@@ -28,16 +28,16 @@ open class GsqlPluginExtension(project: Project) {
     val tokens: MapProperty<String, String> = project.objects.mapProperty(String::class.java, String::class.java)
 
     /**
-     * Returns the server name for the tigergraph server.
+     * Returns the server name for the giraffle server.
      *
-     * @return The tigergraph server
+     * @return The giraffle server
      */
     val serverName: Property<String> = project.objects.property(String::class.java)
 
     /**
-     * Returns the non-privileged user to use for connecting to tigergraph
+     * Returns the non-privileged user to use for connecting to giraffle
      *
-     * @return The user for connecting to tigergraph
+     * @return The user for connecting to giraffle
      */
     val userName: Property<String> = project.objects.property(String::class.java)
 
@@ -49,9 +49,9 @@ open class GsqlPluginExtension(project: Project) {
     val password: Property<String> = project.objects.property(String::class.java)
 
     /**
-     * Returns the privileged user to use for connecting to tigergraph
+     * Returns the privileged user to use for connecting to giraffle
      *
-     * @return The user for connecting to tigergraph
+     * @return The user for connecting to giraffle
      */
     val adminUserName: Property<String> = project.objects.property(String::class.java)
 

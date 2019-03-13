@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph.tasks
+package com.optum.gradle.giraffle.tasks
 
 import org.gradle.api.tasks.TaskAction
 

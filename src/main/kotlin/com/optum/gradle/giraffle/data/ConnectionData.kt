@@ -1,4 +1,4 @@
-package com.optum.gradle.tigergraph.data
+package com.optum.gradle.giraffle.data
 
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
