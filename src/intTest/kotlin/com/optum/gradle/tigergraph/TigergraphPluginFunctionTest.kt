@@ -9,6 +9,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 object TigergraphPluginFunctionTest : Spek({
@@ -81,8 +82,25 @@ object TigergraphPluginFunctionTest : Spek({
                         "Should have been marked SUCCESS"
                 )
             }
+            it(description = "token replacements should occur throughout all script files") {
+                val buildResult: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
+                val builtScript: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
 
-            it(description = "token replacements should occur throughout all script files") {}
+                val startContents = testProjectDir.resolve("scripts/schema.gsql").toFile().readText(Charsets.UTF_8)
+                val contents: String = builtScript.toFile().readText(Charsets.UTF_8)
+
+                assert(contents.contains("abc")){
+                    contents + buildResult.output + startContents
+                }
+                assertTrue(
+                        actual = contents.contains("abc"),
+                        message = "Token replacement should have replaced @graphname@."
+                )
+                assertFalse(
+                        actual = contents.contains("@graphname@"),
+                        message = "Token replacement should have replaced @graphname@."
+                )
+            }
         }
     }
 })

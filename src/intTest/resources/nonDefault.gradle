@@ -6,4 +6,5 @@ tigergraph {
     scriptDir.set(file("scripts"))
 
     userName.set("JoeUser")
+    tokens = [graphname: "abc"]
 }
