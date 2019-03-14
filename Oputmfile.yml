@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+    askId: poc
+    caAgileId: poc
+    projectKey: com.optum.giraffle:giraffle
+    projectFriendlyName: Giraffle-Gradle-Plugin
+    componentType: code
+    targetQG: GATE_00
