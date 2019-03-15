@@ -1,9 +1,9 @@
-package com.optum.gradle.giraffle.tasks
+package com.optum.giraffle.tasks
 
-import com.optum.gradle.giraffle.Configurations.extensionName
-import com.optum.gradle.giraffle.Configurations.gsqlRuntime
-import com.optum.gradle.giraffle.GsqlPluginExtension
-import com.optum.gradle.giraffle.data.ConnectionData
+import com.optum.giraffle.Configurations.extensionName
+import com.optum.giraffle.Configurations.gsqlRuntime
+import com.optum.giraffle.GsqlPluginExtension
+import com.optum.giraffle.data.ConnectionData
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.Input

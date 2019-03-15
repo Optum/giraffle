@@ -1,7 +1,7 @@
-package com.optum.gradle.giraffle.tasks
+package com.optum.giraffle.tasks
 
 import org.apache.tools.ant.filters.ReplaceTokens
-import com.optum.gradle.giraffle.Configurations.scriptDirectoryName
+import com.optum.giraffle.Configurations.scriptDirectoryName
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty

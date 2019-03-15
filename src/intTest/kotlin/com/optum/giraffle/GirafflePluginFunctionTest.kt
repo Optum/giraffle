@@ -1,4 +1,4 @@
-package com.optum.gradle.giraffle
+package com.optum.giraffle
 
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
