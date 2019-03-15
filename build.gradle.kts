@@ -37,7 +37,7 @@ site {
 gradlePlugin {
     plugins {
         create("GsqlPlugin") {
-            id = "com.optum.giraffle"
+            id = "com.optum.gradle.giraffle"
             implementationClass = "com.optum.giraffle.GsqlPlugin"
         }
 
