@@ -1,16 +1,15 @@
-package com.optum.gradle.giraffle.tasks
+package com.optum.giraffle.tasks
 
-import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-open class GsqlTask() : GsqlAbstract() {
-
-    @Input
-    lateinit var scriptPath: String
-
+open class GsqlShell() : GsqlAbstract() {
+    init {
+        group = "GSQL Shell"
+        description = "Invokes a gsql shell for executing ad-hoc gsql commands."
+    }
     @TaskAction
     override fun exec() {
+        standardInput = System.`in`
         args = buildArgs()
         logger.info("Args: $args")
         super.exec()
@@ -18,13 +17,10 @@ open class GsqlTask() : GsqlAbstract() {
 
     override fun buildArgs(): List<String> {
         val newArgs: MutableList<String> = mutableListOf<String>()
-        val outputDir: DirectoryProperty = gsqlPluginExtension.outputDir
 
         newArgs.add("--ip")
         newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
-
-        newArgs.add("${outputDir.get()}/$scriptPath")
 
         return newArgs
     }

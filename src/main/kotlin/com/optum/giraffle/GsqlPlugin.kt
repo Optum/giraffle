@@ -1,11 +1,11 @@
-package com.optum.gradle.giraffle
+package com.optum.giraffle
 
-import com.optum.gradle.giraffle.Configurations.extensionName
-import com.optum.gradle.giraffle.Configurations.gsqlRuntime
-import com.optum.gradle.giraffle.Configurations.scriptDirectoryName
-import com.optum.gradle.giraffle.tasks.GsqlCopySources
-import com.optum.gradle.giraffle.tasks.GsqlShell
-import com.optum.gradle.giraffle.tasks.GsqlTask
+import com.optum.giraffle.Configurations.extensionName
+import com.optum.giraffle.Configurations.gsqlRuntime
+import com.optum.giraffle.Configurations.scriptDirectoryName
+import com.optum.giraffle.tasks.GsqlCopySources
+import com.optum.giraffle.tasks.GsqlShell
+import com.optum.giraffle.tasks.GsqlTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin

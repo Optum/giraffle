@@ -1,4 +1,4 @@
-package com.optum.gradle.giraffle
+package com.optum.giraffle
 
 import java.io.File
 

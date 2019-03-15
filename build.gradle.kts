@@ -14,7 +14,7 @@ plugins {
     id("org.jmailen.kotlinter") version Versions.kotlinter
 }
 
-group = "com.optum.gradle.giraffle"
+group = "com.optum.giraffle"
 version = "0.1.0"
 description = "Provides dsl and support for connection to Tigergraph servers, and executing scripts against Tigergraph."
 
@@ -38,7 +38,7 @@ gradlePlugin {
     plugins {
         create("GsqlPlugin") {
             id = "com.optum.gradle.giraffle"
-            implementationClass = "com.optum.gradle.giraffle.GsqlPlugin"
+            implementationClass = "com.optum.giraffle.GsqlPlugin"
         }
 
     }

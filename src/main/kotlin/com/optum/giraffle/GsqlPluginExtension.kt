@@ -1,4 +1,4 @@
-package com.optum.gradle.giraffle
+package com.optum.giraffle
 
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
