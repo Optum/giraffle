@@ -16,6 +16,7 @@ object GirafflePluginFunctionTest : Spek({
     val copySourcesTaskName = "gsqlCopySources"
     val gsqlShellTaskName = "gsqlShell"
     val gsqlTaskTypeName = "gsqlTaskType"
+    val outputSchemaScript = "build/db_scripts/schema.gsql"
 
     fun Path.printFiles(): String {
         return this.toFile().walkTopDown().fold("") {
@@ -51,7 +52,7 @@ object GirafflePluginFunctionTest : Spek({
             it("gsqlCopySources should copy sources to build directory and should when run twice mark the second run UP-TO-DATE") {
                 val firstRun: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
                 val secondRun: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
-                val buildDir: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
+                val buildDir: Path = testProjectDir.resolve(outputSchemaScript)
 
                 assertTrue(buildDir.toFile().exists(), "files should be copied from script dir to build directory")
                 assertEquals(TaskOutcome.SUCCESS, firstRun.task(":$copySourcesTaskName")!!.outcome, "Task should be marked SUCCESS")
@@ -70,7 +71,7 @@ object GirafflePluginFunctionTest : Spek({
 
             it("should get scripts from non-default script directory") {
                 val buildResult: BuildResult = execute(testProjectDir.toFile(), copySourcesTaskName)
-                val builtScript: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
+                val builtScript: Path = testProjectDir.resolve(outputSchemaScript)
 
                 assertTrue(
                         actual = builtScript.toFile().exists(),
@@ -84,7 +85,7 @@ object GirafflePluginFunctionTest : Spek({
             }
             it(description = "token replacements should occur throughout all script files") {
                 execute(testProjectDir.toFile(), copySourcesTaskName)
-                val builtScript: Path = testProjectDir.resolve("build/db_scripts/schema.gsql")
+                val builtScript: Path = testProjectDir.resolve(outputSchemaScript)
                 val contents: String = builtScript.toFile().readText(Charsets.UTF_8)
 
                 assertTrue(
