@@ -3,7 +3,8 @@ Copyright 2019 Optum
 
 Project Description:
 ====================
-Giraffle: A Gradle plugin that supports automating the execution of scripts against a Tigergraph database server.
+Giraffle: A Gradle plugin that supports automating the execution of scripts
+against a Tigergraph database server.
 
 Author:
 Josh Meekhof (@jmeekhof)
