@@ -3,6 +3,8 @@ Josh Meekhof <joshua_meekhof@optum.com>
 :toc:
 :homepage: https://github.optum.com/atc/tigergraph-gradle-plugin.git
 
+image:https://img.shields.io/travis/com/optum/giraffle.svg?style=plastic[Travis (.com)]
+
 This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
