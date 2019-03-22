@@ -1,4 +1,4 @@
-language: kotlin
+language: java
 
 script:
     - ./gradlew clean assemble build integrationTest
