@@ -1,9 +1,12 @@
-= Giraffle -- Gradle Plugin for Tigergraph
+:maven-metadata: plugins.gradle.org/m2/gradle/plugin/com/optum/giraffle
+:travis: https://travis-ci.org/Optum/giraffle
+:gradle-plugins-portal: https://plugins.gradle.org/plugin/
+
+= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/gwtfsiooj2h7m"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
+Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 :toc:
 :homepage: https://github.com/Optum/Giraffle.git
-
-image:https://img.shields.io/travis/Optum/giraffle.svg?style=plastic[Travis]
 
 This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
@@ -13,7 +16,7 @@ The Giraffle plugin is still under development. To use this plugin, you'll
 need to publish it to your local maven repository. This is typically is
 `~/.m2/repository`. Soon we'll publish this plugin to a Maven repository.
 
-[#development-assistance]
+[#assist]
 == Development Assistance
 Fork and clone this repository. After this you should be able to make changes,
 compile, test and publish.  The `publishToMavenLocal` will make the plugin
@@ -24,8 +27,7 @@ available to your Gradle projects.
 In order to use this plugin you'll need to install this plugin and Tigergraph's
 gsql client.
 
-To install the gradle plugin, follow the instructions outlined in <<Development
-Assistance>>.
+To install the gradle plugin, follow the instructions outlined in <<assist>>.
 
 To install the gsql client, you'll need to obtain it from your Tigergraph
 installation. Once you've obtained the plugin, I find it handy to publish it to
