@@ -34,22 +34,6 @@ site {
     vcsUrl.set(githubUrl)
 }
 
-gradlePlugin {
-    plugins {
-        create("GsqlPlugin") {
-            id = "com.optum.giraffle"
-            implementationClass = "com.optum.giraffle.GsqlPlugin"
-            displayName = "Giraffle plugin for Tigergraph"
-            description = project.description
-        }
-    }
-}
-
-pluginBundle {
-    website = webUrl
-    vcsUrl = githubUrl
-    tags = listOf("Tigergraph", "database", "gsql", "deployment")
-}
 
 val intTest by sourceSets.creating {
     compileClasspath += sourceSets.main.get().output + configurations.testRuntime.get()
@@ -81,19 +65,18 @@ val integrationTest by tasks.registering(Test::class) {
 
 val sourcesJar by tasks.registering(Jar::class) {
     dependsOn(JavaPlugin.CLASSES_TASK_NAME)
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles sources JAR"
     classifier = "sources"
-    from(sourceSets["main"].allSource)
+    from(sourceSets.main.get().allSource)
 }
 
 val javadocJar by tasks.registering(Jar::class) {
     dependsOn(JavaPlugin.JAVADOC_TASK_NAME)
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles javaDoc JAR"
     classifier = "javadoc"
     from(tasks["javadoc"])
-}
-
-artifacts {
-    add("archives", sourcesJar)
-    add("archives", javadocJar)
 }
 
 tasks {
@@ -135,6 +118,33 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformVersion}")
 
     intTestImplementation(gradleTestKit())
+}
+
+gradlePlugin {
+    plugins {
+        create("GsqlPlugin") {
+            id = "com.optum.giraffle"
+            implementationClass = "com.optum.giraffle.GsqlPlugin"
+        }
+    }
+}
+
+pluginBundle {
+    website = webUrl
+    vcsUrl = githubUrl
+    description = project.description
+    tags = listOf("Tigergraph", "database", "gsql", "deployment")
+
+    plugins {
+        named("GsqlPlugin") {
+            displayName = "Giraffle plugin for Tigergraph"
+        }
+    }
+}
+
+artifacts {
+    add(configurations.archives.name, sourcesJar)
+    add(configurations.archives.name, javadocJar)
 }
 
 publishing {
