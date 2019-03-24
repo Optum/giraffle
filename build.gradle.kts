@@ -8,7 +8,7 @@ plugins {
     `java-gradle-plugin`
     `maven-publish`
     // signing
-    // id("com.gradle.plugin-publish") version "0.9.10"
+    id("com.gradle.plugin-publish") version Versions.pluginPublish
     id("gradle.site") version Versions.site
     kotlin("jvm") version Versions.kotlin
     id("org.jmailen.kotlinter") version Versions.kotlinter
@@ -18,8 +18,8 @@ group = "com.optum.giraffle"
 version = "0.1.0"
 description = "Provides dsl and support for connection to Tigergraph servers, and executing scripts against Tigergraph."
 
-val webUrl = ""
-val githubUrl = "https://github.optum.com/ATC/${project.name}.git"
+val githubUrl = "https://github.com/Optum/${project.name}.git"
+val webUrl = githubUrl
 
 buildScan {
     termsOfServiceUrl = "https://gradle.com/terms-of-service"
@@ -39,8 +39,16 @@ gradlePlugin {
         create("GsqlPlugin") {
             id = "com.optum.giraffle"
             implementationClass = "com.optum.giraffle.GsqlPlugin"
+            displayName = "Giraffle plugin for Tigergraph"
+            description = project.description
         }
     }
+}
+
+pluginBundle {
+    website = webUrl
+    vcsUrl = githubUrl
+    tags = listOf("Tigergraph", "database", "gsql", "deployment")
 }
 
 val intTest by sourceSets.creating {
