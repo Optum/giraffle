@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "com.optum.giraffle"
-version = "0.1.0"
+version = "0.1.1"
 description = "Provides dsl and support for connection to Tigergraph servers, and executing scripts against Tigergraph."
 
 val githubUrl = "https://github.com/Optum/${project.name}.git"
@@ -148,6 +148,33 @@ artifacts {
 }
 
 publishing {
-    repositories {}
-    publications {}
+    publications.withType<MavenPublication> {
+        artifact(sourcesJar.get())
+
+        pom {
+            name.set(project.name)
+            description.set(project.description)
+            url.set(webUrl)
+
+            scm {
+                url.set(githubUrl)
+            }
+
+            licenses {
+                license {
+                    name.set("The Apache Software License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("repo")
+                }
+            }
+
+            developers {
+                developer {
+                    id.set("jmeekhof")
+                    name.set("Josh Meekhof")
+                    email.set("joshua_meekhof@optum.com")
+                }
+            }
+        }
+    }
 }
