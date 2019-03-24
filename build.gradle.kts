@@ -14,9 +14,13 @@ plugins {
     id("org.jmailen.kotlinter") version Versions.kotlinter
 }
 
-group = "com.optum.giraffle"
-version = "0.1.1"
-description = "Provides dsl and support for connection to Tigergraph servers, and executing scripts against Tigergraph."
+val projectGroup: String by project
+val projectVersion: String by project
+val projectDescription: String by project
+
+group = projectGroup
+version = projectVersion
+description = projectDescription
 
 val githubUrl = "https://github.com/Optum/${project.name}.git"
 val webUrl = githubUrl
