@@ -1,4 +1,8 @@
 language: java
+jdk:
+    - oraclejdk8
+    - oraclejdk9
+    - openjdk8
 
 script:
     - ./gradlew clean assemble build integrationTest
