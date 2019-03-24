@@ -7,19 +7,23 @@ plugins {
     `build-scan`
     `java-gradle-plugin`
     `maven-publish`
-    // signing
-    // id("com.gradle.plugin-publish") version "0.9.10"
+    signing
+    id("com.gradle.plugin-publish") version Versions.pluginPublish
     id("gradle.site") version Versions.site
     kotlin("jvm") version Versions.kotlin
     id("org.jmailen.kotlinter") version Versions.kotlinter
 }
 
-group = "com.optum.giraffle"
-version = "0.1.0"
-description = "Provides dsl and support for connection to Tigergraph servers, and executing scripts against Tigergraph."
+val projectGroup: String by project
+val projectVersion: String by project
+val projectDescription: String by project
 
-val webUrl = ""
-val githubUrl = "https://github.optum.com/ATC/${project.name}.git"
+group = projectGroup
+version = projectVersion
+description = projectDescription
+
+val githubUrl = "https://github.com/Optum/${project.name}.git"
+val webUrl = githubUrl
 
 buildScan {
     termsOfServiceUrl = "https://gradle.com/terms-of-service"
@@ -34,14 +38,6 @@ site {
     vcsUrl.set(githubUrl)
 }
 
-gradlePlugin {
-    plugins {
-        create("GsqlPlugin") {
-            id = "com.optum.giraffle"
-            implementationClass = "com.optum.giraffle.GsqlPlugin"
-        }
-    }
-}
 
 val intTest by sourceSets.creating {
     compileClasspath += sourceSets.main.get().output + configurations.testRuntime.get()
@@ -73,19 +69,18 @@ val integrationTest by tasks.registering(Test::class) {
 
 val sourcesJar by tasks.registering(Jar::class) {
     dependsOn(JavaPlugin.CLASSES_TASK_NAME)
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles sources JAR"
     classifier = "sources"
-    from(sourceSets["main"].allSource)
+    from(sourceSets.main.get().allSource)
 }
 
 val javadocJar by tasks.registering(Jar::class) {
     dependsOn(JavaPlugin.JAVADOC_TASK_NAME)
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles javaDoc JAR"
     classifier = "javadoc"
     from(tasks["javadoc"])
-}
-
-artifacts {
-    add("archives", sourcesJar)
-    add("archives", javadocJar)
 }
 
 tasks {
@@ -129,7 +124,69 @@ dependencies {
     intTestImplementation(gradleTestKit())
 }
 
+gradlePlugin {
+    plugins {
+        create("GsqlPlugin") {
+            id = "com.optum.giraffle"
+            implementationClass = "com.optum.giraffle.GsqlPlugin"
+        }
+    }
+}
+
+pluginBundle {
+    website = webUrl
+    vcsUrl = githubUrl
+    description = project.description
+    tags = listOf("Tigergraph", "database", "gsql", "deployment")
+
+    plugins {
+        named("GsqlPlugin") {
+            displayName = "Giraffle plugin for Tigergraph"
+        }
+    }
+}
+
+artifacts {
+    add(configurations.archives.name, sourcesJar)
+    add(configurations.archives.name, javadocJar)
+}
+
 publishing {
-    repositories {}
-    publications {}
+    publications.withType<MavenPublication> {
+        artifact(sourcesJar.get())
+
+        pom {
+            name.set(project.name)
+            description.set(project.description)
+            url.set(webUrl)
+
+            scm {
+                url.set(githubUrl)
+            }
+
+            licenses {
+                license {
+                    name.set("The Apache Software License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("repo")
+                }
+            }
+
+            developers {
+                developer {
+                    id.set("jmeekhof")
+                    name.set("Josh Meekhof")
+                    email.set("joshua_meekhof@optum.com")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign(configurations.archives.get())
+    setRequired(Callable {
+        gradle.taskGraph.hasTask("pubishPlugins")
+    })
 }
