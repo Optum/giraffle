@@ -7,7 +7,7 @@ plugins {
     `build-scan`
     `java-gradle-plugin`
     `maven-publish`
-    // signing
+    signing
     id("com.gradle.plugin-publish") version Versions.pluginPublish
     id("gradle.site") version Versions.site
     kotlin("jvm") version Versions.kotlin
@@ -177,4 +177,12 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    useGpgCmd()
+    sign(configurations.archives.get())
+    setRequired(Callable {
+        gradle.taskGraph.hasTask("pubishPlugins")
+    })
 }
