@@ -1,7 +1,7 @@
-= Tigergraph Gradle Plugin
+= Giraffle -- Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 :toc:
-:homepage: https://github.optum.com/atc/tigergraph-gradle-plugin.git
+:homepage: https://github.com/Optum/Giraffle.git
 
 image:https://img.shields.io/travis/Optum/giraffle.svg?style=plastic[Travis]
 
@@ -9,10 +9,9 @@ This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
 == Status
-The Tigergraph plugin is still under development. To use this plugin, you'll
+The Giraffle plugin is still under development. To use this plugin, you'll
 need to publish it to your local maven repository. This is typically is
-`~/.m2/repository`. Soon we'll publish this plugin to an Artifactory
-repository.
+`~/.m2/repository`. Soon we'll publish this plugin to a Maven repository.
 
 [#development-assistance]
 == Development Assistance
@@ -70,7 +69,7 @@ initscript {
         mavenLocal() // <1>
     }
     dependencies {
-        classpath("com.optum.gradle.giraffle:tigergraph-gradle-plugin:0.1.0")
+        classpath("com.optum.giraffle:tigergraph-gradle-plugin:0.1.0")
     }
 }
 ----
@@ -80,10 +79,10 @@ build.gradle.kts
 [source,kotlin]
 ----
 plugins {
-    id("com.optum.gradle.giraffle) version "0.1.0"
+    id("com.optum.giraffle) version "0.1.0" <1>
 }
 
-val tigergraph by configurations.creating // <1>
+val tigergraph by configurations.creating // <2>
 dependencies {
     tigergraph("com.tigergraph.client:Driver:2.1.7")
 }
@@ -98,7 +97,8 @@ tigergraph {
     adminPassword.set("")
 }
 ----
-<1> This configuration isn't required. The defaults within the plugin provide
+<1> Watch this version. You'll need to update it as development proceeds.
+<2> This configuration isn't required. The defaults within the plugin provide
 this dependency already. However, if you need to override the defaults, this is
 how you do that.
 
@@ -240,11 +240,11 @@ graphname=hc
 build.gradle.kts
 [source,kotlin]
 ----
-import com.optum.gradle.giraffle.tasks.GsqlCopySources
-import com.optum.gradle.giraffle.tasks.GsqlTask
+import com.optum.giraffle.tasks.GsqlCopySources
+import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.gradle.giraffle") version "0.1.0"
+    id("com.optum.giraffle") version "0.1.0"
 }
 
 repositories {

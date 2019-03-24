@@ -15,21 +15,21 @@ open class GsqlPlugin : Plugin<Project> {
     /**
      * The name of the task that copies the GSQL source files into the build directory.
      *
-     * @see com.optum.gradle.giraffle.tasks.GsqlCopySources
+     * @see com.optum.giraffle.tasks.GsqlCopySources
      */
     val copySourcesTaskName = "gsqlCopySources"
 
     /**
      * The name of the task that runs the interactive GSQL shell.
      *
-     * @see com.optum.gradle.giraffle.tasks.GsqlShell
+     * @see com.optum.giraffle.tasks.GsqlShell
      */
     val gsqlShellTaskName = "gsqlShell"
 
     /**
      * The name of the task type for build scripts gsql tasks.
      *
-     * @see com.optum.gradle.giraffle.tasks.GsqlTask
+     * @see com.optum.giraffle.tasks.GsqlTask
      */
     val gsqlTaskTypeName = "gsqlTaskType"
 
