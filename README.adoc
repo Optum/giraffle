@@ -1,10 +1,15 @@
-:maven-metadata: plugins.gradle.org/m2/gradle/plugin/com/optum/giraffle
+:maven-metadata: plugins.gradle.org/m2/com/optum/giraffle/giraffle
 :travis: https://travis-ci.org/Optum/giraffle
-:gradle-plugins-portal: https://plugins.gradle.org/plugin/
+:gradle-plugins-portal: https://plugins.gradle.org/plugin/com.optum.giraffle
+:tigergraph-gsql-doc: https://docs.tigergraph.com/dev/using-a-remote-gsql-client
+:maven-local-repo: https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html
+:ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
+:properties-plugin: https://github.com/stevesaliman/gradle-properties-plugin
 
 = Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/gwtfsiooj2h7m"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
+
 :toc:
 :homepage: https://github.com/Optum/Giraffle.git
 
@@ -35,12 +40,10 @@ your local Maven repository.
 
 The jar you'll need is the `gsql_client.jar`. Instructions to find it can be
 found at
-https://docs.tigergraph.com/dev/using-a-remote-gsql-client[Tigergraph's
-documentation site]
+{tigergraph-gsql-doc}[Tigergraph's documentation site]
 
 After obtaining the jar, use Maven's
-https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html[install
-plugin] to install it in your local repository.
+{maven-local-repo}[install plugin] to install it in your local repository.
 
 Example:
 
@@ -150,10 +153,8 @@ tigergraph {
 
 ===== tokens
 This plugin supports token replacement within your source scripts. Internally
-it uses an
-https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html[Ant
-filter]. Simply provide a map as the parameter to this property, and your
-sources will have the tokens replaced before execution.
+it uses an {ant-filter}[Ant filter]. Simply provide a map as the parameter to
+this property, and your sources will have the tokens replaced before execution.
 
 Example:
 Kotlin
@@ -227,7 +228,7 @@ The directive that indicates whether this can be executed by the default user
 
 == Examples
 I like using this with plugin in conjunction with the
-https://github.com/stevesaliman/gradle-properties-plugin[Properties] plugin.
+{properties-plugin}[Properties] plugin.
 This allows you to use and configure different environments.
 
 gradle.properties
