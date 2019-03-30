@@ -45,7 +45,17 @@ chances of your issue being dealt with quickly:
 * **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
   causing the problem (line of code or commit)
 
+
+
 === Submitting a Pull Request
+
+==== Paperwork for Pull Requests
+
+Please read this guide and make sure you agree with our <<licence>>.
+
+* Write good commit messages
+* Sign-off your commits `git commit --signoff` or `git commit -s`, as directed by the LICENSE.
+* <<commit>>[Reference your issues] within your commits.
 
 ==== Fork Giraffle
 
@@ -85,6 +95,7 @@ proper code formatting. If you don't use a tool that supports editorconfig be
 sure to configure your editor to use the settings equivalent to our
 `.editorconfig` file.
 
+[#commit]
 ==== Commit your changes
 
 Make sure git knows your name and email address:
@@ -200,3 +211,9 @@ git branch -D my-feature-branch
 ----
 git pull --ff upstream dev
 ----
+
+[#licence]
+== Individual Contributor License Agreement ("Agreement") V2.0
+--
+include::icl.adoc[]
+--
