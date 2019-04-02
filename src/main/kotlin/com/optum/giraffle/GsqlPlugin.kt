@@ -40,11 +40,15 @@ open class GsqlPlugin : Plugin<Project> {
         gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(scriptDirectoryName))
         gsqlPluginExtension.tokens.convention(emptyMap())
 
-        registerGsqlCopySourcesTask(gsqlPluginExtension)
+        val gsqlCopySources = registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()
         registerGsqlTask()
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
+
+        tasks.withType(GsqlTask::class.java) { task ->
+            task.dependsOn(gsqlCopySources)
+        }
 
         configurations.maybeCreate(gsqlRuntime)
             .description = "Gsql Runtime for Tigergraph Plugin"
