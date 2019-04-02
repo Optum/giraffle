@@ -1,7 +1,6 @@
 package com.optum.giraffle.tasks
 
 import org.apache.tools.ant.filters.ReplaceTokens
-import com.optum.giraffle.Configurations.scriptDirectoryName
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty
@@ -29,7 +28,6 @@ open class GsqlCopySources : DefaultTask() {
 
     @TaskAction
     fun copyFiles() {
-        outputDir.set(project.layout.buildDirectory.dir(scriptDirectoryName))
         // project.logger.lifecycle("tokens: ", tokens)
         tokens.get().forEach { entry ->
             logger.quiet("${entry.key}: ${entry.value}")
