@@ -1,9 +1,26 @@
+:icla: link:INDIVIDUAL_CONTRIBUTOR_LICENSE.adoc[Individual Contributor License Agreement ("ICL")]
+:git-rewrite: link:https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 = Contributing to Giraffle
 :toc:
 
-Giraffle welcomes new contributors. This document will guide you
-through the process.
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
+== Guidelines
+
+This project has a link:CODE_OF_CONDUCT.md[Code of Conduct]. Participating in
+this project requires you to abide by its terms.  Please review our {icla}
+prior to submitting changes to the project.  Please direct any questions to
+opensource@optum.com.
+
+TIP: Our ICL requires contributors to `sign-off` on each commit.  Adding an
+alias to the project will make this easier. ```git config --local
+format.signoff true```
 
 [#question]
 == Got a Question or Problem?
@@ -31,21 +48,39 @@ discuss it with one of our project maintainers.
 == Submission Guidelines
 
 === Submitting an Issue
-Before you submit your issue search the archive, maybe your question was already answered.
+Before you submit your issue search the archive, maybe your question was
+already answered.
 
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
 Help us to maximize the effort we can spend fixing issues and adding new
-features, by not reporting duplicate issues.  Providing the following information will increase the
-chances of your issue being dealt with quickly:
+features, by not reporting duplicate issues.  Providing the following
+information will increase the chances of your issue being dealt with quickly:
 
 * **Overview of the Issue** - if an error is being thrown a stack trace helps
 * **Motivation for or Use Case** - explain why this is a bug for you
 * **Giraffle Version** - is it a named version or from our dev branch
 * **Operating System** - Mac, windows? details help
-* **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
-  causing the problem (line of code or commit)
+* **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point
+  to what might be causing the problem (line of code or commit)
 
 === Submitting a Pull Request
+
+==== Paperwork for Pull Requests
+
+Please read this guide and make sure you agree with our {icla}.
+
+* Write good commit messages
+* Sign-off every commit `git commit --signoff` or `git commit -s`, as directed
+  by the ICL.
+
+NOTE: If you forget to sign a commit, then you'll have to do a bit of rewriting
+history. Don't worry. It's pretty easy. If it's the latest commit, you can just
+run either `git commit -a -s` or `git commit --amend --signoff` to fix things.
+It gets a little trickier if you have to change something farther back in
+history but there are some good instructions {git-rewrite}[here] in the
+Changing Multiple Commit Messages section.
+
+* <<commit,Reference your issues>> within your commits.
 
 ==== Fork Giraffle
 
@@ -85,30 +120,35 @@ proper code formatting. If you don't use a tool that supports editorconfig be
 sure to configure your editor to use the settings equivalent to our
 `.editorconfig` file.
 
+[#commit]
 ==== Commit your changes
 
 Make sure git knows your name and email address:
 
 [source,shell]
 ----
-$ git config --global user.name "J. Random User"
-$ git config --global user.email "j.random.user@example.com"
+$ git config user.name "J. Random User"
+$ git config user.email "j.random.user@example.com"
 ----
+
+NOTE: Signing-Off on your commit is agreeing with our ICL and attesting that
+you either wrote or have the rights to contribute the code. The name and email
+address must be valid as we cannot accept anonymous contributions.
 
 Writing good commit logs is important. A commit log should describe what
 changed and why. Follow these guidelines when writing one:
 
 . Always try to answer the question, "If this commit is merged into master it
-will..."
+  will..."
 . The first line should be 50 characters or less and contain a short
-description of the change including the Issue number prefixed by a hash (=).
+  description of the change including the Issue number prefixed by a hash (#).
 . Keep the second line blank.
 . Wrap all other lines at 72 columns.
 
 A good commit log looks like this:
 
 ----
-feature =123: Add interactive shell experience
+feature #123: Add interactive shell experience
 
 Body of commit message is a few lines of text, explaining things
 in more detail, possibly giving some background about the issue
@@ -157,23 +197,24 @@ $ git push origin my-feature-branch
 
 ==== Submit the pull request
 
-Go to https://github.com/{username}/giraffle and select your feature branch. Click
-the `Pull Request` button and fill out the form.
+Go to https://github.com/{username}/giraffle and select your feature branch.
+Click the `Pull Request` button and fill out the form.
 
-Pull requests are usually reviewed within a few days. If you get comments
-that need to be to addressed, apply your changes in a separate commit and push that to your
-feature branch. Post a comment in the pull request afterwards; GitHub does
-not send out notifications when you add commits to existing pull requests.
+Pull requests are usually reviewed within a few days. If you get comments that
+need to be to addressed, apply your changes in a separate commit and push that
+to your feature branch. Post a comment in the pull request afterwards; GitHub
+does not send out notifications when you add commits to existing pull requests.
 
 That's it! Thank you for your contribution!
 
 
 ==== After your pull request is merged
 
-After your pull request is merged, you can safely delete your branch and pull the changes
-from the main (upstream) repository:
+After your pull request is merged, you can safely delete your branch and pull
+the changes from the main (upstream) repository:
 
-* Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
+* Delete the remote branch on GitHub either through the GitHub web UI or your
+  local shell as follows:
 
 [source,shell]
 ----
