@@ -12,7 +12,15 @@ open class GsqlTask() : GsqlAbstract() {
     @TaskAction
     override fun exec() {
         args = buildArgs()
-        logger.info("Args: $args")
+        val argOutput = args
+        logger.info("Args: ${
+            argOutput!!.map {
+                when (it == this.connectionData.getPassword() || it == this.connectionData.getAdminPassword()) {
+                    true -> "********"
+                    false -> it
+                }
+            }
+        }")
         super.exec()
     }
 

@@ -1,6 +1,5 @@
 package com.optum.giraffle.tasks
 
-import com.optum.giraffle.Configurations.extensionName
 import com.optum.giraffle.Configurations.gsqlRuntime
 import com.optum.giraffle.GsqlPluginExtension
 import com.optum.giraffle.data.ConnectionData
@@ -10,7 +9,7 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 
-abstract class GsqlAbstract() : JavaExec() {
+abstract class GsqlAbstract : JavaExec() {
 
     @get:Nested
     val connectionData: ConnectionData = ConnectionData(project)
@@ -23,9 +22,7 @@ abstract class GsqlAbstract() : JavaExec() {
 
     init {
         val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
-        this.gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java).also {
-            project.extensions.getByName(extensionName)
-        }
+        this.gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java)
 
         cfg?.let { classpath = cfg }
 
@@ -57,7 +54,7 @@ abstract class GsqlAbstract() : JavaExec() {
                     connectionData.getPassword())
 
     private fun getCredentials(usernameProperty: String?, passwordProperty: String?): List<String> {
-        val list: MutableList<String> = mutableListOf<String>()
+        val list: MutableList<String> = mutableListOf()
 
         usernameProperty?.let {
             list.add("-u")
