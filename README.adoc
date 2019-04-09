@@ -17,9 +17,15 @@ This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
 == Status
-The Giraffle plugin is still under development. To use this plugin, you'll
-need to publish it to your local maven repository. This is typically is
-`~/.m2/repository`. Soon we'll publish this plugin to a Maven repository.
+The Giraffle plugin has been published to the Gradle plugins repository. You
+may use it by referencing it within your `plugins` block.
+
+[source,gradle]
+----
+plugins {
+    id("com.optum.giraffle") version "1.0.0"
+}
+----
 
 [#assist]
 == Development Assistance
