@@ -2,6 +2,7 @@ package com.optum.giraffle
 
 import com.optum.giraffle.Configurations.extensionName
 import com.optum.giraffle.Configurations.gsqlRuntime
+import com.optum.giraffle.Configurations.gsql_client_version
 import com.optum.giraffle.Configurations.scriptDirectoryName
 import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlShell
@@ -53,11 +54,7 @@ open class GsqlPlugin : Plugin<Project> {
         configurations.maybeCreate(gsqlRuntime)
             .description = "Gsql Runtime for Tigergraph Plugin"
 
-        dependencies.add(gsqlRuntime, "com.tigergraph.client:Driver:2.1.7")
-        dependencies.add(gsqlRuntime, "commons-cli:commons-cli:1.4")
-        dependencies.add(gsqlRuntime, "jline:jline:2.11")
-        dependencies.add(gsqlRuntime, "org.json:json:20180130")
-        dependencies.add(gsqlRuntime, "javax.xml.bind:jaxb-api:2.3.1")
+        dependencies.add(gsqlRuntime, "com.tigergraph.client:gsql_client:$gsql_client_version")
     }
 
     private fun Project.registerGsqlCopySourcesTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlCopySources> =

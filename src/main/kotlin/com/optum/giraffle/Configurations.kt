@@ -18,4 +18,9 @@ internal object Configurations {
      * The location for script directory defaults
      */
     const val scriptDirectoryName = "db_scripts"
+
+    /**
+     *  The default gsql_client version
+     */
+    const val gsql_client_version = "2.3.2"
 }
