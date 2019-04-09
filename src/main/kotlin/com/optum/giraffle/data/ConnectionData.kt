@@ -28,7 +28,7 @@ class ConnectionData(project: Project) {
 
     @Input
     @Optional
-    fun getAdminUserName(): String? = adminPassword.orNull
+    fun getAdminUserName(): String? = adminUserName.orNull
 
     fun setAdminUserName(name: Provider<String>) = this.adminUserName.set(name)
 
