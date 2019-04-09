@@ -22,5 +22,5 @@ internal object Configurations {
     /**
      *  The default gsql_client version
      */
-    const val gsql_client_version = "2.3.2"
+    const val gsql_client_version = "2.3.2.1"
 }

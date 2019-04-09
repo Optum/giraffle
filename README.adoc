@@ -6,7 +6,7 @@
 :ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 :properties-plugin: https://github.com/stevesaliman/gradle-properties-plugin
 
-= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/u637sqksnuhem"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
+= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/t5o47lemezqt6"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 
@@ -23,7 +23,7 @@ may use it by referencing it within your `plugins` block.
 [source,gradle]
 ----
 plugins {
-    id("com.optum.giraffle") version "1.0.0"
+    id("com.optum.giraffle") version "1.0.1"
 }
 ----
 
@@ -57,14 +57,12 @@ build.gradle.kts
 [source,kotlin]
 ----
 plugins {
-    id("com.optum.giraffle) version "0.1.0" <1>
+    id("com.optum.giraffle) version "1.0.1" // <1>
 }
 
 
 dependencies {
-    gsqlRuntime("com.tigergraph.client:gsql_client:2.3.2") // <2>
-    gsqlRuntime("javax.xml.bind:jaxb-api:2.3.1") // <3>
-
+    gsqlRuntime("com.tigergraph.client:gsql_client:2.3.2.1") // <2>
 }
 
 tigergraph {
@@ -82,9 +80,6 @@ tigergraph {
 this dependency already. However, if you need to override the defaults, this is
 how you do that. You might want to override this value if you need a different
 version of the gsql_client.
-<3> You may, or may not need this. It depends on the version of the Java
-runtime you're using. If you get an error, try adding this to your
-`gsqlRuntime` dependency.
 
 This should put everything in order. The plugin defines a couple of tasks, and
 a dsl to handle connection parameters to your Tigergraph server(s).
