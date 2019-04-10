@@ -6,7 +6,7 @@
 :ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 :properties-plugin: https://github.com/stevesaliman/gradle-properties-plugin
 
-= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/t5o47lemezqt6"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
+= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/4veepoojubrbq"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 
@@ -23,7 +23,7 @@ may use it by referencing it within your `plugins` block.
 [source,gradle]
 ----
 plugins {
-    id("com.optum.giraffle") version "1.0.1"
+    id("com.optum.giraffle") version "1.0.2"
 }
 ----
 
@@ -57,7 +57,7 @@ build.gradle.kts
 [source,kotlin]
 ----
 plugins {
-    id("com.optum.giraffle) version "1.0.1" // <1>
+    id("com.optum.giraffle) version "1.0.2" // <1>
 }
 
 
