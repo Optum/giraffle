@@ -7,6 +7,7 @@ import com.optum.giraffle.Configurations.scriptDirectoryName
 import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlShell
 import com.optum.giraffle.tasks.GsqlTask
+import com.optum.giraffle.tasks.NewProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -44,6 +45,7 @@ open class GsqlPlugin : Plugin<Project> {
         val gsqlCopySources = registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()
         registerGsqlTask()
+        registerNewProject()
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
 
@@ -74,4 +76,6 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlShell.group = "GSQL Interactive"
                 gsqlShell.description = "Run an interactive gsql shell session"
             }
+    private fun Project.registerNewProject(): TaskProvider<NewProject> =
+        tasks.register("gsqlNewProject", NewProject::class.java)
 }

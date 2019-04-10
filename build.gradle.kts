@@ -21,6 +21,7 @@ val projectDescription: String by project
 group = projectGroup
 version = projectVersion
 description = projectDescription
+extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 
 val githubUrl = "https://github.com/Optum/${project.name}.git"
 val webUrl = githubUrl
@@ -187,6 +188,7 @@ signing {
     useGpgCmd()
     sign(configurations.archives.get())
     setRequired(Callable {
-        gradle.taskGraph.hasTask("pubishPlugins")
+        gradle.taskGraph.hasTask("pubishPlugins") &&
+        (project.extra["isReleaseVersion"] as Boolean)
     })
 }
