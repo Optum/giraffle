@@ -5,6 +5,7 @@
 :maven-local-repo: https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html
 :ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 :properties-plugin: https://github.com/stevesaliman/gradle-properties-plugin
+:tiger-bintray: https://bintray.com/beta/#/tigergraphecosys/tgjars
 
 = Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/4veepoojubrbq"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
@@ -16,9 +17,13 @@ Josh Meekhof <joshua_meekhof@optum.com>
 This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
-== Status
 The Giraffle plugin has been published to the Gradle plugins repository. You
-may use it by referencing it within your `plugins` block.
+may use it by referencing it within your `plugins` block. Please referr to the
+<<plugin-use>> section for instructions.
+
+[#plugin-use]
+== Using the plugin
+Like most Gradle plugins, you simply need to add the id to the plugins closure.
 
 [source,gradle]
 ----
@@ -27,20 +32,8 @@ plugins {
 }
 ----
 
-[#assist]
-== Development Assistance
-Fork and clone this repository. After this you should be able to make changes,
-compile, test and publish.  The `publishToMavenLocal` will make the plugin
-available to your Gradle projects.
-
-[#plugin-use]
-== Using the plugin
-In order to use this plugin you'll need to install this plugin and Tigergraph's
-gsql client.
-
-To install the gradle plugin, follow the instructions outlined in <<assist>>.
-
-The Tigergraph plugin in published to bintray, and is available via a
+The plugin needs the Tigergraph Gsql client.  The {tiger-bintray}[Tigergraph
+plugin @ *Bintray*] is published to bintray, and is available via the
 `jcenter()` repository. To use the `gsql_client` you'll need to add the
 `jcenter()` to you repositories block.
 
@@ -57,16 +50,19 @@ build.gradle.kts
 [source,kotlin]
 ----
 plugins {
-    id("com.optum.giraffle) version "1.0.2" // <1>
+    id("com.optum.giraffle") version "1.0.2" // <1>
 }
 
+repositories {
+    jcenter()
+}
 
 dependencies {
     gsqlRuntime("com.tigergraph.client:gsql_client:2.3.2.1") // <2>
 }
 
 tigergraph {
-    scriptDir.set(file("scripts"))
+    scriptDir.set(file("db_scripts"))
     tokens.set(emptyMap())
     serverName.set("")
     userName.set("")
@@ -83,6 +79,12 @@ version of the gsql_client.
 
 This should put everything in order. The plugin defines a couple of tasks, and
 a dsl to handle connection parameters to your Tigergraph server(s).
+
+[#assist]
+== Development Assistance
+Fork and clone this repository. After this you should be able to make changes,
+compile, test and publish.  The `publishToMavenLocal` will make the plugin
+available to your Gradle projects.
 
 == Plugin DSL and Tasks
 The plugin creates a dsl, custom task types, and custom tasks.
