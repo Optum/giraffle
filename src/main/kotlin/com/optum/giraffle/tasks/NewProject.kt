@@ -45,12 +45,12 @@ open class NewProject : DefaultTask() {
 
             myAnt.setProperty("date", Date().toString())
 
-            val propertiesForReplaceTokens: List<String> = listOf<String>("gsqlHost", "gsqlHost", "gsqlAdminUsername", "gsqlAdminPassword", "gsqlGraphname", "date")
+            val propertiesForReplaceTokens: List<String> = listOf<String>( "gsqlHost", "gsqlAdminUsername", "gsqlAdminPassword", "gsqlGraphname", "date")
             val tMap: Map<String, Any> = myAnt.properties.filterKeys { k ->
                 propertiesForReplaceTokens.contains(k)
             }
 
-            createFileFromResource("/config/gradle.properties", "gradle.properties", tMap)
+            createFileFromResource("/properties/gradle.properties", "gradle.properties", tMap)
         }
     }
 
