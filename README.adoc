@@ -41,14 +41,14 @@ plugin @ *Bintray*] is published to bintray, and is available via the
 ----
 repositories {
     jcenter()
-    mavenLocal() // <1>
 }
 ----
-<1> Not required unless you're doing local plugin development.
 
 build.gradle.kts
 [source,kotlin]
 ----
+import com.optum.giraffle.tasks.GsqlTask
+
 plugins {
     id("com.optum.giraffle") version "1.0.2" // <1>
 }
@@ -70,12 +70,19 @@ tigergraph {
     adminUserName.set("")
     adminPassword.set("")
 }
+
+tasks.create<GsqlTask>("createSchema") { // <3>
+    dependsOn("dropSchema")
+    scriptPath = "schema.gsql"
+}
 ----
 <1> Watch this version. You'll need to update it as development proceeds.
 <2> This configuration isn't required. The defaults within the plugin provide
 this dependency already. However, if you need to override the defaults, this is
 how you do that. You might want to override this value if you need a different
 version of the gsql_client.
+<3> Here's a new task that will execute the `schema.gsql` script located in the
+project's `./db_scripts/` folder.
 
 This should put everything in order. The plugin defines a couple of tasks, and
 a dsl to handle connection parameters to your Tigergraph server(s).
@@ -84,7 +91,8 @@ a dsl to handle connection parameters to your Tigergraph server(s).
 == Development Assistance
 Fork and clone this repository. After this you should be able to make changes,
 compile, test and publish.  The `publishToMavenLocal` will make the plugin
-available to your Gradle projects.
+available to your Gradle projects. Add the `mavenLocal()` repository to your
+repositories closure.
 
 == Plugin DSL and Tasks
 The plugin creates a dsl, custom task types, and custom tasks.
@@ -220,7 +228,6 @@ graphname=hc
 build.gradle.kts
 [source,kotlin]
 ----
-import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
