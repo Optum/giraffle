@@ -4,7 +4,8 @@
 :tigergraph-gsql-doc: https://docs.tigergraph.com/dev/using-a-remote-gsql-client
 :maven-local-repo: https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html
 :ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
-:properties-plugin: https://github.com/stevesaliman/gradle-properties-plugin
+:prop-plug: https://github.com/stevesaliman/gradle-properties-plugin
+:tiger-bintray: https://bintray.com/beta/#/tigergraphecosys/tgjars
 
 = Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/4veepoojubrbq"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
@@ -16,9 +17,13 @@ Josh Meekhof <joshua_meekhof@optum.com>
 This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
-== Status
 The Giraffle plugin has been published to the Gradle plugins repository. You
-may use it by referencing it within your `plugins` block.
+may use it by referencing it within your `plugins` block. Please referr to the
+<<plugin-use>> section for instructions.
+
+[#plugin-use]
+== Using the plugin
+Like most Gradle plugins, you simply need to add the id to the plugins closure.
 
 [source,gradle]
 ----
@@ -27,20 +32,8 @@ plugins {
 }
 ----
 
-[#assist]
-== Development Assistance
-Fork and clone this repository. After this you should be able to make changes,
-compile, test and publish.  The `publishToMavenLocal` will make the plugin
-available to your Gradle projects.
-
-[#plugin-use]
-== Using the plugin
-In order to use this plugin you'll need to install this plugin and Tigergraph's
-gsql client.
-
-To install the gradle plugin, follow the instructions outlined in <<assist>>.
-
-The Tigergraph plugin in published to bintray, and is available via a
+The plugin needs the Tigergraph Gsql client.  The {tiger-bintray}[Tigergraph
+plugin @ *Bintray*] is published to bintray, and is available via the
 `jcenter()` repository. To use the `gsql_client` you'll need to add the
 `jcenter()` to you repositories block.
 
@@ -48,25 +41,33 @@ The Tigergraph plugin in published to bintray, and is available via a
 ----
 repositories {
     jcenter()
-    mavenLocal() // <1>
 }
 ----
-<1> Not required unless you're doing local plugin development.
+
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
 
 build.gradle.kts
 [source,kotlin]
 ----
+import com.optum.giraffle.tasks.GsqlTask
+
 plugins {
-    id("com.optum.giraffle) version "1.0.2" // <1>
+    id("com.optum.giraffle") version "1.0.2" // <1>
 }
 
+repositories {
+    jcenter()
+}
 
 dependencies {
     gsqlRuntime("com.tigergraph.client:gsql_client:2.3.2.1") // <2>
 }
 
 tigergraph {
-    scriptDir.set(file("scripts"))
+    scriptDir.set(file("db_scripts"))
     tokens.set(emptyMap())
     serverName.set("")
     userName.set("")
@@ -74,15 +75,75 @@ tigergraph {
     adminUserName.set("")
     adminPassword.set("")
 }
+
+tasks.create<GsqlTask>("createSchema") { // <3>
+    dependsOn("dropSchema")
+    scriptPath = "schema.gsql"
+}
 ----
+
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
+
+build.gradle
+[source,groovy]
+----
+import com.optum.giraffle.tasks.GsqlTask
+
+plugins {
+    id "com.optum.giraffle" version "1.0.2" // <1>
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    gsqlRuntime "com.tigergraph.client:gsql_client:2.3.2.1" // <2>
+}
+
+tigergraph {
+    scriptDir = file("db_scripts")
+    tokens = []
+    serverName = ""
+    userName = ""
+    password = ""
+    adminUserName = ""
+    adminPassword = ""
+}
+
+task createSchema(type: GsqlTask, dependsOn: [dropSchema] ) { // <3>
+    scriptPath = "schema.gsql"
+}
+----
+
+++++
+</details>
+++++
+
 <1> Watch this version. You'll need to update it as development proceeds.
 <2> This configuration isn't required. The defaults within the plugin provide
 this dependency already. However, if you need to override the defaults, this is
 how you do that. You might want to override this value if you need a different
 version of the gsql_client.
+<3> Here's a new task that will execute the `schema.gsql` script located in the
+project's `./db_scripts/` folder.
 
 This should put everything in order. The plugin defines a couple of tasks, and
 a dsl to handle connection parameters to your Tigergraph server(s).
+
+[#assist]
+== Development Assistance
+Fork and clone this repository. After this you should be able to make changes,
+compile, test and publish.  The `publishToMavenLocal` will make the plugin
+available to your Gradle projects. Add the `mavenLocal()` repository to your
+repositories closure.
 
 == Plugin DSL and Tasks
 The plugin creates a dsl, custom task types, and custom tasks.
@@ -104,7 +165,11 @@ The default value for `scriptDir` is `db_scripts`. It is not necessary to set
 this value if you've placed you scripts in this directory already.
 
 Example:
-Kotlin
+
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
 
 build.gradle.kts
 [source,kotlin]
@@ -114,8 +179,14 @@ tigergraph {
 }
 ----
 
-Example:
-Groovy
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
 
 build.gradle
 [source,groovy]
@@ -125,15 +196,23 @@ tigergraph {
 }
 ----
 
+++++
+</details>
+++++
+
 ===== tokens
 This plugin supports token replacement within your source scripts. Internally
 it uses an {ant-filter}[Ant filter]. Simply provide a map as the parameter to
 this property, and your sources will have the tokens replaced before execution.
 
 Example:
-Kotlin
 
-build.gradl.kts
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
+
+build.gradle.kts
 [source,kotlin]
 ----
 val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to "hc")
@@ -143,6 +222,30 @@ tigergraph {
 }
 ----
 
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
+
+build.gradle
+[source,groovy]
+----
+def tokenMap = ["graphname": "hc"]
+
+tigergraph {
+    tokens = tokenMap
+}
+----
+
+++++
+</details>
+++++
+
+
 This configuration will take each occurrence of `@graphname@` and replace it
 with the value of `hc` within the source scripts.
 
@@ -151,7 +254,11 @@ The `serverName` property configures which server to execute your scripts
 against.
 
 Example:
-Kotlin
+
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
 
 build.gradle.kts
 [source,kotlin]
@@ -161,6 +268,26 @@ tigergraph {
 }
 ----
 
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
+
+build.gradle
+[source,groovy]
+----
+tigergraph {
+    serverName = "dbsw00001"
+}
+----
+
+++++
+</details>
+++++
 ===== userName
 The `userName` property configures the username to use for connecting to
 tigergraph. This is the default username to use. When a script requires
@@ -202,60 +329,196 @@ The directive that indicates whether this can be executed by the default user
 (`false`), or the superUser (`true`).
 
 == Examples
-I like using this with plugin in conjunction with the
-{properties-plugin}[Properties] plugin.
-This allows you to use and configure different environments.
+I like using this with plugin in conjunction with the {prop-plug}[Properties]
+plugin.  This allows you to use and configure different environments. When
+using the properties plugin always add an entry to my `.gitignore` for
+`gradle-local.properties`. This way you won't commit credentials to your code
+repository.
 
-gradle.properties
-[source,properties]
+Consider a directory layout as  follows:
+
 ----
-username=joe
-password=joehasabadpassword
-host=dbsrv001
-graphname=hc
+├── .gitignore
+├── build.gradle.kts
+├── db_scripts
+│   ├── drop.gsql
+│   ├── schema.gsql
+│   └── show_graph.gsql
+├── gradle-local.properties
+├── gradle.properties
+├── init.gradle.kts
+└── settings.gradle.kts
 ----
+
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
 
 build.gradle.kts
 [source,kotlin]
 ----
-import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "0.1.0"
+    id("com.optum.giraffle") version "1.0.2"
+    id("net.saliman.properties") version "1.4.6"
 }
 
 repositories {
-    mavenLocal()
     jcenter()
 }
 
-val graphname: String by project // <1>
-val host: String by project
-val username: String by project
-val password: String by project
-val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to graphname) // <2>
+val gsqlGraphname: String by project // <1>
+val gsqlHost: String by project
+val gsqlUsername: String by project
+val gsqlPassword: String by project
+val gsqlAdminUsername: String by project
+val gsqlAdminPassword: String by project
+val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gsqlGraphname) // <2>
+val grpSchema: String = "Tigergraph Schema"
 
 tigergraph { // <3>
     scriptDir.set(file("db_scripts"))
     tokens.set(tokenMap)
-    serverName.set(host)
-    userName.set(username)
-    password.set(password)
+    serverName.set(gsqlHost)
+    userName.set(gsqlUsername)
+    password.set(gsqlPassword)
+    adminUserName.set(gsqlAdminUsername)
+    adminPassword.set(gsqlAdminPassword)
 }
 
-val createSchema by tasks.creating(GsqlTask::class) {
-    group = "Tigergraph Schema"
+val createSchema by tasks.creating(GsqlTask::class) { // <4>
+    group = grpSchema
     description = "Create the schema on the database"
-    scriptPath = "schema.gsql" // <4>
-    superUser = true // <5>
+    dependsOn("dropSchema") // <5>
+    scriptPath = "schema.gsql" // <6>
+    superUser = true // <7>
+}
+
+tasks.create<GsqlTask>("dropSchema") { // <8>
+    group = grpSchema
+    description = "Drops the schema on the database"
+    scriptPath = "drop.gsql"
+    superUser = true
+}
+----
+
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
+
+build.gradle
+[source,groovy]
+----
+import com.optum.giraffle.tasks.GsqlTask
+
+plugins {
+    id "com.optum.giraffle" version "1.0.2"
+    id "net.saliman.properties" version "1.4.6"
+}
+
+repositories {
+    jcenter()
+}
+
+def tokenMap = ["graphname": gsqlGraphname] // <2>
+def grpSchema = "Tigergraph Schema"
+
+tigergraph { // <3>
+    scriptDir = file("db_scripts")
+    tokens = tokenMap
+    serverName = gsqlHost
+    userName = gsqlUsername
+    password = gsqlPassword
+    adminUserName = gsqlAdminUsername
+    adminPassword = gsqlAdminPassword
+}
+
+task dropSchema(type: GsqlTask) {
+    group = grpSchema
+    description = "Drops the schema on the database"
+    scriptPath = "drop.gsql"
+    superUser = true
+}
+
+task createSchema(type: GsqlTask,
+    dependsOn: [dropSchema] // <5>
+) { // <4>
+    group = grpSchema
+    description = "Create the schema on the database"
+    scriptPath = "schema.gsql" // <6>
+    superUser = true // <7>
 }
 
 ----
+
+++++
+</details>
+++++
+
 <1> `by project` is how you references project properties using the Kotlin DSL
 for Gradle.
 <2> This is how you create a Kotlin map to pass to a property.
 <3> Our Tigergraph DSL. These settings apply for all interactions with
 Tigergraph.
-<4> The path to the source script relative to `scriptDir`.
-<5> Informs the plugin which credentials to use.
+<4> One way to create a task using the custom task type created by the plugin.
+<5> This task will execute _after_ the task that it `dependsOn`.
+<6> The path to the source script relative to `scriptDir`.
+<7> Informs the plugin which credentials to use.
+<8> Another way to create a task.
+
+db_scripts/schema.gsql
+[source,gsql]
+----
+CREATE VERTEX Person ( primary_id ssn STRING, firstName STRING, lastName STRING)
+CREATE UNDIRECTED EDGE FRIENDS (FROM Person, TO Person, effectiveDate DATETIME)
+
+CREATE GRAPH @graphname@(Person, FRIENDS)
+----
+
+db_scripts/drop.gsql
+[source,gsql]
+----
+USE GRAPH @graphname@
+
+DROP GRAPH @graphname@
+
+USE GLOBAL
+
+DROP EDGE FRIENDS
+DROP VERTEX Person
+----
+
+gradle.properties
+[source,properties]
+----
+gsqlHost=
+gsqlUsername=
+gsqlPassword=
+gsqlAdminUsername=
+gsqlAdminPassword=
+gsqlGraphname=hc
+----
+
+gradle-local.properties
+[source,properties]
+----
+gsqlHost=localhost
+gsqlUsename=tigergraph
+gsqlPassword=tigergraph
+gsqlAdminUsername=tigergraph
+gsqlAdminPassword=tigergraph
+----
+
+This setup will allow you to deploy your schema against your Tigergraph
+database.
+
+----
+gradle createSchema
+----
