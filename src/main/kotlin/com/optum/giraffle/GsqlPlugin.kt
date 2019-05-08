@@ -77,5 +77,8 @@ open class GsqlPlugin : Plugin<Project> {
                 gsqlShell.description = "Run an interactive gsql shell session"
             }
     private fun Project.registerNewProject(): TaskProvider<NewProject> =
-        tasks.register("gsqlNewProject", NewProject::class.java)
+        tasks.register("gsqlNewProject", NewProject::class.java) { newProject ->
+            newProject.group = "GSQL Project Wizard"
+            newProject.description = "Create scaffolding for new project"
+        }
 }
