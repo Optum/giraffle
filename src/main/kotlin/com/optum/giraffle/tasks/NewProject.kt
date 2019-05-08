@@ -1,5 +1,6 @@
 package com.optum.giraffle.tasks
 
+import com.optum.giraffle.Configurations.net_saliman_properties_version
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -74,6 +75,12 @@ open class NewProject : DefaultTask() {
                 propertiesForReplaceTokens.contains(k)
             }
 
+            val usePropPlugin: Boolean =
+                when (myAnt.getProperty("gsqlEnablePropertiesPlugin")) {
+                    "y" -> true
+                    else -> false
+                }
+
             createFileFromResource("/properties/gradle.properties", "gradle.properties", tMap)
 
             when (myAnt.getProperty("kotlinOrGroovy")) {
@@ -99,7 +106,8 @@ open class NewProject : DefaultTask() {
     private fun createFileFromResource(
         resource: String,
         filename: String,
-        tokens: Map<String, Any> = mapOf<String, Any>()
+        tokens: Map<String, Any> = mapOf<String, Any>(),
+        enableProperties: Boolean = true
     ) {
         val tempDir = Files.createTempDirectory("gsqlPluginConfig")
         val resourceDir = Files.createDirectories(tempDir.resolve("resource"))
@@ -110,11 +118,14 @@ open class NewProject : DefaultTask() {
         val resourceFile: File = Files.createFile(resourceDir.resolve(filename)).toFile()
         fillFileFromResource(resource, resourceFile)
 
+        val newTokens: MutableMap<String, Any> = tokens.toMutableMap<String, Any>()
+        newTokens["propertiesPlugin"] = if (enableProperties) "\nid(\"net.saliman.properties\") version \"$net_saliman_properties_version\"" else ""
+
         // Using gradle copy, its the easiest way to take advantage of ReplaceTokens
         project.copy {
             it.run {
                 from(resourceDir)
-                filter(mapOf("tokens" to tokens), ReplaceTokens::class.java)
+                filter(mapOf("tokens" to newTokens), ReplaceTokens::class.java)
                 into(outputDir)
             }
         }

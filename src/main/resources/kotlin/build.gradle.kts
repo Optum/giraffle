@@ -1,6 +1,5 @@
 plugins {
-    id("com.optum.giraffle") version "@version@"
-    id("net.saliman.properties") version "1.4.6"
+    id("com.optum.giraffle") version "@version@"@propertiesPlugin@
 }
 
 val gsqlHost: String by project
