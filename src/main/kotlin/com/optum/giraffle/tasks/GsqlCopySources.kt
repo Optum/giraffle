@@ -28,12 +28,10 @@ open class GsqlCopySources : DefaultTask() {
 
     @TaskAction
     fun copyFiles() {
-        // project.logger.lifecycle("tokens: ", tokens)
         tokens.get().forEach { entry ->
-            logger.quiet("${entry.key}: ${entry.value}")
+            logger.info("${entry.key}: ${entry.value}")
         }
 
-        // inputs.properties(tokens)
         project.copy {
             it.run {
                 from(inputDir) {
