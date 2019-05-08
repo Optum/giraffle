@@ -23,6 +23,8 @@ version = projectVersion
 description = projectDescription
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 
+val filterTokens = hashMapOf("version" to projectVersion)
+
 val githubUrl = "https://github.com/Optum/${project.name}.git"
 val webUrl = githubUrl
 
@@ -39,6 +41,14 @@ site {
     vcsUrl.set(githubUrl)
 }
 
+tasks {
+    processResources {
+        with(project.copySpec {
+            from("src/main/resources")
+            filter<org.apache.tools.ant.filters.ReplaceTokens>("tokens" to filterTokens)
+        })
+    }
+}
 
 val intTest by sourceSets.creating {
     compileClasspath += sourceSets.main.get().output + configurations.testRuntime.get()
