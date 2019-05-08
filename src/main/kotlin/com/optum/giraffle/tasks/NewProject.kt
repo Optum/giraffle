@@ -28,12 +28,22 @@ open class NewProject : DefaultTask() {
             myAnt.invokeMethod("input", myMap)
 
             myMap["message"] = "Tigergraph Admin username:"
-            myMap["addproperty"] = "gsqlAdminUsername"
+            myMap["addproperty"] = "gsqlAdminUserName"
             myMap["defaultvalue"] = "tigergraph"
             myAnt.invokeMethod("input", myMap)
 
             myMap["message"] = "Tigergraph Admin password:"
             myMap["addproperty"] = "gsqlAdminPassword"
+            myMap["defaultvalue"] = "tigergraph"
+            myAnt.invokeMethod("input", myMap)
+
+            myMap["message"] = "Tigergraph username:"
+            myMap["addproperty"] = "gsqlUserName"
+            myMap["defaultvalue"] = "tigergraph"
+            myAnt.invokeMethod("input", myMap)
+
+            myMap["message"] = "Tigergraph password:"
+            myMap["addproperty"] = "gsqlPassword"
             myMap["defaultvalue"] = "tigergraph"
             myAnt.invokeMethod("input", myMap)
 
@@ -43,14 +53,33 @@ open class NewProject : DefaultTask() {
             myMap["validargs"] = "y,n"
             myAnt.invokeMethod("input", myMap)
 
+            myMap["message"] = "Do you want to use the Kotlin or Groovy DSL for you build?"
+            myMap["addproperty"] = "kotlinOrGroovy"
+            myMap["defaultvalue"] = "k"
+            myMap["validargs"] = "k,g"
+            myAnt.invokeMethod("input", myMap)
+
             myAnt.setProperty("date", Date().toString())
 
-            val propertiesForReplaceTokens: List<String> = listOf<String>( "gsqlHost", "gsqlAdminUsername", "gsqlAdminPassword", "gsqlGraphname", "date")
+            val propertiesForReplaceTokens: List<String> = listOf<String>(
+                "gsqlHost",
+                "gsqlAdminUserName",
+                "gsqlAdminPassword",
+                "gsqlUserName",
+                "gsqlPassword",
+                "gsqlGraphname",
+                "date"
+            )
             val tMap: Map<String, Any> = myAnt.properties.filterKeys { k ->
                 propertiesForReplaceTokens.contains(k)
             }
 
             createFileFromResource("/properties/gradle.properties", "gradle.properties", tMap)
+
+            when (myAnt.getProperty("kotlinOrGroovy")) {
+                "k" -> createFileFromResource("/kotlin/build.gradle.kts", "build.gradle.kts", emptyMap())
+                "g" -> createFileFromResource("/groovy/build.gradle", "build.gradle", emptyMap())
+            }
         }
     }
 
