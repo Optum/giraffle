@@ -2,6 +2,7 @@ package com.optum.giraffle.tasks
 
 import com.optum.giraffle.Configurations.net_saliman_properties_version
 import org.apache.tools.ant.filters.ReplaceTokens
+import org.gradle.api.AntBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -14,53 +15,58 @@ open class NewProject : DefaultTask() {
      */
     @TaskAction
     fun newProject() {
-        project.ant { myAnt ->
-            myAnt.invokeMethod("echo", "Welcome to the new project wizard. Please answer the following questions to start a new project.")
-            val myMap: MutableMap<String, String> = mutableMapOf<String, String>(
-                "message" to "Project Name:",
-                "addproperty" to "gsqlGraphname",
-                "defaultvalue" to "myApp"
-            )
-            myAnt.invokeMethod("input", myMap)
+        project.ant {
+            with(it) {
+                invokeMethod(
+                    "echo",
+                    "Welcome to the new project wizard. Please answer the following questions to start a new project."
+                )
 
-            myMap["message"] = "Tigergraph Host:"
-            myMap["addproperty"] = "gsqlHost"
-            myMap["defaultvalue"] = "localhost"
-            myAnt.invokeMethod("input", myMap)
+                getInput(
+                    message = "Project Name:",
+                    propertyName = "gsqlGraphname",
+                    defaultValue = "myApp"
+                )
+                getInput(
+                    message = "Tigergraph Host:",
+                    propertyName = "gsqlHost",
+                    defaultValue = "localhost"
+                )
+                getInput(
+                    message = "Tigergraph Admin username:",
+                    propertyName = "gsqlAdminUserName",
+                    defaultValue = "tigergraph"
+                )
+                getInput(
+                    message = "Tigergraph Admin password:",
+                    propertyName = "gsqlAdminPassword",
+                    defaultValue = "tigergraph"
+                )
+                getInput(
+                    message = "Tigergraph username:",
+                    propertyName = "gsqlUserName",
+                    defaultValue = "tigergraph"
+                )
+                getInput(
+                    message = "Tigergraph password:",
+                    propertyName = "gsqlPassword",
+                    defaultValue = "tigergraph"
+                )
+                getInput(
+                    message = "Do you want to support multiple environments?",
+                    propertyName = "gsqlEnablePropertiesPlugin",
+                    defaultValue = "y",
+                    validArgs = listOf("y", "n")
+                )
+                getInput(
+                    message = "Do you want to use the Kotlin or Groovy DSL for you build?",
+                    propertyName = "kotlinOrGroovy",
+                    defaultValue = "k",
+                    validArgs = listOf("k", "g")
+                )
 
-            myMap["message"] = "Tigergraph Admin username:"
-            myMap["addproperty"] = "gsqlAdminUserName"
-            myMap["defaultvalue"] = "tigergraph"
-            myAnt.invokeMethod("input", myMap)
-
-            myMap["message"] = "Tigergraph Admin password:"
-            myMap["addproperty"] = "gsqlAdminPassword"
-            myMap["defaultvalue"] = "tigergraph"
-            myAnt.invokeMethod("input", myMap)
-
-            myMap["message"] = "Tigergraph username:"
-            myMap["addproperty"] = "gsqlUserName"
-            myMap["defaultvalue"] = "tigergraph"
-            myAnt.invokeMethod("input", myMap)
-
-            myMap["message"] = "Tigergraph password:"
-            myMap["addproperty"] = "gsqlPassword"
-            myMap["defaultvalue"] = "tigergraph"
-            myAnt.invokeMethod("input", myMap)
-
-            myMap["message"] = "Do you want to support multiple environments? "
-            myMap["addproperty"] = "gsqlEnablePropertiesPlugin"
-            myMap["defaultvalue"] = "y"
-            myMap["validargs"] = "y,n"
-            myAnt.invokeMethod("input", myMap)
-
-            myMap["message"] = "Do you want to use the Kotlin or Groovy DSL for you build?"
-            myMap["addproperty"] = "kotlinOrGroovy"
-            myMap["defaultvalue"] = "k"
-            myMap["validargs"] = "k,g"
-            myAnt.invokeMethod("input", myMap)
-
-            myAnt.setProperty("date", Date().toString())
+                setProperty("date", Date().toString())
+            }
 
             val propertiesForReplaceTokens: List<String> = listOf<String>(
                 "gsqlHost",
@@ -72,21 +78,21 @@ open class NewProject : DefaultTask() {
                 "date"
             )
 
-            val credentialMap: Map<String, Any> = myAnt.properties.filterKeys { k ->
+            val credentialMap: Map<String, Any> = it.properties.filterKeys { k ->
                 propertiesForReplaceTokens.contains(k)
             }
 
             val usePropPlugin: Boolean =
-            when (myAnt.getProperty("gsqlEnablePropertiesPlugin")) {
-                "y" -> true
-                else -> false
-            }
+                when (it.getProperty("gsqlEnablePropertiesPlugin")) {
+                    "y" -> true
+                    else -> false
+                }
 
             createFileFromResource("/properties/gradle-local.properties", "gradle-local.properties", credentialMap)
             createFileFromResource("/properties/gradle.properties", "gradle.properties", credentialMap)
             createFileFromResource("/git/gitignore", ".gitignore")
 
-            when (myAnt.getProperty("kotlinOrGroovy")) {
+            when (it.getProperty("kotlinOrGroovy")) {
                 "k" -> createFileFromResource("/kotlin/build.gradle.kts", "build.gradle.kts", emptyMap(), usePropPlugin)
                 "g" -> createFileFromResource("/groovy/build.gradle", "build.gradle", emptyMap(), usePropPlugin)
             }
@@ -156,4 +162,18 @@ open class NewProject : DefaultTask() {
         }
         File(outputDir.toFile(), filename).copyTo(destFile, overwrite = true)
     }
+
+    /**
+     * Get input from user if ant properties are not defined
+     */
+    private fun AntBuilder.getInput(message: String, propertyName: String, defaultValue: String, validArgs: List<String>? = null) =
+        with(this) {
+            if (!properties.containsKey(propertyName)) {
+                val args = mutableMapOf("message" to message, "addproperty" to propertyName, "defaultvalue" to defaultValue)
+                if (validArgs != null) args["validargs"] = validArgs.joinToString(separator = ",")
+                invokeMethod(
+                    "input", args
+                )
+            }
+        }
 }
