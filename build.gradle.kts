@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Duration
+org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.

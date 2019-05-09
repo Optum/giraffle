@@ -76,16 +76,28 @@ open class NewProject : DefaultTask() {
             }
 
             val usePropPlugin: Boolean =
-                when (myAnt.getProperty("gsqlEnablePropertiesPlugin")) {
-                    "y" -> true
-                    else -> false
-                }
+            when (myAnt.getProperty("gsqlEnablePropertiesPlugin")) {
+                "y" -> true
+                else -> false
+            }
 
             createFileFromResource("/properties/gradle.properties", "gradle.properties", tMap)
+            createFileFromResource("/git/gitignore", ".gitignore")
 
             when (myAnt.getProperty("kotlinOrGroovy")) {
-                "k" -> createFileFromResource("/kotlin/build.gradle.kts", "build.gradle.kts", emptyMap())
-                "g" -> createFileFromResource("/groovy/build.gradle", "build.gradle", emptyMap())
+                "k" -> createFileFromResource("/kotlin/build.gradle.kts", "build.gradle.kts", emptyMap(), usePropPlugin)
+                "g" -> createFileFromResource("/groovy/build.gradle", "build.gradle", emptyMap(), usePropPlugin)
+            }
+
+            val skeletonPaths: List<String> = listOf<String>(
+                "db_scripts/schema/",
+                "db_scripts/query/",
+                "db_scripts/roles/",
+                "db_scripts/load/create/"
+            )
+            skeletonPaths.map {
+                val d = File(it)
+                d.mkdirs()
             }
         }
     }
