@@ -3,9 +3,9 @@ plugins {
 }
 
 val gsqlHost: String by project
-val gsqlAdminUsername: String by project
+val gsqlAdminUserName: String by project
 val gsqlAdminPassword: String by project
-val gsqlUsername: String by project
+val gsqlUserName: String by project
 val gsqlPassword: String by project
 val gsqlGraphName: String by project
 
@@ -15,8 +15,8 @@ tigergraph {
     scriptDir.set(file("db_scripts"))
     tokens.set(tokenMap)
     serverName.set(gsqlHost)
-    userName.set(gsqlUsername)
+    userName.set(gsqlUserName)
     password.set(gsqlPassword)
-    adminUserName.set(gsqlAdminUsername)
+    adminUserName.set(gsqlAdminUserName)
     adminPassword.set(gsqlAdminPassword)
-} 
+}
