@@ -90,14 +90,18 @@ open class NewProject : DefaultTask() {
             }
 
             val skeletonPaths: List<String> = listOf<String>(
-                "db_scripts/schema/",
-                "db_scripts/query/",
-                "db_scripts/roles/",
-                "db_scripts/load/create/"
+                "./db_scripts/",
+                "./db_scripts/schema/",
+                "./db_scripts/query/",
+                "./db_scripts/roles/",
+                "./db_scripts/load/",
+                "./db_scripts/load/create/"
             )
-            skeletonPaths.map {
-                val d = File(it)
-                d.mkdirs()
+            skeletonPaths.map { fileName ->
+                when (File(fileName).mkdirs()) {
+                    true -> project.logger.info("Directory creation successful for: $fileName")
+                    false -> project.logger.info("Director creation failed for: $fileName")
+                }
             }
         }
     }
