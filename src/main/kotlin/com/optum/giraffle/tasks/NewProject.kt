@@ -71,7 +71,8 @@ open class NewProject : DefaultTask() {
                 "gsqlGraphname",
                 "date"
             )
-            val tMap: Map<String, Any> = myAnt.properties.filterKeys { k ->
+
+            val credentialMap: Map<String, Any> = myAnt.properties.filterKeys { k ->
                 propertiesForReplaceTokens.contains(k)
             }
 
@@ -81,7 +82,8 @@ open class NewProject : DefaultTask() {
                 else -> false
             }
 
-            createFileFromResource("/properties/gradle.properties", "gradle.properties", tMap)
+            createFileFromResource("/properties/gradle-local.properties", "gradle-local.properties", credentialMap)
+            createFileFromResource("/properties/gradle.properties", "gradle.properties", credentialMap)
             createFileFromResource("/git/gitignore", ".gitignore")
 
             when (myAnt.getProperty("kotlinOrGroovy")) {
