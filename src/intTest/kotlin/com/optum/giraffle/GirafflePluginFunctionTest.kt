@@ -103,20 +103,23 @@ object GirafflePluginFunctionTest : Spek({
             val testProjectDir: Path = Files.createTempDirectory("giraffle_plugin_test")
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             buildFile.fillFromResource("newProject.gradle")
+            val antProps: Array<String> = arrayOf(
+                "gsqlNewProject",
+                "-DgsqlGraphname=testApp",
+                "-DgsqlHost=myhost",
+                "-DgsqlAdminUserName=tiger",
+                "-DgsqlAdminPassword=tig3r",
+                "-DgsqlUserName=joe_user",
+                "-DgsqlPassword=s3cr3t"
+            )
 
             it("should create property files") {
-                val antProps: Array<String> = arrayOf(
-                    "gsqlNewProject",
-                    "-DgsqlGraphname=testApp",
-                    "-DgsqlHost=myhost",
-                    "-DgsqlAdminUserName=tiger",
-                    "-DgsqlAdminPassword=tig3r",
-                    "-DgsqlUserName=joe_user",
-                    "-DgsqlPassword=s3cr3t",
+                val myAntProp = antProps.plus(arrayOf(
                     "-DgsqlEnablePropertiesPlugin=y",
                     "-DkotlinOrGroovy=k"
-                )
-                execute(testProjectDir.toFile(), *antProps)
+                ))
+
+                execute(testProjectDir.toFile(), *myAntProp)
                 val gradlePropFile = File(testProjectDir.toFile(), "gradle.properties")
                 val gradleLocalPropFile = File(testProjectDir.toFile(), "gradle-local.properties")
                 val gitIgnoreFile = File(testProjectDir.toFile(), ".gitignore")
@@ -146,7 +149,21 @@ object GirafflePluginFunctionTest : Spek({
                 assertTrue(message = ".gitignore should exist") {
                     gitIgnoreFile.exists()
                 }
+
             }
+
+            it("should create kotlin build file") {
+                val myAntProp = antProps.plus(arrayOf(
+                    "-DgsqlEnablePropertiesPlugin=y",
+                    "-DkotlinOrGroovy=k"
+                ))
+                execute(testProjectDir.toFile(), *myAntProp)
+                val kotlinBuildFile = File(testProjectDir.toFile(),"build.gradle.kts")
+                assertTrue {
+                    kotlinBuildFile.exists()
+                }
+            }
+
         }
     }
 })
