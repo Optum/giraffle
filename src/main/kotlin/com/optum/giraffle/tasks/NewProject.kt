@@ -143,7 +143,7 @@ open class NewProject : DefaultTask() {
         fillFileFromResource(resource, resourceFile)
 
         val newTokens: MutableMap<String, Any> = tokens.toMutableMap<String, Any>()
-        newTokens["propertiesPlugin"] = if (enableProperties) "\nid(\"net.saliman.properties\") version \"$net_saliman_properties_version\"" else ""
+        newTokens["propertiesPlugin"] = if (enableProperties) "\n    id(\"net.saliman.properties\") version \"$net_saliman_properties_version\"" else ""
 
         // Using gradle copy, its the easiest way to take advantage of ReplaceTokens
         project.copy {
