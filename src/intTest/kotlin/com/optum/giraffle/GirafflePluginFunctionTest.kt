@@ -4,6 +4,7 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.spekframework.spek2.Spek
+import org.spekframework.spek2.dsl.Skip
 import org.spekframework.spek2.style.specification.describe
 import java.io.File
 import java.nio.file.Files
@@ -23,6 +24,21 @@ object GirafflePluginFunctionTest : Spek({
             acc: String, file: File -> "$acc\n$file"
         }
     }
+
+    val antProps: Array<String> = arrayOf(
+        "gsqlNewProject",
+        "-DgsqlGraphname=testApp",
+        "-DgsqlHost=myhost",
+        "-DgsqlAdminUserName=tiger",
+        "-DgsqlAdminPassword=tig3r",
+        "-DgsqlUserName=joe_user",
+        "-DgsqlPassword=s3cr3t"
+    )
+
+    val antPropKotlin = "-DkotlinOrGroovy=k"
+    val antPropGroovy = "-DkotlinOrGroovy=g"
+    val antPropProperty = "-DgsqlEnablePropertiesPlugin=y"
+    val antPropNoProperty = "-DgsqlEnablePropertiesPlugin=n"
 
     describe("Giraffle Plugin") {
         fun execute(projectDir: File, vararg arguments: String): BuildResult {
@@ -99,27 +115,13 @@ object GirafflePluginFunctionTest : Spek({
             }
         }
 
-        context("New Project wizard") {
-            val testProjectDir: Path = Files.createTempDirectory("giraffle_plugin_test")
+        context("New Project wizard - Kotlin") {
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_kotlin_dsl")
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             buildFile.fillFromResource("newProject.gradle")
-            val antProps: Array<String> = arrayOf(
-                "gsqlNewProject",
-                "-DgsqlGraphname=testApp",
-                "-DgsqlHost=myhost",
-                "-DgsqlAdminUserName=tiger",
-                "-DgsqlAdminPassword=tig3r",
-                "-DgsqlUserName=joe_user",
-                "-DgsqlPassword=s3cr3t"
-            )
-
-            val antPropsKotlinProperty: Array<String> = arrayOf(
-                "-DgsqlEnablePropertiesPlugin=y",
-                "-DkotlinOrGroovy=k"
-            )
 
             it("should create property files") {
-                val myAntProp = antProps.plus(antPropsKotlinProperty)
+                val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
 
                 execute(testProjectDir.toFile(), *myAntProp)
                 val gradlePropFile = File(testProjectDir.toFile(), "gradle.properties")
@@ -155,15 +157,15 @@ object GirafflePluginFunctionTest : Spek({
             }
 
             it("should create kotlin build file") {
-                val myAntProp = antProps.plus(antPropsKotlinProperty)
+                val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
                 assertTrue {
                     File(testProjectDir.toFile(),"build.gradle.kts").exists()
                 }
             }
 
-            it("should use properties plugin") {
-                val myAntProp = antProps.plus(antPropsKotlinProperty)
+            it("kotlin build should use properties plugin") {
+                val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
                 val propertyBuildFile = File(testProjectDir.toFile(),"build.gradle.kts")
 
@@ -175,6 +177,44 @@ object GirafflePluginFunctionTest : Spek({
                     File(testProjectDir.toFile(),"gradle-local.properties").exists()
                 }
 
+            }
+
+            it("kotlin should not use properties plugin") {
+                val myAntProp = antProps.plus(antPropKotlin).plus(antPropNoProperty)
+                execute(testProjectDir.toFile(), *myAntProp)
+                assertFalse("Build file should not contain net.saliman.properties plugin"){
+                    File(testProjectDir.toFile(),"build.gradle.kts").readText().contains("net.saliman.properties")
+                }
+            }
+
+        }
+
+        context("New project wizard - Groovy") {
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_groovy_dsl")
+            val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+            buildFile.fillFromResource("newProject.gradle")
+
+            it("groovy build should use properties plugin") {
+                val myAntProp = antProps.plus(antPropGroovy).plus(antPropProperty)
+                execute(testProjectDir.toFile(), *myAntProp)
+                val propertyBuildFile = File(testProjectDir.toFile(),"build.gradle")
+
+                assertTrue("Build file should contain net.saliman.properties plugin.\n${testProjectDir.toFile()}+") {
+                    propertyBuildFile.readText().contains("net.saliman.properties")
+                }
+
+                assertTrue("gradle-local.properties file should exist.") {
+                    File(testProjectDir.toFile(),"gradle-local.properties").exists()
+                }
+
+            }
+
+            it("groovy should not use properties plugin") {
+                val myAntProp = antProps.plus(antPropGroovy).plus(antPropNoProperty)
+                execute(testProjectDir.toFile(), *myAntProp)
+                assertFalse("Build file should not contain net.saliman.properties plugin"  ){
+                    File(testProjectDir.toFile(),"build.gradle").readText().contains("net.saliman.properties")
+                }
             }
 
         }
