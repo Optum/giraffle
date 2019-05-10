@@ -113,11 +113,13 @@ object GirafflePluginFunctionTest : Spek({
                 "-DgsqlPassword=s3cr3t"
             )
 
+            val antPropsKotlinProperty: Array<String> = arrayOf(
+                "-DgsqlEnablePropertiesPlugin=y",
+                "-DkotlinOrGroovy=k"
+            )
+
             it("should create property files") {
-                val myAntProp = antProps.plus(arrayOf(
-                    "-DgsqlEnablePropertiesPlugin=y",
-                    "-DkotlinOrGroovy=k"
-                ))
+                val myAntProp = antProps.plus(antPropsKotlinProperty)
 
                 execute(testProjectDir.toFile(), *myAntProp)
                 val gradlePropFile = File(testProjectDir.toFile(), "gradle.properties")
@@ -153,15 +155,26 @@ object GirafflePluginFunctionTest : Spek({
             }
 
             it("should create kotlin build file") {
-                val myAntProp = antProps.plus(arrayOf(
-                    "-DgsqlEnablePropertiesPlugin=y",
-                    "-DkotlinOrGroovy=k"
-                ))
+                val myAntProp = antProps.plus(antPropsKotlinProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
-                val kotlinBuildFile = File(testProjectDir.toFile(),"build.gradle.kts")
                 assertTrue {
-                    kotlinBuildFile.exists()
+                    File(testProjectDir.toFile(),"build.gradle.kts").exists()
                 }
+            }
+
+            it("should use properties plugin") {
+                val myAntProp = antProps.plus(antPropsKotlinProperty)
+                execute(testProjectDir.toFile(), *myAntProp)
+                val propertyBuildFile = File(testProjectDir.toFile(),"build.gradle.kts")
+
+                assertTrue("Build file should contain net.saliman.properties plugin.") {
+                    propertyBuildFile.readText().contains("net.saliman.properties")
+                }
+
+                assertTrue("gradle-local.properties file should exist.") {
+                    File(testProjectDir.toFile(),"gradle-local.properties").exists()
+                }
+
             }
 
         }
