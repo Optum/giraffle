@@ -2,13 +2,6 @@ plugins {
     id("com.optum.giraffle") version "@version@"@propertiesPlugin@
 }
 
-val gsqlHost: String by project
-val gsqlAdminUserName: String by project
-val gsqlAdminPassword: String by project
-val gsqlUserName: String by project
-val gsqlPassword: String by project
-val gsqlGraphName: String by project
-
 def tokenMap = ["graphname": gsqlGraphName]
 
 tigergraph {
