@@ -1,0 +1,4 @@
+plugins {
+    id("com.optum.giraffle")
+}
+org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")

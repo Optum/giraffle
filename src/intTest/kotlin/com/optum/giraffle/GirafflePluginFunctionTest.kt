@@ -98,5 +98,55 @@ object GirafflePluginFunctionTest : Spek({
                 )
             }
         }
+
+        context("New Project wizard") {
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_plugin_test")
+            val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+            buildFile.fillFromResource("newProject.gradle")
+
+            it("should create property files") {
+                val antProps: Array<String> = arrayOf(
+                    "gsqlNewProject",
+                    "-DgsqlGraphname=testApp",
+                    "-DgsqlHost=myhost",
+                    "-DgsqlAdminUserName=tiger",
+                    "-DgsqlAdminPassword=tig3r",
+                    "-DgsqlUserName=joe_user",
+                    "-DgsqlPassword=s3cr3t",
+                    "-DgsqlEnablePropertiesPlugin=y",
+                    "-DkotlinOrGroovy=k"
+                )
+                execute(testProjectDir.toFile(), *antProps)
+                val gradlePropFile = File(testProjectDir.toFile(), "gradle.properties")
+                val gradleLocalPropFile = File(testProjectDir.toFile(), "gradle-local.properties")
+                val gitIgnoreFile = File(testProjectDir.toFile(), ".gitignore")
+                val gradleContents: String = gradlePropFile.readText()
+                val gradleLocalContents: String = gradleLocalPropFile.readText()
+                val credCheck: (String) -> Boolean  = { contents: String ->
+                    with(contents) {
+                        contains("gsqlAdminUserName=tiger") and
+                        contains("gsqlAdminPassword=tig3r") and
+                        contains("gsqlUserName=joe_user") and
+                        contains("gsqlPassword=s3cr3t")
+                    }
+                }
+
+                assertTrue( message = "gradle.properties doesn't exist" ) {
+                    gradlePropFile.exists()
+                }
+                assertFalse(message = "gradle.properties shouldn't contain passwords") {
+                    credCheck(gradleContents)
+                }
+                assertTrue( message = "gradle-local.properties doesn't exist" ) {
+                    gradleLocalPropFile.exists()
+                }
+                assertTrue(message = "gradle-local.properties should contain credentials") {
+                    credCheck(gradleLocalContents)
+                }
+                assertTrue(message = ".gitignore should exist") {
+                    gitIgnoreFile.exists()
+                }
+            }
+        }
     }
 })
