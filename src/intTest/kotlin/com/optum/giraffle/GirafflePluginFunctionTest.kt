@@ -4,7 +4,6 @@ import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import org.spekframework.spek2.Spek
-import org.spekframework.spek2.dsl.Skip
 import org.spekframework.spek2.style.specification.describe
 import java.io.File
 import java.nio.file.Files
@@ -129,7 +128,7 @@ object GirafflePluginFunctionTest : Spek({
                 val gitIgnoreFile = File(testProjectDir.toFile(), ".gitignore")
                 val gradleContents: String = gradlePropFile.readText()
                 val gradleLocalContents: String = gradleLocalPropFile.readText()
-                val credCheck: (String) -> Boolean  = { contents: String ->
+                val credCheck: (String) -> Boolean = { contents: String ->
                     with(contents) {
                         contains("gsqlAdminUserName=tiger") and
                         contains("gsqlAdminPassword=tig3r") and
@@ -138,55 +137,52 @@ object GirafflePluginFunctionTest : Spek({
                     }
                 }
 
-                assertTrue( message = "gradle.properties doesn't exist" ) {
+                assertTrue("gradle.properties doesn't exist") {
                     gradlePropFile.exists()
                 }
-                assertFalse(message = "gradle.properties shouldn't contain passwords") {
+                assertFalse("gradle.properties shouldn't contain passwords") {
                     credCheck(gradleContents)
                 }
-                assertTrue( message = "gradle-local.properties doesn't exist" ) {
+                assertTrue("gradle-local.properties doesn't exist") {
                     gradleLocalPropFile.exists()
                 }
-                assertTrue(message = "gradle-local.properties should contain credentials") {
+                assertTrue("gradle-local.properties should contain credentials") {
                     credCheck(gradleLocalContents)
                 }
-                assertTrue(message = ".gitignore should exist") {
+                assertTrue(".gitignore should exist") {
                     gitIgnoreFile.exists()
                 }
-
             }
 
             it("should create kotlin build file") {
                 val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
                 assertTrue {
-                    File(testProjectDir.toFile(),"build.gradle.kts").exists()
+                    File(testProjectDir.toFile(), "build.gradle.kts").exists()
                 }
             }
 
             it("kotlin build should use properties plugin") {
                 val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
-                val propertyBuildFile = File(testProjectDir.toFile(),"build.gradle.kts")
+                val propertyBuildFile = File(testProjectDir.toFile(), "build.gradle.kts")
 
                 assertTrue("Build file should contain net.saliman.properties plugin.") {
                     propertyBuildFile.readText().contains("net.saliman.properties")
                 }
 
                 assertTrue("gradle-local.properties file should exist.") {
-                    File(testProjectDir.toFile(),"gradle-local.properties").exists()
+                    File(testProjectDir.toFile(), "gradle-local.properties").exists()
                 }
-
             }
 
             it("kotlin should not use properties plugin") {
                 val myAntProp = antProps.plus(antPropKotlin).plus(antPropNoProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
-                assertFalse("Build file should not contain net.saliman.properties plugin"){
-                    File(testProjectDir.toFile(),"build.gradle.kts").readText().contains("net.saliman.properties")
+                assertFalse("Build file should not contain net.saliman.properties plugin") {
+                    File(testProjectDir.toFile(), "build.gradle.kts").readText().contains("net.saliman.properties")
                 }
             }
-
         }
 
         context("New project wizard - Groovy") {
@@ -197,26 +193,24 @@ object GirafflePluginFunctionTest : Spek({
             it("groovy build should use properties plugin") {
                 val myAntProp = antProps.plus(antPropGroovy).plus(antPropProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
-                val propertyBuildFile = File(testProjectDir.toFile(),"build.gradle")
+                val propertyBuildFile = File(testProjectDir.toFile(), "build.gradle")
 
                 assertTrue("Build file should contain net.saliman.properties plugin.\n${testProjectDir.toFile()}+") {
                     propertyBuildFile.readText().contains("net.saliman.properties")
                 }
 
                 assertTrue("gradle-local.properties file should exist.") {
-                    File(testProjectDir.toFile(),"gradle-local.properties").exists()
+                    File(testProjectDir.toFile(), "gradle-local.properties").exists()
                 }
-
             }
 
             it("groovy should not use properties plugin") {
                 val myAntProp = antProps.plus(antPropGroovy).plus(antPropNoProperty)
                 execute(testProjectDir.toFile(), *myAntProp)
-                assertFalse("Build file should not contain net.saliman.properties plugin"  ){
-                    File(testProjectDir.toFile(),"build.gradle").readText().contains("net.saliman.properties")
+                assertFalse("Build file should not contain net.saliman.properties plugin") {
+                    File(testProjectDir.toFile(), "build.gradle").readText().contains("net.saliman.properties")
                 }
             }
-
         }
     }
 })
