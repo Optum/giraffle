@@ -359,6 +359,16 @@ $ gradle gsqlNewProject --console=plain # <1>
 Running this task will ask you a series of questions, and create a bare bones
 project for you.
 
+=== gsqlShell
+This task invokes the gsql command, logs you into the server using the
+credentials configured by your properties file, and drops you to an interactive
+shell.
+
+[source,shell]
+----
+$ gradle gsqlShell --console=plain #
+----
+
 === gsqlCopyTasks
 The plugin defines this task, and adds it to the project. This task copies
 files from the <<dsl-components,scriptDir>> directory and copies the files to
