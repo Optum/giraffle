@@ -306,6 +306,59 @@ See <<superUser>>.
 The `adminPassword` property configures the password to use for connecting to
 tigergraph. This is property is used in conjunction with <<adminUserName>>.
 
+=== gsqlNewProject
+The plugin defines this task to help initialized a new Tigeraph Gradle project.
+This is an interactive task that asks you questions about your project and
+creates a build file, property file(s), a gitignore file, and a skelton
+directory structure. To use this feature create a  build  file in an empty directory:
+
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
+
+build.gradle.kts
+[source,kotlin]
+----
+plugins {
+    id("com.optum.giraffle") version "1.1.0"
+}
+----
+
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
+
+build.gradle
+[source,groovy]
+----
+plugins {
+    id "com.optum.giraffle" version "1.1.0"
+}
+----
+
+++++
+</details>
+++++
+
+With one of these files in place, run
+
+[source,shell]
+----
+$ gradle gsqlNewProject --console=plain # <1>
+----
+<1> I suggest using the `--console=plain` option for interactive tasks. It
+    doesn't display the timer and percentage completed. These outputs make
+    interactive tasks messy.
+
+Running this task will ask you a series of questions, and create a bare bones
+project for you.
+
 === gsqlCopyTasks
 The plugin defines this task, and adds it to the project. This task copies
 files from the <<dsl-components,scriptDir>> directory and copies the files to
