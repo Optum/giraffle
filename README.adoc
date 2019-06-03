@@ -6,8 +6,9 @@
 :ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 :prop-plug: https://github.com/stevesaliman/gradle-properties-plugin
 :tiger-bintray: https://bintray.com/beta/#/tigergraphecosys/tgjars
+:project-version: 1.1.0
 
-= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/4veepoojubrbq"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
+= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/ihnp2pmshbxiw"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 
@@ -28,7 +29,7 @@ Like most Gradle plugins, you simply need to add the id to the plugins closure.
 [source,gradle]
 ----
 plugins {
-    id("com.optum.giraffle") version "1.0.2"
+    id("com.optum.giraffle") version "{project-version}"
 }
 ----
 
@@ -55,7 +56,7 @@ build.gradle.kts
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.0.2" // <1>
+    id("com.optum.giraffle") version "{project-version}" // <1>
 }
 
 repositories {
@@ -97,7 +98,7 @@ build.gradle
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id "com.optum.giraffle" version "1.0.2" // <1>
+    id "com.optum.giraffle" version "{project-version}" // <1>
 }
 
 repositories {
@@ -321,7 +322,7 @@ build.gradle.kts
 [source,kotlin]
 ----
 plugins {
-    id("com.optum.giraffle") version "1.1.0"
+    id("com.optum.giraffle") version "{project-version}"
 }
 ----
 
@@ -338,7 +339,7 @@ build.gradle
 [source,groovy]
 ----
 plugins {
-    id "com.optum.giraffle" version "1.1.0"
+    id "com.optum.giraffle" version "{project-version}"
 }
 ----
 
@@ -424,7 +425,7 @@ build.gradle.kts
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.0.2"
+    id("com.optum.giraffle") version "{project-version}"
     id("net.saliman.properties") version "1.4.6"
 }
 
@@ -482,7 +483,7 @@ build.gradle
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id "com.optum.giraffle" version "1.0.2"
+    id "com.optum.giraffle" version "{project-version}"
     id "net.saliman.properties" version "1.4.6"
 }
 
