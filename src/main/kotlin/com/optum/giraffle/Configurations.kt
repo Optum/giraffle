@@ -23,4 +23,9 @@ internal object Configurations {
      *  The default gsql_client version
      */
     const val gsql_client_version = "2.3.2.1"
+
+    /**
+     * The version of net.saliman.properties to use in templates
+     */
+    const val net_saliman_properties_version = "1.5.1"
 }
