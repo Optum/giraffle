@@ -32,6 +32,7 @@ open class GsqlTask() : GsqlAbstract() {
         newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
 
+        newArgs.add("-f")
         newArgs.add("${outputDir.get()}/$scriptPath")
 
         return newArgs
