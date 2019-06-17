@@ -26,7 +26,7 @@ may use it by referencing it within your `plugins` block. Please referr to the
 == Using the plugin
 Like most Gradle plugins, you simply need to add the id to the plugins closure.
 
-[source,gradle]
+[source,gradle,subs="attributes"]
 ----
 plugins {
     id("com.optum.giraffle") version "{project-version}"
@@ -51,7 +51,7 @@ repositories {
 ++++
 
 build.gradle.kts
-[source,kotlin]
+[source,kotlin,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -93,7 +93,7 @@ tasks.create<GsqlTask>("createSchema") { // <3>
 ++++
 
 build.gradle
-[source,groovy]
+[source,groovy,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -127,7 +127,6 @@ task createSchema(type: GsqlTask, dependsOn: [dropSchema] ) { // <3>
 ++++
 </details>
 ++++
-
 <1> Watch this version. You'll need to update it as development proceeds.
 <2> This configuration isn't required. The defaults within the plugin provide
 this dependency already. However, if you need to override the defaults, this is
@@ -319,7 +318,7 @@ directory structure. To use this feature create a  build  file in an empty direc
 ++++
 
 build.gradle.kts
-[source,kotlin]
+[source,kotlin,subs="attributes"]
 ----
 plugins {
     id("com.optum.giraffle") version "{project-version}"
@@ -336,7 +335,7 @@ plugins {
 ++++
 
 build.gradle
-[source,groovy]
+[source,groovy,subs="attributes"]
 ----
 plugins {
     id "com.optum.giraffle" version "{project-version}"
@@ -420,7 +419,7 @@ Consider a directory layout as  follows:
 ++++
 
 build.gradle.kts
-[source,kotlin]
+[source,kotlin,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -435,9 +434,9 @@ repositories {
 
 val gsqlGraphname: String by project // <1>
 val gsqlHost: String by project
-val gsqlUsername: String by project
+val gsqlUserName: String by project
 val gsqlPassword: String by project
-val gsqlAdminUsername: String by project
+val gsqlAdminUserName: String by project
 val gsqlAdminPassword: String by project
 val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gsqlGraphname) // <2>
 val grpSchema: String = "Tigergraph Schema"
@@ -446,9 +445,9 @@ tigergraph { // <3>
     scriptDir.set(file("db_scripts"))
     tokens.set(tokenMap)
     serverName.set(gsqlHost)
-    userName.set(gsqlUsername)
+    userName.set(gsqlUserName)
     password.set(gsqlPassword)
-    adminUserName.set(gsqlAdminUsername)
+    adminUserName.set(gsqlAdminUserName)
     adminPassword.set(gsqlAdminPassword)
 }
 
@@ -478,7 +477,7 @@ tasks.create<GsqlTask>("dropSchema") { // <8>
 ++++
 
 build.gradle
-[source,groovy]
+[source,groovy,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -498,9 +497,9 @@ tigergraph { // <3>
     scriptDir = file("db_scripts")
     tokens = tokenMap
     serverName = gsqlHost
-    userName = gsqlUsername
+    userName = gsqlUserName
     password = gsqlPassword
-    adminUserName = gsqlAdminUsername
+    adminUserName = gsqlAdminUserName
     adminPassword = gsqlAdminPassword
 }
 
@@ -563,9 +562,9 @@ gradle.properties
 [source,properties]
 ----
 gsqlHost=
-gsqlUsername=
+gsqlUserName=
 gsqlPassword=
-gsqlAdminUsername=
+gsqlAdminUserName=
 gsqlAdminPassword=
 gsqlGraphname=hc
 ----
@@ -574,9 +573,9 @@ gradle-local.properties
 [source,properties]
 ----
 gsqlHost=localhost
-gsqlUsename=tigergraph
+gsqlUserName=tigergraph
 gsqlPassword=tigergraph
-gsqlAdminUsername=tigergraph
+gsqlAdminUserName=tigergraph
 gsqlAdminPassword=tigergraph
 ----
 
