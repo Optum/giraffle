@@ -434,9 +434,9 @@ repositories {
 
 val gsqlGraphname: String by project // <1>
 val gsqlHost: String by project
-val gsqlUsername: String by project
+val gsqlUserName: String by project
 val gsqlPassword: String by project
-val gsqlAdminUsername: String by project
+val gsqlAdminUserName: String by project
 val gsqlAdminPassword: String by project
 val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gsqlGraphname) // <2>
 val grpSchema: String = "Tigergraph Schema"
@@ -445,9 +445,9 @@ tigergraph { // <3>
     scriptDir.set(file("db_scripts"))
     tokens.set(tokenMap)
     serverName.set(gsqlHost)
-    userName.set(gsqlUsername)
+    userName.set(gsqlUserName)
     password.set(gsqlPassword)
-    adminUserName.set(gsqlAdminUsername)
+    adminUserName.set(gsqlAdminUserName)
     adminPassword.set(gsqlAdminPassword)
 }
 
@@ -497,9 +497,9 @@ tigergraph { // <3>
     scriptDir = file("db_scripts")
     tokens = tokenMap
     serverName = gsqlHost
-    userName = gsqlUsername
+    userName = gsqlUserName
     password = gsqlPassword
-    adminUserName = gsqlAdminUsername
+    adminUserName = gsqlAdminUserName
     adminPassword = gsqlAdminPassword
 }
 
@@ -562,9 +562,9 @@ gradle.properties
 [source,properties]
 ----
 gsqlHost=
-gsqlUsername=
+gsqlUserName=
 gsqlPassword=
-gsqlAdminUsername=
+gsqlAdminUserName=
 gsqlAdminPassword=
 gsqlGraphname=hc
 ----
@@ -573,9 +573,9 @@ gradle-local.properties
 [source,properties]
 ----
 gsqlHost=localhost
-gsqlUsename=tigergraph
+gsqlUserName=tigergraph
 gsqlPassword=tigergraph
-gsqlAdminUsername=tigergraph
+gsqlAdminUserName=tigergraph
 gsqlAdminPassword=tigergraph
 ----
 
