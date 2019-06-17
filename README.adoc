@@ -26,7 +26,7 @@ may use it by referencing it within your `plugins` block. Please referr to the
 == Using the plugin
 Like most Gradle plugins, you simply need to add the id to the plugins closure.
 
-[source,gradle]
+[source,gradle,subs="attributes"]
 ----
 plugins {
     id("com.optum.giraffle") version "{project-version}"
@@ -51,7 +51,7 @@ repositories {
 ++++
 
 build.gradle.kts
-[source,kotlin]
+[source,kotlin,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -93,7 +93,7 @@ tasks.create<GsqlTask>("createSchema") { // <3>
 ++++
 
 build.gradle
-[source,groovy]
+[source,groovy,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -127,7 +127,6 @@ task createSchema(type: GsqlTask, dependsOn: [dropSchema] ) { // <3>
 ++++
 </details>
 ++++
-
 <1> Watch this version. You'll need to update it as development proceeds.
 <2> This configuration isn't required. The defaults within the plugin provide
 this dependency already. However, if you need to override the defaults, this is
@@ -319,7 +318,7 @@ directory structure. To use this feature create a  build  file in an empty direc
 ++++
 
 build.gradle.kts
-[source,kotlin]
+[source,kotlin,subs="attributes"]
 ----
 plugins {
     id("com.optum.giraffle") version "{project-version}"
@@ -336,7 +335,7 @@ plugins {
 ++++
 
 build.gradle
-[source,groovy]
+[source,groovy,subs="attributes"]
 ----
 plugins {
     id "com.optum.giraffle" version "{project-version}"
@@ -420,7 +419,7 @@ Consider a directory layout as  follows:
 ++++
 
 build.gradle.kts
-[source,kotlin]
+[source,kotlin,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
@@ -478,7 +477,7 @@ tasks.create<GsqlTask>("dropSchema") { // <8>
 ++++
 
 build.gradle
-[source,groovy]
+[source,groovy,subs="attributes"]
 ----
 import com.optum.giraffle.tasks.GsqlTask
 
