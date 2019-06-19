@@ -1,0 +1,16 @@
+import com.optum.giraffle.tasks.GsqlTask
+
+plugins {
+    id("com.optum.giraffle")
+}
+
+tigergraph {
+    scriptDir = file("$rootDir/db_scripts")
+    userName = "JoeUser"
+    password = "Joe'sPassword"
+}
+
+task showSchema (type: GsqlTask) {
+    group = "schema"
+    description = "Show schema"
+}
