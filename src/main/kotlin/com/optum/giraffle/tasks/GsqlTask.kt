@@ -3,6 +3,7 @@ package com.optum.giraffle.tasks
 import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import java.nio.file.Files
 import java.nio.file.Path
@@ -11,20 +12,24 @@ import java.nio.file.Paths
 open class GsqlTask() : GsqlAbstract() {
 
     @Input
-    var scriptPath: String = ""
+    @Optional
+    var scriptPath: String? = null
 
     @Input
-    var scriptCommand: String = ""
+    @Optional
+    var scriptCommand: String? = null
 
     @TaskAction
     override fun exec() {
         // Determine whether using scriptPath or scriptCommand
-        val decide: (String, String) -> List<String> = { sp, sc ->
+        val decide: (String?, String?) -> List<String> = { sp: String?, sc: String? ->
             when {
-                sp != "" -> buildArgs()
-                sc != "" -> {
-                    scriptPath = createGsqlScript(sc).toString()
-                    buildArgs()
+                sp != null -> buildArgs()
+                sc != null -> {
+                    sc.let {
+                        scriptPath = createGsqlScript(it).toString()
+                        buildArgs()
+                    }
                 }
                 else -> throw GradleException("Either scriptPath or scriptCommand must be specified.")
             }
