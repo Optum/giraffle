@@ -13,6 +13,7 @@ class ConnectionData(project: Project) {
     private val password: Property<String> = project.objects.property(String::class.java)
     private val adminPassword: Property<String> = project.objects.property(String::class.java)
     private val serverName: Property<String> = project.objects.property(String::class.java)
+    private val graphName: Property<String> = project.objects.property(String::class.java)
 
     @Input
     @Optional
@@ -42,6 +43,12 @@ class ConnectionData(project: Project) {
     fun getServerName(): String = serverName.getOrElse("localhost")
 
     fun setServerName(name: Provider<String>) = this.serverName.set(name)
+
+    @Input
+    @Optional
+    fun getGraphName(): String? = graphName.orNull
+
+    fun setGraphName(graph: Provider<String>) = this.graphName.set(graph)
 }
 
 data class ConnectDataSerializable(
@@ -49,5 +56,6 @@ data class ConnectDataSerializable(
     @get:Input val password: String,
     @get:Input val adminUserName: String?,
     @get:Input val adminPassword: String?,
-    @get:Input val serverName: String
+    @get:Input val serverName: String,
+    @get:Input val graphName: String
 ) : Serializable

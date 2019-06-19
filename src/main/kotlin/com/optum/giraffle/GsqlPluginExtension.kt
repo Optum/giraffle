@@ -61,4 +61,11 @@ open class GsqlPluginExtension(project: Project) {
      * @return The password for userName
      */
     val adminPassword: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the graphname to apply as context for gsql
+     *
+     * @return The graphname
+     */
+    val graphName: Property<String> = project.objects.property(String::class.java)
 }
