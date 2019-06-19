@@ -9,6 +9,7 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -72,6 +73,20 @@ object GirafflePluginFunctionTest : Spek({
                 assertTrue(buildDir.toFile().exists(), "files should be copied from script dir to build directory")
                 assertEquals(TaskOutcome.SUCCESS, firstRun.task(":$copySourcesTaskName")!!.outcome, "Task should be marked SUCCESS")
                 assertEquals(TaskOutcome.UP_TO_DATE, secondRun.task(":$copySourcesTaskName")!!.outcome, "Task should be marked UP-TO-DATE")
+            }
+        }
+
+        context("plugin applied, standard layout, no scripts") {
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_plugin_test")
+            val scriptsDir = Files.createDirectories(testProjectDir.resolve("db_scripts"))
+            scriptsDir.toFile().mkdirs()
+            val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+            buildFile.fillFromResource("scriptCommand.gradle")
+
+            it("should fail because neither scriptPath nor scriptCommand are specified") {
+                assertFails("Neither scriptPath nor scriptCommand specified, should fail.") {
+                    execute(testProjectDir.toFile(), "showSchema")
+                }
             }
         }
 
