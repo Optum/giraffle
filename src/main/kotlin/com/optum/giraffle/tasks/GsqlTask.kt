@@ -19,6 +19,10 @@ open class GsqlTask() : GsqlAbstract() {
     @Optional
     var scriptCommand: String? = null
 
+    @Input
+    @Optional
+    var graphName: String? = null
+
     @TaskAction
     override fun exec() {
         // Determine whether using scriptPath or scriptCommand
@@ -56,6 +60,11 @@ open class GsqlTask() : GsqlAbstract() {
         newArgs.add("--ip")
         newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
+
+        graphName?.let {
+            newArgs.add("-g")
+            newArgs.add(it)
+        }
 
         newArgs.add("-f")
         newArgs.add("${outputDir.get()}/$scriptPath")
