@@ -13,6 +13,7 @@ plugins {
     id("gradle.site") version Versions.site
     kotlin("jvm") version Versions.kotlin
     id("org.jmailen.kotlinter") version Versions.kotlinter
+    id("net.saliman.properties") version Versions.saliman
 }
 
 val projectGroup: String by project
