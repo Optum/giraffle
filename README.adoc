@@ -6,9 +6,9 @@
 :ant-filter: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 :prop-plug: https://github.com/stevesaliman/gradle-properties-plugin
 :tiger-bintray: https://bintray.com/beta/#/tigergraphecosys/tgjars
-:project-version: 1.1.0
+:project-version: 1.2.0
 
-= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/ihnp2pmshbxiw"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
+= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/ldjp2kss7jasq"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 
