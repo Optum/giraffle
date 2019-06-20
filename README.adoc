@@ -387,6 +387,9 @@ execute, and optionally the <<superUser>> directive.
 ==== scriptPath
 The path, relative to <<dsl-components,scriptDir>> to execute.
 
+==== scriptCommand
+The gsql command to execute. Can be used in place of <<dsl-components,scriptPath>>.
+
 ==== superUser
 The directive that indicates whether this can be executed by the default user
 (`false`), or the superUser (`true`).

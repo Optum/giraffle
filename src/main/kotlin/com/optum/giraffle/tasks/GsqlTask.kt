@@ -1,17 +1,42 @@
 package com.optum.giraffle.tasks
 
+import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 open class GsqlTask() : GsqlAbstract() {
 
     @Input
-    lateinit var scriptPath: String
+    @Optional
+    var scriptPath: String? = null
+
+    @Input
+    @Optional
+    var scriptCommand: String? = null
 
     @TaskAction
     override fun exec() {
-        args = buildArgs()
+        // Determine whether using scriptPath or scriptCommand
+        val decide: (String?, String?) -> List<String> = { sp: String?, sc: String? ->
+            when {
+                sp != null -> buildArgs()
+                sc != null -> {
+                    sc.let {
+                        scriptPath = createGsqlScript(it).toString()
+                        buildArgs()
+                    }
+                }
+                else -> throw GradleException("Either scriptPath or scriptCommand must be specified.")
+            }
+        }
+
+        args = decide(scriptPath, scriptCommand)
+
         val argOutput = args
         logger.info("Args: ${
             argOutput!!.map {
@@ -36,5 +61,17 @@ open class GsqlTask() : GsqlAbstract() {
         newArgs.add("${outputDir.get()}/$scriptPath")
 
         return newArgs
+    }
+
+    private fun createGsqlScript(scriptContent: String): Path {
+        // outputDir is where all the build scripts end up
+        val outputDir: DirectoryProperty = gsqlPluginExtension.outputDir
+
+        // create a temporary directory in the outputDir
+        val dir: Path = Files.createTempDirectory(Paths.get(outputDir.get().toString()), "giraffle")
+        val scriptFile: Path = Files.createFile(dir.resolve("command.gsql"))
+        scriptFile.toFile().writeText(scriptContent)
+        // Return the path to the file relative to the outputDir
+        return Paths.get(outputDir.get().toString()).relativize(scriptFile)
     }
 }

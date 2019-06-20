@@ -6,3 +6,5 @@ build
 
 # Ignore IDE directory
 .idea
+
+gradle-local.properties
