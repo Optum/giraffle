@@ -306,6 +306,9 @@ See <<superUser>>.
 The `adminPassword` property configures the password to use for connecting to
 tigergraph. This is property is used in conjunction with <<adminUserName>>.
 
+===== graphName
+The `graphName` property sets the default context for executing <<gsqlTaskType>>.
+
 === gsqlNewProject
 The plugin defines this task to help initialized a new Tigeraph Gradle project.
 This is an interactive task that asks you questions about your project and
@@ -384,15 +387,26 @@ tigergraph server with the properties set by the <<Tigergraph DSL>>
 To use this task type you simply need to define the name of the script to
 execute, and optionally the <<superUser>> directive.
 
-==== scriptPath
-The path, relative to <<dsl-components,scriptDir>> to execute.
+==== graphName
+Provides graph context for the executing tasks. If you've set <<dsl-components,
+graphName>> you don't need to set the graph name here. You may, however
+override that default by setting the value here.
 
 ==== scriptCommand
-The gsql command to execute. Can be used in place of <<dsl-components,scriptPath>>.
+The gsql command to execute. Can be used in place of <<dsl-components,
+scriptPath>>.
+
+==== scriptPath
+The path, relative to <<dsl-components,scriptDir>> to execute.
 
 ==== superUser
 The directive that indicates whether this can be executed by the default user
 (`false`), or the superUser (`true`).
+
+==== useGlobal
+This directive causes the task to ignore the <<dsl-components, graphName>>
+property and executes the command within the global graph context. The default
+value for this property is `false` Set it to `true` to activate.
 
 == Examples
 I like using this with plugin in conjunction with the {prop-plug}[Properties]

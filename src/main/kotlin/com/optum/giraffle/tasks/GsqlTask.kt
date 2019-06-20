@@ -19,6 +19,14 @@ open class GsqlTask() : GsqlAbstract() {
     @Optional
     var scriptCommand: String? = null
 
+    @Input
+    @Optional
+    var graphName: String? = null
+
+    @Input
+    @Optional
+    var useGlobal: Boolean = false
+
     @TaskAction
     override fun exec() {
         // Determine whether using scriptPath or scriptCommand
@@ -56,6 +64,15 @@ open class GsqlTask() : GsqlAbstract() {
         newArgs.add("--ip")
         newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
+
+        // Determine if we're setting the sub-graph on the command line
+        val graphToAssign: String? = connectionData.getGraphName() ?: graphName
+        when (!useGlobal && graphToAssign != null) {
+            true -> {
+                newArgs.add("-g")
+                newArgs.add(graphToAssign)
+            }
+        }
 
         newArgs.add("-f")
         newArgs.add("${outputDir.get()}/$scriptPath")
