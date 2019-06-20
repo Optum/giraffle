@@ -8,6 +8,7 @@ import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
+import org.gradle.api.tasks.options.Option
 
 abstract class GsqlAbstract : JavaExec() {
 
@@ -16,6 +17,8 @@ abstract class GsqlAbstract : JavaExec() {
 
     @Input
     var superUser: Boolean = false
+    @Option(option = "super-user", description = "Set the super-user option for the task(s) being run.")
+    set
 
     @Internal
     protected val gsqlPluginExtension: GsqlPluginExtension

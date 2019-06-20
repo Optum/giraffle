@@ -367,10 +367,19 @@ This task invokes the gsql command, logs you into the server using the
 credentials configured by your properties file, and drops you to an interactive
 shell.
 
+When you need to connect as the <<adminUserName>>, consider using the <<superUser>>
+command line argument.
+
 [source,shell]
 ----
-$ gradle gsqlShell --console=plain #
+$ gradle --console=plain gsqlShell # <1>
+
+$ gradle --console=plain gsqlShell --super-user # <2>
 ----
+<1> I suggest using the `--console=plain` option for interactive tasks. It
+    doesn't display the timer and percentage completed. These outputs make
+    interactive tasks messy.
+<2> Using the `--super-user` argument gsqlShell will connect using the <<adminUserName>>.
 
 === gsqlCopyTasks
 The plugin defines this task, and adds it to the project. This task copies
@@ -401,7 +410,8 @@ The path, relative to <<dsl-components,scriptDir>> to execute.
 
 ==== superUser
 The directive that indicates whether this can be executed by the default user
-(`false`), or the superUser (`true`).
+(`false`), or the superUser (`true`). This directive can also be invoked by
+adding the command line argument of `--super-user`.
 
 ==== useGlobal
 This directive causes the task to ignore the <<dsl-components, graphName>>
