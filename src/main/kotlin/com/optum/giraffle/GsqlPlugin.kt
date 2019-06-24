@@ -7,6 +7,7 @@ import com.optum.giraffle.Configurations.scriptDirectoryName
 import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlShell
 import com.optum.giraffle.tasks.GsqlTask
+import com.optum.giraffle.tasks.GsqlTokenTask
 import com.optum.giraffle.tasks.NewProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -35,6 +36,13 @@ open class GsqlPlugin : Plugin<Project> {
      */
     val gsqlTaskTypeName = "gsqlTaskType"
 
+    /**
+     * The name of the task that gets a token.
+     *
+     * @see com.optum.giraffle.tasks.GsqlTokenTask
+     */
+    val gsqlTokenTaskName = "gsqlToken"
+
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
         val gsqlPluginExtension = extensions.create(extensionName, GsqlPluginExtension::class.java, project)
@@ -46,6 +54,7 @@ open class GsqlPlugin : Plugin<Project> {
         registerGsqlShell()
         registerGsqlTask()
         registerNewProject()
+        // registerTokenTask()
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
 
@@ -80,5 +89,11 @@ open class GsqlPlugin : Plugin<Project> {
         tasks.register("gsqlNewProject", NewProject::class.java) { newProject ->
             newProject.group = "GSQL Project Wizard"
             newProject.description = "Create scaffolding for new project"
+        }
+
+    private fun Project.registerTokenTask(): TaskProvider<GsqlTokenTask> =
+        tasks.register(gsqlTokenTaskName, GsqlTokenTask::class.java) { gsqlToken ->
+            gsqlToken.group = "Tigergraph Authentication"
+            gsqlToken.description = "Uses Tigergraph's REST endpoint to obtain an OAUTH token"
         }
 }
