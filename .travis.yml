@@ -12,5 +12,5 @@ cache:
   - "$HOME/.gradle/wrapper/dists/"
 notifications:
   slack:
-      rooms:
-          - uhg-pilot:96HfPhnzzUA8UwhXREzb3F3T#atc-giraffle
+    rooms:
+      secure: qHX8Lhw8eEGCaYAWiCwumXWduLFOt4yb+mA8h3hKD/aGEQfITRbV9jDwiwmGOkfv5k/d1qtchU6HjA5wKRixcU9tP0C0/9EZm53g+SLOTtze0OCtFq+YO6x4cJWmbNg1QWobPRxQohnbS4drvz/gMWJSr8v9ftRLCuxckl4KcdlBgu4UKn5GjpaXoe6BD8mRd13+mTV7Rg9SPcd9eCyowEii6eEJKzI2Nfet4nsdI+oT1cds3QyYSAxmYyn0vSgAOnr5cvFeKMT+iQMIrfB3a4+l+Anl8s+31SyjYkcgZ6ID9bW1u6PeRwQgx7KU4TgPo88rk6GDiuziNiO3CcU/tGhpmtnLLzRUWLbom8AxxpzxhU65InK0Zt8tAV5GCkxSJ8Org2EmHyOY4HaxvKAQXLRi8Es9gdZ1ydSE6FoJBSjDiCC/M1FqoOo0J2xHYZnLpZ956v6LtMCK0+AM8cna5z9EroXaOza9xGRCSDLo1SD0Rr5bP+hxmF58D8zxiZ41U3c3ns7uXYhazMrODdzayiMtikvQHoUMuPkqF3bJlwFO1dTJlr9jncEy/chi3fl0GM1+MDn5JhgqeVL+yXw82i9JzmeobTsDSNLOWqXuGKUm2h8rLUmhE/4azhUL4QIVU1rvmm2/4lzVwGW1wvsEVoeN+9n3VcVQRzr9OnWMZbY=
