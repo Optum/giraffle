@@ -34,7 +34,7 @@ open class GsqlTokenTask() : DefaultTask() {
         logger.info("response: {}", r.jsonObject)
 
         when (r.jsonObject["error"]) {
-            false -> gsqlPluginExtension.token.set(r.jsonObject["code"].toString())
+            false -> gsqlPluginExtension.token.set(r.jsonObject["token"].toString())
             true -> throw GradleException(r.jsonObject["message"].toString())
         }
     }
