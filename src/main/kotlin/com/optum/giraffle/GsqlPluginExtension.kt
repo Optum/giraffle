@@ -82,4 +82,18 @@ open class GsqlPluginExtension(project: Project) {
      * @return The Token
      */
     val token: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the port to use for connecting to the REST++ server
+     *
+     * @return the rest port
+     */
+    val restPort: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the the port to use for the UI/gsql server
+     *
+     * @return the gsql port
+     */
+    val gsqlPort: Property<String> = project.objects.property(String::class.java)
 }

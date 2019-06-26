@@ -14,6 +14,7 @@ class ConnectionData(project: Project) {
     private val adminPassword: Property<String> = project.objects.property(String::class.java)
     private val serverName: Property<String> = project.objects.property(String::class.java)
     private val graphName: Property<String> = project.objects.property(String::class.java)
+    private val restPort: Property<String> = project.objects.property(String::class.java)
 
     @Input
     @Optional
@@ -49,6 +50,11 @@ class ConnectionData(project: Project) {
     fun getGraphName(): String? = graphName.orNull
 
     fun setGraphName(graph: Provider<String>) = this.graphName.set(graph)
+
+    @Input
+    fun getRestPort(): String = restPort.get()
+
+    fun setRestPort(port: Provider<String>) = this.restPort.set(port)
 }
 
 data class ConnectDataSerializable(

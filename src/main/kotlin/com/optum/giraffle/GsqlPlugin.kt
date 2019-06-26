@@ -3,6 +3,8 @@ package com.optum.giraffle
 import com.optum.giraffle.Configurations.extensionName
 import com.optum.giraffle.Configurations.gsqlRuntime
 import com.optum.giraffle.Configurations.gsql_client_version
+import com.optum.giraffle.Configurations.gsql_port
+import com.optum.giraffle.Configurations.rest_pp_port
 import com.optum.giraffle.Configurations.scriptDirectoryName
 import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlShell
@@ -49,6 +51,8 @@ open class GsqlPlugin : Plugin<Project> {
         gsqlPluginExtension.scriptDir.convention(layout.projectDirectory.dir(scriptDirectoryName))
         gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(scriptDirectoryName))
         gsqlPluginExtension.tokens.convention(emptyMap())
+        gsqlPluginExtension.restPort.convention(rest_pp_port)
+        gsqlPluginExtension.gsqlPort.convention(gsql_port)
 
         val gsqlCopySources = registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()

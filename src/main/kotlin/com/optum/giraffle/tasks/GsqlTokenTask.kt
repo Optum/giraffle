@@ -17,12 +17,11 @@ open class GsqlTokenTask() : DefaultTask() {
     lateinit var secret: String
 
     private val host: String
-    private val defaultPort: String = "9000"
+    private val defaultPort: String
 
     init {
         this.host = gsqlPluginExtension.serverName.get()
-        // logger.info("Secret is ${this.secret}")
-        // this.initToken()
+        this.defaultPort = gsqlPluginExtension.restPort.get()
     }
 
     @TaskAction
