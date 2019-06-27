@@ -26,11 +26,12 @@ open class GsqlTokenTask() : DefaultTask() {
 
     @TaskAction
     fun initToken() {
-        logger.info("Secret is ${this.secret}")
         val url: String = "http://${this.host}:${this.defaultPort}/requesttoken"
         val r = get(url = url, params = mapOf("secret" to secret))
-        logger.info("status code: {}", r.statusCode)
-        logger.info("response: {}", r.jsonObject)
+        with(logger) {
+            info("status code: {}", r.statusCode)
+            info("response: {}", r.jsonObject)
+        }
 
         when (r.jsonObject["error"]) {
             false -> gsqlPluginExtension.token.set(r.jsonObject["token"].toString())
