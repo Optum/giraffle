@@ -19,7 +19,7 @@ This plugin creates a dsl for Tigergraph. The dsl allows you to describe
 connections to a Tigergraph server.
 
 The Giraffle plugin has been published to the Gradle plugins repository. You
-may use it by referencing it within your `plugins` block. Please referr to the
+may use it by referencing it within your `plugins` block. Please refer to the
 <<plugin-use>> section for instructions.
 
 [#plugin-use]
@@ -157,6 +157,26 @@ tasks and types created by the plugin.
 All the components belong within a `tigergraph` closure. All of these are
 properties, and need to be `set` accordingly.
 
+===== adminPassword
+The `adminPassword` property configures the password to use for connecting to
+tigergraph. This is property is used in conjunction with <<adminUserName>>.
+
+===== adminUserName
+The `adminUserName` property configures the username to use for connecting to
+tigergraph. This is used when the `superUser` property is set on a gsql script.
+See <<superUser>>.
+
+===== graphName
+The `graphName` property sets the default context for executing <<gsqlTaskType>>.
+
+===== password
+The `password` property configures the password to use for connecting to
+tigergraph. This is property is used in conjunction with <<userName>>.
+
+===== restPort
+The `restPort` property sets the port number to use when connecting to
+Tigeraph's REST++ service. The default value for this property is `9000`.
+
 ===== scriptDir
 The `scriptDir` configuration is a `file` path location for where the gsql
 scripts for your project live.
@@ -199,6 +219,47 @@ tigergraph {
 ++++
 </details>
 ++++
+
+===== serverName
+The `serverName` property configures which server to execute your scripts
+against.
+
+Example:
+
+++++
+<details open>
+<summary>Kotlin</summary>
+++++
+
+build.gradle.kts
+[source,kotlin]
+----
+tigergraph {
+    serverName.set("dbsw00001")
+}
+----
+
+++++
+</details>
+++++
+
+++++
+<details>
+<summary>Groovy</summary>
+++++
+
+build.gradle
+[source,groovy]
+----
+tigergraph {
+    serverName = "dbsw00001"
+}
+----
+
+++++
+</details>
+++++
+
 
 ===== tokens
 This plugin supports token replacement within your source scripts. Internally
@@ -245,72 +306,16 @@ tigergraph {
 </details>
 ++++
 
-
 This configuration will take each occurrence of `@graphname@` and replace it
 with the value of `hc` within the source scripts.
 
-===== serverName
-The `serverName` property configures which server to execute your scripts
-against.
-
-Example:
-
-++++
-<details open>
-<summary>Kotlin</summary>
-++++
-
-build.gradle.kts
-[source,kotlin]
-----
-tigergraph {
-    serverName.set("dbsw00001")
-}
-----
-
-++++
-</details>
-++++
-
-++++
-<details>
-<summary>Groovy</summary>
-++++
-
-build.gradle
-[source,groovy]
-----
-tigergraph {
-    serverName = "dbsw00001"
-}
-----
-
-++++
-</details>
-++++
 ===== userName
 The `userName` property configures the username to use for connecting to
 tigergraph. This is the default username to use. When a script requires
 elevated privileges, see <<adminUserName>> and  <<superUser>>.
 
-===== password
-The `password` property configures the password to use for connecting to
-tigergraph. This is property is used in conjunction with <<userName>>.
-
-===== adminUserName
-The `adminUserName` property configures the username to use for connecting to
-tigergraph. This is used when the `superUser` property is set on a gsql script.
-See <<superUser>>.
-
-===== adminPassword
-The `adminPassword` property configures the password to use for connecting to
-tigergraph. This is property is used in conjunction with <<adminUserName>>.
-
-===== graphName
-The `graphName` property sets the default context for executing <<gsqlTaskType>>.
-
 === gsqlNewProject
-The plugin defines this task to help initialized a new Tigeraph Gradle project.
+The plugin defines this task to help initialized a new Tigegraph Gradle project.
 This is an interactive task that asks you questions about your project and
 creates a build file, property file(s), a gitignore file, and a skelton
 directory structure. To use this feature create a  build  file in an empty directory:
