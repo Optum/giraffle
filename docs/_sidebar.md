@@ -9,3 +9,4 @@
     * [NewProject](new_project.md)
 * Example
     * [Basic](basic_example.md)
+* [FAQ](faq/faq.md)

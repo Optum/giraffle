@@ -5,7 +5,11 @@ tasks and task types that this plugin defines.
 
 ```kotlin
 tigergraph {
-
+    scriptDir.set(file("db_scripts"))
+    // We wouldn't actually hard code any of these values, we'd use properties
+    userName.set("joe")
+    password.set("s3cret")
+    graphName.set("myGraph")
 }
 ```
 
