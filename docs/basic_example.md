@@ -63,7 +63,7 @@ tasks {
         superUser = true // <7>
     }
 
-    val dropSchema by registering<GsqlTask::class> {
+    val dropSchema by registering(GsqlTask::class) {
         group = grpSchema
         description = "Drops the schema on the database"
         scriptPath = "drop.gsql"
