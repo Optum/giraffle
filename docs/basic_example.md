@@ -1,7 +1,7 @@
 # Basic Example
 I like using this with plugin in conjunction with the [Properties][1]
 plugin.  This allows you to use and configure different environments. When
-using the properties plugin always add an entry to my `.gitignore` for
+using the properties plugin always add an entry to your `.gitignore` for
 `gradle-local.properties`. This way you won't commit credentials to your code
 repository.
 
