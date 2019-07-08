@@ -14,4 +14,29 @@ on a remote server. Giraffle also helps you keep environment specific
 configuration out of your code. Most importantly it helps you keep your
 credentials out of your code.
 
+# Getting Started
+
+> Add the plugin to your build file
+
+```kotlin
+plugins {
+    id("com.optum.giraffle") version "@project_version@"
+}
+
+repositories {
+    jcenter()
+}
+```
+
+This activates the Giraffle plugin for your build script. It's necessary to add
+the `jcenter` repository to your project because the [gsql
+client](https://bintray.com/beta/#/tigergraphecosys/tgjars) is hosted there.
+
+This enables the plugin for your build. The plugin defines a handful of tasks
+for your project and a couple of task types.
+
+This plugin also defines a simple configuration closure that applies to all the
+task types defined by the plugin. We'll use this to apply our server address
+and user credentials for connecting to Tigergraph.
+
 [1]: https://docs.gradle.org/current/userguide/getting_started.html

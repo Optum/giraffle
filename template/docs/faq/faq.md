@@ -1,6 +1,6 @@
 # How do I set my gsql client version?
 By default this plugin looks a configuration named `gqslRuntime`. As of version
-`@project_version@` the plugin has a default setting to use version `2.3.2.1` of the gsql
+`1.2.0` the plugin has a default setting to use version `2.3.2.1` of the gsql
 client. Later versions will use the later release of `2.4.0`. To change the
 client version you're use add the following to your build file.
 
@@ -18,7 +18,7 @@ dependencies {
 }
 ```
 # How do I set my load path dynamically per environment?
-Use the token replacement feature in conjunction with the [Properties][1]
+Use the [token replacement][2] feature in conjunction with the [Properties][1]
 plugin.
 
 Consider a build file that looks something like:
@@ -65,3 +65,4 @@ Using this method you can change your load per environment simply by changing
 the `gsqlSysDataRoot` property.
 
 [1]: https://github.com/stevesaliman/gradle-properties-plugin
+[2]: ../configuration.md#tokens

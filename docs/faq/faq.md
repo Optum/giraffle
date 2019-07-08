@@ -18,7 +18,7 @@ dependencies {
 }
 ```
 # How do I set my load path dynamically per environment?
-Use the token replacement feature in conjunction with the [Properties][1]
+Use the [token replacement][2] feature in conjunction with the [Properties][1]
 plugin.
 
 Consider a build file that looks something like:
@@ -65,3 +65,4 @@ Using this method you can change your load per environment simply by changing
 the `gsqlSysDataRoot` property.
 
 [1]: https://github.com/stevesaliman/gradle-properties-plugin
+[2]: ../configuration.md#tokens
