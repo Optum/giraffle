@@ -41,9 +41,14 @@ Set this property to the value of the password to use in conjunction with the
 Set this to the path that holds your gsql scripts. All
 [`scriptPath`](#scriptPath) arguments are interpreted relative to this path.
 
-> Type: File
+> Type: File<br/>Default value: file("db_scripts")
 
-> Default value: file("db_scripts")
+## token
+This property is used to hold the OAUTH token from Tigergraph's REST++ server.
+There are setters for this property, however it's best to use the internal
+[`GsqlTokenTask`](#gsqlTokenTask) to manage this for you.
+
+>Type: String
 
 ## tokens
 Set this property to a map which defines how the plugin should perform token
@@ -116,8 +121,17 @@ to a sub-graph.
 
 > Type: Boolean
 
+# GsqlTokenTask
+The GsqlTokenTask is used to get an OAUTH token from Tigergraph to use as
+`Bearer` Authorization header.
+
+## secret
+Set this to the value of the secret created in Tigergraph. See [Creating
+Secrets][5] and [REST++ Authentication][6] in Tigergraph's documentation.
+
 [1]: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 [2]: #tigergraph-configuration-closure
 [3]: https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:group
 [4]: https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:description
-
+[5]: https://docs.tigergraph.com/admin/admin-guide/user-access-management/user-privileges-and-authentication#create-show-drop-secret
+[6]: https://docs.tigergraph.com/dev/restpp-api/restpp-requests#rest-authentication
