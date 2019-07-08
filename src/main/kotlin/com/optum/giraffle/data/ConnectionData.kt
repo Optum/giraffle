@@ -1,5 +1,6 @@
 package com.optum.giraffle.data
 
+import com.optum.giraffle.Configurations.rest_pp_port
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
@@ -52,7 +53,7 @@ class ConnectionData(project: Project) {
     fun setGraphName(graph: Provider<String>) = this.graphName.set(graph)
 
     @Input
-    fun getRestPort(): String = restPort.get()
+    fun getRestPort(): String = restPort.getOrElse(rest_pp_port)
 
     fun setRestPort(port: Provider<String>) = this.restPort.set(port)
 }
