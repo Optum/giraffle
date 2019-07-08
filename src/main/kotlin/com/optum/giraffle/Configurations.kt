@@ -22,10 +22,20 @@ internal object Configurations {
     /**
      *  The default gsql_client version
      */
-    const val gsql_client_version = "2.3.2.1"
+    const val gsql_client_version = "2.4.0"
 
     /**
      * The version of net.saliman.properties to use in templates
      */
     const val net_saliman_properties_version = "1.5.1"
+
+    /**
+     * The default REST++ server port
+     */
+    const val rest_pp_port = "9000"
+
+    /**
+     * The default gsql server port
+     */
+    const val gsql_port = "14240"
 }
