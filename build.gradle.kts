@@ -1,3 +1,4 @@
+import org.apache.tools.ant.filters.ReplaceTokens
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Duration
 org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
@@ -25,7 +26,7 @@ version = projectVersion
 description = projectDescription
 extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
 
-val filterTokens = hashMapOf("version" to projectVersion)
+val filterTokens = hashMapOf("project_version" to projectVersion)
 
 val githubUrl = "https://github.com/Optum/${project.name}.git"
 val webUrl = githubUrl
@@ -47,8 +48,38 @@ tasks {
     processResources {
         with(project.copySpec {
             from("src/main/resources")
-            filter<org.apache.tools.ant.filters.ReplaceTokens>("tokens" to filterTokens)
+            filter<ReplaceTokens>("tokens" to filterTokens)
         })
+    }
+
+    val prepareDocumentation by registering {
+        inputs.files(fileTree("template/docs"))
+        inputs.property("tokens", filterTokens)
+        outputs.dir("$rootDir/docs")
+        doFirst {
+            copy {
+                from("$rootDir/template/docs")
+                into("$rootDir/docs")
+                filter<ReplaceTokens>("tokens" to filterTokens)
+            }
+        }
+    }
+}
+
+tasks {
+    val cleanPrepareDocumentation by existing
+    val prepareDocumentation by existing
+
+    prepareDocumentation {
+        mustRunAfter(cleanPrepareDocumentation)
+    }
+
+    val prep by registering {
+        dependsOn(prepareDocumentation, cleanPrepareDocumentation)
+    }
+
+    publishPlugins {
+        dependsOn(prep)
     }
 }
 
