@@ -6,4 +6,5 @@ object Versions {
     const val junitPlatformVersion = "1.1.0"
     const val pluginPublish = "0.10.0"
     const val saliman = "1.5.1"
+    const val khttp = "0.1.0"
 }

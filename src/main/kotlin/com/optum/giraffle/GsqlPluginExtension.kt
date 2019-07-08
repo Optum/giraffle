@@ -68,4 +68,32 @@ open class GsqlPluginExtension(project: Project) {
      * @return The graphname
      */
     val graphName: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the secret used to generate the OAUTH style token for Tigergraph REST endpoint
+     *
+     * @return The secret for creating the token
+     */
+    val authSecret: Property<String> = project.objects.property((String::class.java))
+
+    /**
+     * Returns the token used by the Tigergraph REST++ endpoint
+     *
+     * @return The Token
+     */
+    val token: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the port to use for connecting to the REST++ server
+     *
+     * @return the rest port
+     */
+    val restPort: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the the port to use for the UI/gsql server
+     *
+     * @return the gsql port
+     */
+    val gsqlPort: Property<String> = project.objects.property(String::class.java)
 }
