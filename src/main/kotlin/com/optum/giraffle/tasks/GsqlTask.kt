@@ -24,7 +24,6 @@ open class GsqlTask() : GsqlAbstract() {
     var graphName: String? = null
 
     @Input
-    @Optional
     var useGlobal: Boolean = false
 
     @TaskAction
