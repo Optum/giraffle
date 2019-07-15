@@ -24,7 +24,7 @@ Tigergraph, and vice versa. See the
 
 > Add the plugin to your build file
 
-```
+```kotlin
 kotlin plugins {
     id("com.optum.giraffle") version "1.3.0"
 }
