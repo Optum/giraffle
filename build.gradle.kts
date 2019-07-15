@@ -52,6 +52,17 @@ tasks {
         })
     }
 
+    val prepareDocumentationMedia by registering {
+        inputs.files(fileTree("template/docs/_media"))
+        outputs.dir("$rootDir/docs/_media")
+        doFirst {
+            copy {
+                from("$rootDir/template/docs/_media")
+                into("$rootDir/docs/_media")
+            }
+        }
+    }
+
     val prepareDocumentation by registering {
         inputs.files(fileTree("template/docs"))
         inputs.property("tokens", filterTokens)
@@ -59,6 +70,7 @@ tasks {
         doFirst {
             copy {
                 from("$rootDir/template/docs")
+                exclude("**/_media/**")
                 into("$rootDir/docs")
                 filter<ReplaceTokens>("tokens" to filterTokens)
             }
@@ -69,13 +81,18 @@ tasks {
 tasks {
     val cleanPrepareDocumentation by existing
     val prepareDocumentation by existing
+    val prepareDocumentationMedia by existing
 
     prepareDocumentation {
         mustRunAfter(cleanPrepareDocumentation)
     }
 
+    prepareDocumentationMedia {
+        mustRunAfter(cleanPrepareDocumentation)
+    }
+
     val prep by registering {
-        dependsOn(prepareDocumentation, cleanPrepareDocumentation)
+        dependsOn(prepareDocumentation, prepareDocumentationMedia, cleanPrepareDocumentation)
     }
 
     publishPlugins {
