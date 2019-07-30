@@ -6,6 +6,6 @@
 
 [Get Started](getting_started.md)
 
-![logo](_media/giraffle.png)
+![logo](_media/giraffle-v2padded.png)
 
 ![color](#ffffff)
