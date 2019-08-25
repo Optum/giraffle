@@ -1,5 +1,5 @@
 object Versions {
-    const val kotlin = "1.3.40"
+    const val kotlin = "1.3.50"
     const val kotlinter = "1.26.0"
     const val site = "0.6"
     const val spek = "2.0.0"
