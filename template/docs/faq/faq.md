@@ -2,7 +2,10 @@
 By default this plugin looks a configuration named `gqslRuntime`. As of version
 `1.2.0` the plugin has a default setting to use version `2.3.2.1` of the gsql
 client. Later versions will use the later release of `2.4.0`. To change the
-client version you're use add the following to your build file.
+client version you're use add the following to your build file. With version
+`1.3.1` of the plugin, we'll be using the `2.5.0` version of the gsql client.
+This client is backwards compatible. This should alleviate the need to change
+the `gsqlRuntime`.
 
 Running version 1.2.0, and connecting to Tigergraph 2.4 and later:
 ```kotlin
