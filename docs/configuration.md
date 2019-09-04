@@ -31,6 +31,18 @@ Set the default graph context for Tigergraph.
 
 > Type: String
 
+## gsqlClientVersion
+Set this property to specify the Tigergraph server version you will be connecting to.
+
+As of version 2.5.0 the supported version strings are:
+
+* `v2_5_0`
+* `v2_4_1`
+* `v2_4_0`
+* `v2_3_2`
+
+> Type: String
+
 ## password
 Set this property to the value of the password to use in conjunction with the
 [`userName`](#userName).
@@ -73,7 +85,7 @@ is to import the class at the top of your build file.
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.3.0"
+    id("com.optum.giraffle") version "1.3.1"
 }
 
 val createSchema by tasks.registering(GsqlTask::class) {

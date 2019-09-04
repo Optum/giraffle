@@ -5,9 +5,9 @@
 :maven-local-repo: https://maven.apache.org/plugins/maven-install-plugin/examples/specific-local-repo.html
 :tiger-bintray: https://bintray.com/beta/#/tigergraphecosys/tgjars
 :documentation-site: https://optum.github.io/giraffle/#/
-:project-version: 1.3.0
+:project-version: 1.3.1
 
-= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/5rclcf5crem54"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
+= Giraffle image:{travis}.svg?branch=master["Build Status",link="{travis}"] image:https://img.shields.io/badge/build-scan-green.svg["Build Scan", link="https://gradle.com/s/hswzf5i3kai4q"] image:https://img.shields.io/maven-metadata/v/https/{maven-metadata}/maven-metadata.xml.svg?label=gradlePluginPortal["Maven Central",link="{gradle-plugins-portal}"]
 Gradle Plugin for Tigergraph
 Josh Meekhof <joshua_meekhof@optum.com>
 

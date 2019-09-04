@@ -26,7 +26,7 @@ Tigergraph, and vice versa. See the
 
 ```kotlin
 kotlin plugins {
-    id("com.optum.giraffle") version "1.3.0"
+    id("com.optum.giraffle") version "1.3.1"
 }
 
 repositories {

@@ -1,10 +1,5 @@
 package com.optum.giraffle
 
-import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
-import org.spekframework.spek2.Spek
-import org.spekframework.spek2.style.specification.describe
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -12,6 +7,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.gradle.testkit.runner.BuildResult
+import org.gradle.testkit.runner.GradleRunner
+import org.gradle.testkit.runner.TaskOutcome
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.specification.describe
 
 object GirafflePluginFunctionTest : Spek({
     val copySourcesTaskName = "gsqlCopySources"
