@@ -96,4 +96,11 @@ open class GsqlPluginExtension(project: Project) {
      * @return the gsql port
      */
     val gsqlPort: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the gsql client version to use
+     *
+     * @return the gsql client version
+     */
+    val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
 }

@@ -35,6 +35,11 @@ abstract class GsqlAbstract : JavaExec() {
         this.connectionData.setPassword(gsqlPluginExtension.password)
         this.connectionData.setServerName(gsqlPluginExtension.serverName)
         this.connectionData.setGraphName(gsqlPluginExtension.graphName)
+        this.connectionData.setGsqlClientVersion(gsqlPluginExtension.gsqlClientVersion)
+
+        this.connectionData.getGsqlClientVersion()?.let {
+            environment("GSQL_CLIENT_VERSION", it)
+        }
 
         main = "com.tigergraph.client.Driver"
     }
