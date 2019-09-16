@@ -21,6 +21,7 @@ Tigergraph, and vice versa. See the
 [FAQ](faq/faq.md#how-do-i-set-my-gsql-client-version) for ways to resolve.
 
 # Getting Started
+!> Prereq: You will need have gradle installed and the file sturcture initialized. To initialize your project directory, run `gradle init`.
 
 > Add the plugin to your build file
 
