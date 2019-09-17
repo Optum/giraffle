@@ -25,11 +25,12 @@ Tigergraph, and vice versa. See the
 [FAQ](faq/faq.md#how-do-i-set-my-gsql-client-version) for ways to resolve.
 
 # Getting Started
+!> Must have Gradle installed. Must have build file. Use `gradle init` to build out initial gradle framework.
 
 > Add the plugin to your build file
 
 ```kotlin
-kotlin plugins {
+plugins {
     id("com.optum.giraffle") version "@project_version@"
 }
 
