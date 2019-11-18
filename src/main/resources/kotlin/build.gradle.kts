@@ -2,21 +2,25 @@ plugins {
     id("com.optum.giraffle") version "@project_version@"@propertiesPlugin@
 }
 
-val gsqlHost: String by project
-val gsqlAdminUserName: String by project
-val gsqlAdminPassword: String by project
-val gsqlUserName: String by project
-val gsqlPassword: String by project
-val gsqlGraphName: String by project
+val gHost: String by project
+val gAdminUserName: String by project
+val gAdminPassword: String by project
+val gUserName: String by project
+val gPassword: String by project
+val gGraphName: String by project
+val gClientVersion: String? by project
 
-val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gsqlGraphName)
+val tokenMap: LinkedHashMap<String, String> = linkedMapOf("graphname" to gGraphName)
 
 tigergraph {
     scriptDir.set(file("db_scripts"))
     tokens.set(tokenMap)
-    serverName.set(gsqlHost)
-    userName.set(gsqlUserName)
-    password.set(gsqlPassword)
-    adminUserName.set(gsqlAdminUserName)
-    adminPassword.set(gsqlAdminPassword)
+    serverName.set(gHost)
+    userName.set(gUserName)
+    password.set(gPassword)
+    adminUserName.set(gAdminUserName)
+    adminPassword.set(gAdminPassword)
+    gClientVersion?.let {
+        gsqlClientVersion.set(it)
+    }
 }

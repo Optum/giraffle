@@ -1,15 +1,18 @@
 plugins {
-    id("com.optum.giraffle") version "@version@"@propertiesPlugin@
+    id("com.optum.giraffle") version "@project_version@"@propertiesPlugin@
 }
 
-def tokenMap = ["graphname": gsqlGraphName]
+def tokenMap = ["graphname": gGraphName]
 
 tigergraph {
     scriptDir = file("db_scripts")
     tokens = tokenMap
-    serverName = gsqlHost
-    userName = gsqlUserName
-    password = gsqlPassword
-    adminUserName = gsqlAdminUserName
-    adminPassword = gsqlAdminPassword
+    serverName = gHost
+    userName = gUserName
+    password = gPassword
+    adminUserName = gAdminUserName
+    adminPassword = gAdminPassword
+    if ( binding.hasVariable("gClientVersion") ) {
+        gsqlClientVersion = gClientVersion
+    }
 }
