@@ -6,7 +6,6 @@ org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
     // id("org.jetbrains.kotlin.jvm") version Versions.kotlin
-    `build-scan`
     `java-gradle-plugin`
     `maven-publish`
     signing
@@ -42,6 +41,10 @@ site {
     outputDir.set(file("$rootDir/docs"))
     websiteUrl.set(webUrl)
     vcsUrl.set(githubUrl)
+}
+
+kotlinter {
+    reporters = arrayOf("checkstyle","plain","html")
 }
 
 tasks {
