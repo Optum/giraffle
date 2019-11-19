@@ -161,6 +161,10 @@ tasks {
     check {
         dependsOn(integrationTest.get())
     }
+
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    }
 }
 
 repositories {
