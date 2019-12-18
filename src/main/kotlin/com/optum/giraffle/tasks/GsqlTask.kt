@@ -73,6 +73,8 @@ open class GsqlTask() : GsqlAbstract() {
             }
         }
 
+        newArgs += getCaCert()
+
         newArgs.add("-f")
         newArgs.add("${outputDir.get()}/$scriptPath")
 

@@ -103,4 +103,11 @@ open class GsqlPluginExtension(project: Project) {
      * @return the gsql client version
      */
     val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the cacert path to use
+     *
+     * @return the cacert path
+     */
+    val caCert: Property<String> = project.objects.property(String::class.java)
 }
