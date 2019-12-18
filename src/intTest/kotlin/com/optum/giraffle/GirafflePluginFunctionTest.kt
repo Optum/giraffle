@@ -145,10 +145,10 @@ object GirafflePluginFunctionTest : Spek({
                 val gradleLocalContents: String = gradleLocalPropFile.readText()
                 val credCheck: (String) -> Boolean = { contents: String ->
                     with(contents) {
-                        contains("gsqlAdminUserName=tiger") and
-                        contains("gsqlAdminPassword=tig3r") and
-                        contains("gsqlUserName=joe_user") and
-                        contains("gsqlPassword=s3cr3t")
+                        contains("gAdminUserName=tiger") and
+                        contains("gAdminPassword=tig3r") and
+                        contains("gUserName=joe_user") and
+                        contains("gPassword=s3cr3t")
                     }
                 }
 

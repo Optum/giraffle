@@ -6,7 +6,6 @@ org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
     // id("org.jetbrains.kotlin.jvm") version Versions.kotlin
-    `build-scan`
     `java-gradle-plugin`
     `maven-publish`
     signing
@@ -44,6 +43,10 @@ site {
     vcsUrl.set(githubUrl)
 }
 
+kotlinter {
+    reporters = arrayOf("checkstyle","plain","html")
+}
+
 tasks {
     processResources {
         with(project.copySpec {
@@ -75,6 +78,10 @@ tasks {
                 filter<ReplaceTokens>("tokens" to filterTokens)
             }
         }
+    }
+
+    wrapper {
+        gradleVersion = "6.0.1"
     }
 }
 
@@ -157,6 +164,10 @@ tasks {
 
     check {
         dependsOn(integrationTest.get())
+    }
+
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 }
 

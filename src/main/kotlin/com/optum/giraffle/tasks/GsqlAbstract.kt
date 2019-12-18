@@ -25,19 +25,19 @@ abstract class GsqlAbstract : JavaExec() {
 
     init {
         val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
-        this.gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java)
+        gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java)
 
         cfg?.let { classpath = cfg }
 
-        this.connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
-        this.connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
-        this.connectionData.setUserName(gsqlPluginExtension.userName)
-        this.connectionData.setPassword(gsqlPluginExtension.password)
-        this.connectionData.setServerName(gsqlPluginExtension.serverName)
-        this.connectionData.setGraphName(gsqlPluginExtension.graphName)
-        this.connectionData.setGsqlClientVersion(gsqlPluginExtension.gsqlClientVersion)
+        connectionData.setAdminUserName(gsqlPluginExtension.adminUserName)
+        connectionData.setAdminPassword(gsqlPluginExtension.adminPassword)
+        connectionData.setUserName(gsqlPluginExtension.userName)
+        connectionData.setPassword(gsqlPluginExtension.password)
+        connectionData.setServerName(gsqlPluginExtension.serverName)
+        connectionData.setGraphName(gsqlPluginExtension.graphName)
+        connectionData.setGsqlClientVersion(gsqlPluginExtension.gsqlClientVersion)
 
-        this.connectionData.getGsqlClientVersion()?.let {
+        connectionData.getGsqlClientVersion()?.let {
             environment("GSQL_CLIENT_VERSION", it)
         }
 
