@@ -35,6 +35,7 @@ abstract class GsqlAbstract : JavaExec() {
         connectionData.setGraphName(gsqlPluginExtension.graphName)
         connectionData.setGsqlClientVersion(gsqlPluginExtension.gsqlClientVersion)
         connectionData.setCaCert(gsqlPluginExtension.caCert)
+        connectionData.setLogDir(gsqlPluginExtension.logDir)
 
         connectionData.getGsqlClientVersion()?.let {
             environment("GSQL_CLIENT_VERSION", it)
@@ -83,6 +84,18 @@ abstract class GsqlAbstract : JavaExec() {
 
         caCert?.let {
             list.add("--cacert")
+            list.add(it)
+        }
+        return list
+    }
+
+    @Internal
+    protected fun getLogDir(): List<String> {
+        val list: MutableList<String> = mutableListOf()
+        val logDir: String? = connectionData.getLogDir()
+
+        logDir?.let {
+            list.add("--logdir")
             list.add(it)
         }
         return list

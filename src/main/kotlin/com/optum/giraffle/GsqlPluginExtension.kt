@@ -110,4 +110,11 @@ open class GsqlPluginExtension(project: Project) {
      * @return the cacert path
      */
     val caCert: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the logdir path to use
+     *
+     * @return the logdir path
+     */
+    val logDir: Property<String> = project.objects.property(String::class.java)
 }

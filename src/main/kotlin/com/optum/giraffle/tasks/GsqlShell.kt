@@ -22,6 +22,7 @@ open class GsqlShell() : GsqlAbstract() {
         newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
         newArgs += getCaCert()
+        newArgs += getLogDir()
 
         return newArgs
     }
