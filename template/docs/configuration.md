@@ -58,6 +58,11 @@ As of version 2.5.0 the supported version strings are:
 
 > Type: String
 
+## logDir
+Set the directory for the gsql client to put it's logs into.
+
+> Type: String
+
 ## password
 Set this property to the value of the password to use in conjunction with the
 [`userName`](#userName).
@@ -122,6 +127,12 @@ overrides the [`graphName`](configuration.md#graphName) property set by the
 `tigergraph` closure.
 
 > Type: String
+
+## graphStudio
+I'm not sure what this option does, however it is a CLI option available in the
+gsql client.
+
+> Type: Boolean
 
 ## scriptCommand
 Use this value to execute a command on the Tigergraph server. Useful for one
