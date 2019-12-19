@@ -26,6 +26,21 @@ Set this property to the super-user for Tigergraph.
 
 > Type: String
 
+## caCert
+Set the path to the certificate file for connecting to the Tigergraph server.
+
+This certificate can be obtained with the following command:
+
+```
+openssl s_client -connect <tigergraphserver>:14240 < /dev/null 2> /dev/null | \
+openssl x509 -text > cert.txt
+```
+
+This connects to your tigergraph server, obtains the public key, formats it in
+an acceptable format to use, and stores it in `cert.txt`.
+
+> Type: String
+
 ## graphName
 Set the default graph context for Tigergraph.
 
