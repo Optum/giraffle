@@ -21,6 +21,9 @@ abstract class GsqlAbstract : JavaExec() {
     @Internal
     protected val gsqlPluginExtension: GsqlPluginExtension
 
+    @Internal
+    public var graphStudio: Boolean = false
+
     init {
         val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
         gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java)
@@ -35,6 +38,7 @@ abstract class GsqlAbstract : JavaExec() {
         connectionData.setGraphName(gsqlPluginExtension.graphName)
         connectionData.setGsqlClientVersion(gsqlPluginExtension.gsqlClientVersion)
         connectionData.setCaCert(gsqlPluginExtension.caCert)
+        connectionData.setLogDir(gsqlPluginExtension.logDir)
 
         connectionData.getGsqlClientVersion()?.let {
             environment("GSQL_CLIENT_VERSION", it)
@@ -76,6 +80,14 @@ abstract class GsqlAbstract : JavaExec() {
         return list
     }
 
+    protected fun getGraphStudio(): List<String> {
+        val list: MutableList<String> = mutableListOf()
+        if (graphStudio) {
+            list.add("-graphstudio")
+        }
+        return list
+    }
+
     @Internal
     protected fun getCaCert(): List<String> {
         val list: MutableList<String> = mutableListOf()
@@ -83,6 +95,18 @@ abstract class GsqlAbstract : JavaExec() {
 
         caCert?.let {
             list.add("--cacert")
+            list.add(it)
+        }
+        return list
+    }
+
+    @Internal
+    protected fun getLogDir(): List<String> {
+        val list: MutableList<String> = mutableListOf()
+        val logDir: String? = connectionData.getLogDir()
+
+        logDir?.let {
+            list.add("--logdir")
             list.add(it)
         }
         return list

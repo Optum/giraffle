@@ -18,6 +18,7 @@ class ConnectionData(project: Project) {
     private val restPort: Property<String> = project.objects.property(String::class.java)
     private val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
     private val caCert: Property<String> = project.objects.property(String::class.java)
+    private val logDir: Property<String> = project.objects.property(String::class.java)
 
     @Input
     @Optional
@@ -70,6 +71,12 @@ class ConnectionData(project: Project) {
     fun getCaCert(): String? = caCert.orNull
 
     fun setCaCert(cert: Provider<String>) = this.caCert.set(cert)
+
+    @Input
+    @Optional
+    fun getLogDir(): String? = logDir.orNull
+
+    fun setLogDir(logdir: Provider<String>) = this.logDir.set(logdir)
 }
 
 data class ConnectDataSerializable(
@@ -80,5 +87,6 @@ data class ConnectDataSerializable(
     @get:Input val serverName: String,
     @get:Input val graphName: String,
     @get:Input val gsqlClientVersion: String?,
-    @get:Input val caCert: String?
+    @get:Input val caCert: String?,
+    @get:Input val logDir: String?
 ) : Serializable
