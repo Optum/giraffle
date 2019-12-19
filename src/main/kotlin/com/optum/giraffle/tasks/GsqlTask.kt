@@ -75,6 +75,7 @@ open class GsqlTask() : GsqlAbstract() {
 
         newArgs += getCaCert()
         newArgs += getLogDir()
+        newArgs += getGraphStudio()
 
         newArgs.add("-f")
         newArgs.add("${outputDir.get()}/$scriptPath")

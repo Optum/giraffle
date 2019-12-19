@@ -21,6 +21,9 @@ abstract class GsqlAbstract : JavaExec() {
     @Internal
     protected val gsqlPluginExtension: GsqlPluginExtension
 
+    @Internal
+    public var graphStudio: Boolean = false
+
     init {
         val cfg: Configuration? = project.configurations.findByName(gsqlRuntime)
         gsqlPluginExtension = project.extensions.getByType(GsqlPluginExtension::class.java)
@@ -73,6 +76,14 @@ abstract class GsqlAbstract : JavaExec() {
         passwordProperty?.let {
             list.add("-p")
             list.add(it)
+        }
+        return list
+    }
+
+    protected fun getGraphStudio(): List<String> {
+        val list: MutableList<String> = mutableListOf()
+        if (graphStudio) {
+            list.add("-graphstudio")
         }
         return list
     }
