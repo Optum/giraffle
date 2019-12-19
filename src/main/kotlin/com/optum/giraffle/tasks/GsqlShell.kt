@@ -21,6 +21,7 @@ open class GsqlShell() : GsqlAbstract() {
         newArgs.add("--ip")
         newArgs.add(connectionData.getServerName())
         newArgs += determineUser(superUser)
+        newArgs += getCaCert()
 
         return newArgs
     }
