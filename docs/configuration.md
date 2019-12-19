@@ -26,6 +26,21 @@ Set this property to the super-user for Tigergraph.
 
 > Type: String
 
+## caCert
+Set the path to the certificate file for connecting to the Tigergraph server.
+
+This certificate can be obtained with the following command:
+
+```
+openssl s_client -connect <tigergraphserver>:14240 < /dev/null 2> /dev/null | \
+openssl x509 -text > cert.txt
+```
+
+This connects to your tigergraph server, obtains the public key, formats it in
+an acceptable format to use, and stores it in `cert.txt`.
+
+> Type: String
+
 ## graphName
 Set the default graph context for Tigergraph.
 
@@ -40,6 +55,11 @@ As of version 2.5.0 the supported version strings are:
 * `v2_4_1`
 * `v2_4_0`
 * `v2_3_2`
+
+> Type: String
+
+## logDir
+Set the directory for the gsql client to put it's logs into.
 
 > Type: String
 
@@ -85,7 +105,7 @@ is to import the class at the top of your build file.
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.3.1"
+    id("com.optum.giraffle") version "1.3.2"
 }
 
 val createSchema by tasks.registering(GsqlTask::class) {
@@ -107,6 +127,12 @@ overrides the [`graphName`](configuration.md#graphName) property set by the
 `tigergraph` closure.
 
 > Type: String
+
+## graphStudio
+I'm not sure what this option does, however it is a CLI option available in the
+gsql client.
+
+> Type: Boolean
 
 ## scriptCommand
 Use this value to execute a command on the Tigergraph server. Useful for one
