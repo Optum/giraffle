@@ -14,9 +14,10 @@ on a remote server. Giraffle also helps you keep environment specific
 configuration out of your code. Most importantly it helps you keep your
 credentials out of your code.
 
-!> Version `1.3.1` changes the default gsql\_client to `2.5.0`. This client is
-backwards compatible with versions `v2_5_0`, `v2_4_1`, `v2_4_0`, and `v2_3_2`.
-See [Configuration](configuration.md#gsqlclientversion) for more details.
+!> Version `1.3.2.1` changes the default gsql\_client to `2.5.2`. This client
+is backwards compatible with versions `v2_5_2`, `v2_5_0`, `v2_4_1`, `v2_4_0`,
+and `v2_3_2`.  See [Configuration](configuration.md#gsqlclientversion) for more
+details.
 
 !> As of version `1.3.0` of this plugin the default gsql\_client version move
 from `2.3.2.1` to `2.4.0`. This means that by default the older versions of
