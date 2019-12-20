@@ -49,8 +49,9 @@ Set the default graph context for Tigergraph.
 ## gsqlClientVersion
 Set this property to specify the Tigergraph server version you will be connecting to.
 
-As of version 2.5.0 the supported version strings are:
+As of version 2.5.2 the supported version strings are:
 
+* `v2_5_2`
 * `v2_5_0`
 * `v2_4_1`
 * `v2_4_0`
@@ -105,7 +106,7 @@ is to import the class at the top of your build file.
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.3.2"
+    id("com.optum.giraffle") version "1.3.2.1"
 }
 
 val createSchema by tasks.registering(GsqlTask::class) {
