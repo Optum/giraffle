@@ -9,7 +9,9 @@ open class GsqlTokenTask() : GsqlTokenAbstract() {
     @TaskAction
     fun initToken() {
 
-        val r = get(url = url(), params = mapOf("secret" to secret))
+        val r = get(url = url(), params = mapOf(
+            "secret" to gsqlPluginExtension.authSecret.get()
+        ))
         with(logger) {
             // info("generated url: {}", r.url)
             info("status code: {}", r.statusCode)

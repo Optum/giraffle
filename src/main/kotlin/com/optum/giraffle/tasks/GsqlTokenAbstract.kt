@@ -9,9 +9,6 @@ abstract class GsqlTokenAbstract() : DefaultTask() {
     protected val gsqlPluginExtension: GsqlPluginExtension =
         project.extensions.getByType(GsqlPluginExtension::class.java)
 
-    @get:Input
-    lateinit var secret: String
-
     @Input
     var useHttps: Boolean = false
 
