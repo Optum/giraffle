@@ -5,6 +5,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
 
 abstract class GsqlTokenAbstract() : DefaultTask() {
+    @Input
     protected val gsqlPluginExtension: GsqlPluginExtension =
         project.extensions.getByType(GsqlPluginExtension::class.java)
 
@@ -14,7 +15,10 @@ abstract class GsqlTokenAbstract() : DefaultTask() {
     @Input
     var useHttps: Boolean = false
 
+    @Input
     protected val host: String
+
+    @Input
     protected val defaultPort: String
 
     init {
