@@ -1,6 +1,7 @@
 package com.optum.giraffle.data
 
 import com.optum.giraffle.Configurations.rest_pp_port
+import com.optum.giraffle.UriScheme
 import java.io.Serializable
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -19,6 +20,7 @@ class ConnectionData(project: Project) {
     private val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
     private val caCert: Property<String> = project.objects.property(String::class.java)
     private val logDir: Property<String> = project.objects.property(String::class.java)
+    private val uriScheme: Property<UriScheme> = project.objects.property(UriScheme::class.java)
 
     @Input
     @Optional
@@ -77,6 +79,11 @@ class ConnectionData(project: Project) {
     fun getLogDir(): String? = logDir.orNull
 
     fun setLogDir(logdir: Provider<String>) = this.logDir.set(logdir)
+
+    @Input
+    fun getUriScheme() = uriScheme.get()
+
+    fun setUriScheme(scheme: Provider<UriScheme>) = this.uriScheme.set(scheme)
 }
 
 data class ConnectDataSerializable(
@@ -88,5 +95,6 @@ data class ConnectDataSerializable(
     @get:Input val graphName: String,
     @get:Input val gsqlClientVersion: String?,
     @get:Input val caCert: String?,
-    @get:Input val logDir: String?
+    @get:Input val logDir: String?,
+    @get:Input val uriScheme: UriScheme?
 ) : Serializable

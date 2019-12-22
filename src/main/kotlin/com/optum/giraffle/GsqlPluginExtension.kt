@@ -117,4 +117,11 @@ open class GsqlPluginExtension(project: Project) {
      * @return the logdir path
      */
     val logDir: Property<String> = project.objects.property(String::class.java)
+
+    /**
+     * Returns the uriScheme used by the Tigergraph server
+     *
+     * @return the uriScheme
+     */
+    val uriScheme: Property<UriScheme> = project.objects.property(UriScheme::class.java)
 }

@@ -53,6 +53,7 @@ open class GsqlPlugin : Plugin<Project> {
         gsqlPluginExtension.tokens.convention(emptyMap())
         gsqlPluginExtension.restPort.convention(rest_pp_port)
         gsqlPluginExtension.gsqlPort.convention(gsql_port)
+        gsqlPluginExtension.uriScheme.convention(UriScheme.HTTP)
 
         val gsqlCopySources = registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()
