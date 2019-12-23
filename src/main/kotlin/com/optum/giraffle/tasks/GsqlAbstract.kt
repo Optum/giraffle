@@ -3,6 +3,7 @@ package com.optum.giraffle.tasks
 import com.optum.giraffle.Configurations.gsqlRuntime
 import com.optum.giraffle.GsqlPluginExtension
 import com.optum.giraffle.data.ConnectionData
+import java.io.File
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.JavaExec
@@ -103,11 +104,11 @@ abstract class GsqlAbstract : JavaExec() {
     @Internal
     protected fun getLogDir(): List<String> {
         val list: MutableList<String> = mutableListOf()
-        val logDir: String? = connectionData.getLogDir()
+        val logDir: File? = connectionData.getLogDir()
 
         logDir?.let {
             list.add("--logdir")
-            list.add(it)
+            list.add(it.toString())
         }
         return list
     }

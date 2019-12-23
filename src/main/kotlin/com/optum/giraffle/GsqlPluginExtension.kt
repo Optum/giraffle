@@ -1,5 +1,6 @@
 package com.optum.giraffle
 
+import java.io.File
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty
@@ -116,7 +117,7 @@ open class GsqlPluginExtension(project: Project) {
      *
      * @return the logdir path
      */
-    val logDir: Property<String> = project.objects.property(String::class.java)
+    val logDir: Property<File> = project.objects.property(File::class.java)
 
     /**
      * Returns the uriScheme used by the Tigergraph server

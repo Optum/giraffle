@@ -2,6 +2,7 @@ package com.optum.giraffle.data
 
 import com.optum.giraffle.Configurations.rest_pp_port
 import com.optum.giraffle.UriScheme
+import java.io.File
 import java.io.Serializable
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -19,7 +20,7 @@ class ConnectionData(project: Project) {
     private val restPort: Property<String> = project.objects.property(String::class.java)
     private val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
     private val caCert: Property<String> = project.objects.property(String::class.java)
-    private val logDir: Property<String> = project.objects.property(String::class.java)
+    private val logDir: Property<File> = project.objects.property(File::class.java)
     private val uriScheme: Property<UriScheme> = project.objects.property(UriScheme::class.java)
 
     @Input
@@ -76,9 +77,9 @@ class ConnectionData(project: Project) {
 
     @Input
     @Optional
-    fun getLogDir(): String? = logDir.orNull
+    fun getLogDir(): File? = logDir.orNull
 
-    fun setLogDir(logdir: Provider<String>) = this.logDir.set(logdir)
+    fun setLogDir(logdir: Provider<File>) = this.logDir.set(logdir)
 
     @Input
     fun getUriScheme() = uriScheme.get()
