@@ -26,6 +26,12 @@ Set this property to the super-user for Tigergraph.
 
 > Type: String
 
+## authSecret
+Set this to the value of the secret created in Tigergraph. See [Creating
+Secrets][5] and [REST++ Authentication][6] in Tigergraph's documentation.
+
+> Type: String
+
 ## caCert
 Set the path to the certificate file for connecting to the Tigergraph server.
 
@@ -62,7 +68,7 @@ As of version 2.5.2 the supported version strings are:
 ## logDir
 Set the directory for the gsql client to put it's logs into.
 
-> Type: String
+> Type: File
 
 ## password
 Set this property to the value of the password to use in conjunction with the
@@ -89,6 +95,19 @@ replacement within your source scripts. Internally this plugin uses an [ant
 filter][1].
 
 > Type: Map<String, String>
+
+## uriScheme
+Set this property to indicate whether to use http or https for the Tigergraph
+REST server. This property is an enumerated type. Your type here is
+`com.optum.giraffle.UriScheme`.  Choose either HTTP or HTTPS.
+
+```
+import com.optum.giraffle.UriScheme
+
+tigergraph {
+    UriScheme.set(UriScheme.HTTPS)
+}
+```
 
 ## userName
 Set this property to the standard user for Tigergraph.
@@ -160,13 +179,12 @@ to a sub-graph.
 
 > Type: Boolean
 
+# GsqlTokenDeleteTask
+The GsqlTokenDeleteTask is used to remove the token from the Tigergraph server.
+
 # GsqlTokenTask
 The GsqlTokenTask is used to get an OAUTH token from Tigergraph to use as
 `Bearer` Authorization header.
-
-## secret
-Set this to the value of the secret created in Tigergraph. See [Creating
-Secrets][5] and [REST++ Authentication][6] in Tigergraph's documentation.
 
 [1]: https://ant.apache.org/manual/api/org/apache/tools/ant/filters/ReplaceTokens.html
 [2]: #tigergraph-configuration-closure
