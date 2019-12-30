@@ -4,11 +4,13 @@ import com.optum.giraffle.Configurations.extensionName
 import com.optum.giraffle.Configurations.gsqlRuntime
 import com.optum.giraffle.Configurations.gsql_client_version
 import com.optum.giraffle.Configurations.gsql_port
+import com.optum.giraffle.Configurations.host_value
 import com.optum.giraffle.Configurations.rest_pp_port
 import com.optum.giraffle.Configurations.scriptDirectoryName
 import com.optum.giraffle.tasks.GsqlCopySources
 import com.optum.giraffle.tasks.GsqlShell
 import com.optum.giraffle.tasks.GsqlTask
+import com.optum.giraffle.tasks.GsqlTokenDeleteTask
 import com.optum.giraffle.tasks.GsqlTokenTask
 import com.optum.giraffle.tasks.NewProject
 import org.gradle.api.Plugin
@@ -22,28 +24,37 @@ open class GsqlPlugin : Plugin<Project> {
      *
      * @see com.optum.giraffle.tasks.GsqlCopySources
      */
-    val copySourcesTaskName = "gsqlCopySources"
+    private val copySourcesTaskName = "gsqlCopySources"
 
     /**
      * The name of the task that runs the interactive GSQL shell.
      *
      * @see com.optum.giraffle.tasks.GsqlShell
      */
-    val gsqlShellTaskName = "gsqlShell"
+    private val gsqlShellTaskName = "gsqlShell"
 
     /**
      * The name of the task type for build scripts gsql tasks.
      *
      * @see com.optum.giraffle.tasks.GsqlTask
      */
-    val gsqlTaskTypeName = "gsqlTaskType"
+    private val gsqlTaskTypeName = "gsqlTaskType"
 
     /**
      * The name of the task that gets a token.
      *
      * @see com.optum.giraffle.tasks.GsqlTokenTask
      */
-    val gsqlTokenTaskName = "gsqlToken"
+    private val gsqlTokenTaskName = "gsqlToken"
+
+    /**
+     * The name of the task that deletes a token.
+     *
+     * @see com.optum.giraffle.tasks.GsqlTokenDeleteTask
+     */
+    private val gsqlDeleteTokenTask = "gsqlDeleteToken"
+
+    private val authGroup = "Tigergraph Authentication"
 
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
@@ -54,12 +65,14 @@ open class GsqlPlugin : Plugin<Project> {
         gsqlPluginExtension.restPort.convention(rest_pp_port)
         gsqlPluginExtension.gsqlPort.convention(gsql_port)
         gsqlPluginExtension.uriScheme.convention(UriScheme.HTTP)
+        gsqlPluginExtension.serverName.convention(host_value)
 
         val gsqlCopySources = registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()
         registerGsqlTask()
         registerNewProject()
-        // registerTokenTask()
+        registerTokenTask()
+        registerDeleteTokenTask()
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
 
@@ -98,7 +111,13 @@ open class GsqlPlugin : Plugin<Project> {
 
     private fun Project.registerTokenTask(): TaskProvider<GsqlTokenTask> =
         tasks.register(gsqlTokenTaskName, GsqlTokenTask::class.java) { gsqlToken ->
-            gsqlToken.group = "Tigergraph Authentication"
+            gsqlToken.group = authGroup
             gsqlToken.description = "Uses Tigergraph's REST endpoint to obtain an OAUTH token"
+        }
+
+    private fun Project.registerDeleteTokenTask(): TaskProvider<GsqlTokenDeleteTask> =
+        tasks.register(gsqlDeleteTokenTask, GsqlTokenDeleteTask::class.java) { gsqlDeleteToken ->
+            gsqlDeleteToken.group = authGroup
+            gsqlDeleteToken.description = "Uses Tigergraph's REST end point to delete an OAUTH token"
         }
 }

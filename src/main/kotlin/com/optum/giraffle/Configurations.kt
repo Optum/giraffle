@@ -38,4 +38,9 @@ internal object Configurations {
      * The default gsql server port
      */
     const val gsql_port = 14240
+
+    /**
+     * The default host value for serverName
+     */
+    const val host_value = "localhost"
 }
