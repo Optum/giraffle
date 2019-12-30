@@ -1,6 +1,5 @@
 object Versions {
     const val junitPlatformVersion = "1.5.2"
-    const val khttp = "0.1.0"
     const val kotlin = "1.3.60"
     const val kotlinter = "2.2.0"
     const val moshi = "1.9.2"
