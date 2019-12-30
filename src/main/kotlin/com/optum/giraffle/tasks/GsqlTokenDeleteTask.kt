@@ -1,6 +1,5 @@
 package com.optum.giraffle.tasks
 
-import okhttp3.MultipartBody
 import okhttp3.Request
 import org.gradle.api.tasks.TaskAction
 
@@ -9,25 +8,25 @@ open class GsqlTokenDeleteTask() : GsqlTokenAbstract() {
     @TaskAction
     fun deleteToken() {
 
-        val requestBody = MultipartBody.Builder()
-            .addFormDataPart("secret", gsqlPluginExtension.authSecret.get())
-            .addFormDataPart("token", gsqlPluginExtension.token.get())
+        val delUrl = getHttpUrl().newBuilder()
+            .addQueryParameter("secret", gsqlPluginExtension.authSecret.get())
+            .addQueryParameter("token", gsqlPluginExtension.token.get())
             .build()
 
         val request = Request.Builder()
-            .url(getHttpUrl())
-            .delete(requestBody)
+            .url(delUrl)
+            .delete()
             .build()
 
-        client.newCall(request).execute()
-        /*
-        val r = delete(url = getUrl(), params = mapOf(
-            "secret" to gsqlPluginExtension.authSecret.get(),
-            "token" to gsqlPluginExtension.token.get()))
-        with(logger) {
-            info("status code: {}", r.statusCode)
-            info("response: {}", r.jsonObject)
+        client.newCall(request).execute().use { response ->
+            val tok = tokenMoshiAdapter.fromJson(response.body!!.source())
+
+            with(logger) {
+                info("token: {}", tok!!.token)
+                info("status code: {}", response.code)
+                info("message: {}", tok.message)
+                info("response: {}", tok.toString())
+            }
         }
-        */
     }
 }
