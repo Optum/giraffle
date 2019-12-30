@@ -4,14 +4,12 @@ import com.optum.giraffle.data.GsqlTokenSerializable
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import java.io.IOException
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 
 open class GsqlTokenTask : GsqlTokenAbstract() {
 
-    private val client: OkHttpClient = OkHttpClient()
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val tokenMoshiAdapter = moshi.adapter(GsqlTokenSerializable::class.java)
 
