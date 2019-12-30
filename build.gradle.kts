@@ -182,7 +182,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("khttp:khttp:${Versions.khttp}")
     implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
-
+    implementation("com.squareup.moshi:moshi-kotlin:${Versions.moshi}")
 
     testImplementation(kotlin("test"))
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}") {

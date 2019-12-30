@@ -3,6 +3,7 @@ object Versions {
     const val khttp = "0.1.0"
     const val kotlin = "1.3.60"
     const val kotlinter = "2.2.0"
+    const val moshi = "1.9.2"
     const val okhttp = "4.2.2"
     const val pluginPublish = "0.10.1"
     const val saliman = "1.5.1"
