@@ -1,5 +1,6 @@
 package com.optum.giraffle.data
 
+import com.squareup.moshi.JsonClass
 import java.io.Serializable
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -9,8 +10,9 @@ import org.gradle.api.tasks.Optional
 
 class GsqlToken(project: Project) {
     private val code: Property<String> = project.objects.property(String::class.java)
-    private val expiration: Property<Int> = project.objects.property(Int::class.java)
     private val error: Property<Boolean> = project.objects.property(Boolean::class.java)
+    private val expiration: Property<Int> = project.objects.property(Int::class.java)
+    private val message: Property<String> = project.objects.property(String::class.java)
     private val token: Property<String> = project.objects.property(String::class.java)
 
     @Input
@@ -35,11 +37,19 @@ class GsqlToken(project: Project) {
     fun getToken(): String = token.get()
 
     fun setToken(token: Provider<String>) = this.token.set(token)
+
+    @Input
+    @Optional
+    fun getMessage(): String? = message.orNull
+
+    fun setMessage(message: Provider<String>) = this.code.set(code)
 }
 
+@JsonClass(generateAdapter = true)
 data class GsqlTokenSerializable(
     @get:Input val code: String,
     @get:Input val expiration: String,
     @get:Input val error: Boolean,
-    @get:Input val token: String
+    @get:Input val token: String,
+    @get:Input val message: String
 ) : Serializable
