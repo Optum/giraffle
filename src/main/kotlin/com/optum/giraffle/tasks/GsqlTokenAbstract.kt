@@ -11,8 +11,6 @@ abstract class GsqlTokenAbstract() : DefaultTask() {
     protected val gsqlPluginExtension: GsqlPluginExtension =
         project.extensions.getByType(GsqlPluginExtension::class.java)
 
-    // @Input
-    // var useHttps: Boolean = false
     @Input
     protected val uriScheme: UriScheme = gsqlPluginExtension.uriScheme.get()
 
@@ -27,16 +25,16 @@ abstract class GsqlTokenAbstract() : DefaultTask() {
         this.defaultPort = gsqlPluginExtension.restPort.get()
     }
 
-    val url: String
-        get() = "${uriScheme.getPrefix()}${this.host}:${this.defaultPort}/requesttoken"
+    @Input
+    fun getUrl(): String = getHttpUrl().toString()
 
-    val httpUrl: HttpUrl
-        get() {
-            return HttpUrl.Builder()
-                .scheme(uriScheme.scheme)
-                .host(host)
-                .port(defaultPort)
-                .addPathSegment("requesttoken")
-                .build()
-        }
+    @Input
+    fun getHttpUrl(): HttpUrl {
+        return HttpUrl.Builder()
+            .scheme(uriScheme.scheme)
+            .host(host)
+            .port(defaultPort)
+            .addPathSegment("requesttoken")
+            .build()
+    }
 }
