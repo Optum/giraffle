@@ -11,9 +11,9 @@ import org.gradle.api.tasks.Optional
 class GsqlToken(project: Project) {
     private val code: Property<String> = project.objects.property(String::class.java)
     private val error: Property<Boolean> = project.objects.property(Boolean::class.java)
-    private val expiration: Property<Int> = project.objects.property(Int::class.java)
+    private val expiration: Property<Int?> = project.objects.property(Int::class.java)
     private val message: Property<String> = project.objects.property(String::class.java)
-    private val token: Property<String> = project.objects.property(String::class.java)
+    private val token: Property<String?> = project.objects.property(String::class.java)
 
     @Input
     @Optional
@@ -34,7 +34,7 @@ class GsqlToken(project: Project) {
     fun setError(error: Provider<Boolean>) = this.error.set(error)
 
     @Input
-    fun getToken(): String = token.get()
+    fun getToken(): String? = token.orNull
 
     fun setToken(token: Provider<String>) = this.token.set(token)
 
@@ -48,8 +48,8 @@ class GsqlToken(project: Project) {
 @JsonClass(generateAdapter = true)
 data class GsqlTokenSerializable(
     @get:Input val code: String,
-    @get:Input val expiration: String,
+    @get:Input val expiration: Int?,
     @get:Input val error: Boolean,
-    @get:Input val token: String,
+    @get:Input val token: String?,
     @get:Input val message: String
 ) : Serializable
