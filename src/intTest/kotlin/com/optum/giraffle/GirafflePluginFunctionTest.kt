@@ -51,7 +51,7 @@ object GirafflePluginFunctionTest : Spek({
 
     beforeGroup {
         println("This is setup")
-        server = ClientAndServer(restPort)
+        server = ClientAndServer.startClientAndServer(restPort)
         server.`when`(
             request()
                 .withMethod("GET")
@@ -263,7 +263,7 @@ object GirafflePluginFunctionTest : Spek({
             buildFile.fillFromResource("token.gradle")
 
             it("getToken task should call to tigergraph, return a token, assign it to tigergraph plugin extension") {
-                val buildResult: BuildResult = execute(testProjectDir.toFile(), "getToken")
+                val buildResult: BuildResult = execute(testProjectDir.toFile(), "getToken", "-i")
 
                 assert(buildResult.output.contains("o9fhgnc3dm9glac9e072uc6qhb0hibs6")) {
                     "getToken should output token value\n\n${buildResult.output}"
