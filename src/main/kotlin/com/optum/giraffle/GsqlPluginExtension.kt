@@ -89,14 +89,14 @@ open class GsqlPluginExtension(project: Project) {
      *
      * @return the rest port
      */
-    val restPort: Property<String> = project.objects.property(String::class.java)
+    val restPort: Property<Int> = project.objects.property(Int::class.java)
 
     /**
      * Returns the the port to use for the UI/gsql server
      *
      * @return the gsql port
      */
-    val gsqlPort: Property<String> = project.objects.property(String::class.java)
+    val gsqlPort: Property<Int> = project.objects.property(Int::class.java)
 
     /**
      * Returns the gsql client version to use

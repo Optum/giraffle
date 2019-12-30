@@ -17,7 +17,7 @@ class ConnectionData(project: Project) {
     private val adminPassword: Property<String> = project.objects.property(String::class.java)
     private val serverName: Property<String> = project.objects.property(String::class.java)
     private val graphName: Property<String> = project.objects.property(String::class.java)
-    private val restPort: Property<String> = project.objects.property(String::class.java)
+    private val restPort: Property<Int> = project.objects.property(Int::class.java)
     private val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
     private val caCert: Property<String> = project.objects.property(String::class.java)
     private val logDir: Property<File> = project.objects.property(File::class.java)
@@ -59,9 +59,9 @@ class ConnectionData(project: Project) {
     fun setGraphName(graph: Provider<String>) = this.graphName.set(graph)
 
     @Input
-    fun getRestPort(): String = restPort.getOrElse(rest_pp_port)
+    fun getRestPort(): Int = restPort.getOrElse(rest_pp_port)
 
-    fun setRestPort(port: Provider<String>) = this.restPort.set(port)
+    fun setRestPort(port: Provider<Int>) = this.restPort.set(port)
 
     @Input
     @Optional

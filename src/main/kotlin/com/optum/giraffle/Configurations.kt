@@ -32,10 +32,10 @@ internal object Configurations {
     /**
      * The default REST++ server port
      */
-    const val rest_pp_port = "9000"
+    const val rest_pp_port: Int = 9000
 
     /**
      * The default gsql server port
      */
-    const val gsql_port = "14240"
+    const val gsql_port = 14240
 }
