@@ -10,6 +10,11 @@ import kotlin.test.assertTrue
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
+import org.mockserver.client.server.MockServerClient
+import org.mockserver.integration.ClientAndServer
+import org.mockserver.model.HttpRequest.request
+import org.mockserver.model.HttpResponse.response
+import org.mockserver.model.Parameter.param
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 
@@ -39,6 +44,30 @@ object GirafflePluginFunctionTest : Spek({
     val antPropGroovy = "-DkotlinOrGroovy=g"
     val antPropProperty = "-DgsqlEnablePropertiesPlugin=y"
     val antPropNoProperty = "-DgsqlEnablePropertiesPlugin=n"
+
+    val restPort = 9000
+
+    var server = MockServerClient("localhost", restPort)
+
+    beforeGroup {
+        println("This is setup")
+        server = ClientAndServer(restPort)
+        server.`when`(
+            request()
+                .withMethod("GET")
+                .withPath("/requesttoken")
+                .withQueryStringParameters(param("secret", "b2cd023976abe4855e675b23677adda8"))
+        )
+        .respond(
+            response()
+                .withBody("{\"code\":\"REST-0000\",\"expiration\":1580254963,\"error\":false,\"message\":\"Generate new token successfully.\",\"token\":\"o9fhgnc3dm9glac9e072uc6qhb0hibs6\"}")
+        )
+    }
+
+    afterGroup {
+        println("This is teardown")
+        server.close()
+    }
 
     describe("Giraffle Plugin") {
         fun execute(projectDir: File, vararg arguments: String): BuildResult {
@@ -224,6 +253,20 @@ object GirafflePluginFunctionTest : Spek({
                 execute(testProjectDir.toFile(), *myAntProp)
                 assertFalse("Build file should not contain net.saliman.properties plugin") {
                     File(testProjectDir.toFile(), "build.gradle").readText().contains("net.saliman.properties")
+                }
+            }
+        }
+
+        context("GsqlTokenTask Test") {
+            val testProjectDir: Path = Files.createTempDirectory("giraffle_tokentask")
+            val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+            buildFile.fillFromResource("token.gradle")
+
+            it("getToken task should call to tigergraph, return a token, assign it to tigergraph plugin extension") {
+                val buildResult: BuildResult = execute(testProjectDir.toFile(), "getToken")
+
+                assert(buildResult.output.contains("o9fhgnc3dm9glac9e072uc6qhb0hibs6")) {
+                    "getToken should output token value\n\n${buildResult.output}"
                 }
             }
         }

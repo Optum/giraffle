@@ -182,9 +182,10 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("khttp:khttp:${Versions.khttp}")
 
+
     testImplementation(kotlin("test"))
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}") {
-        exclude(group = "org.jetbrains.kotlin")
+        // exclude(group = "org.jetbrains.kotlin")
     }
 
     testRuntimeOnly(kotlin("reflect"))
@@ -194,6 +195,7 @@ dependencies {
     }
 
     testImplementation("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformVersion}")
+    testImplementation("org.mock-server:mockserver-netty:5.3.0")
 
     intTestImplementation(gradleTestKit())
 }
