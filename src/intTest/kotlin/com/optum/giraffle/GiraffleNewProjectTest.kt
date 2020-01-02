@@ -19,11 +19,6 @@ object GiraffleNewProjectTest : Spek({
         "-DgsqlPassword=s3cr3t"
     )
 
-    val antPropKotlin = "-DkotlinOrGroovy=k"
-    val antPropGroovy = "-DkotlinOrGroovy=g"
-    val antPropProperty = "-DgsqlEnablePropertiesPlugin=y"
-    val antPropNoProperty = "-DgsqlEnablePropertiesPlugin=n"
-
     describe("Giraffle Plugin") {
         context("New Project wizard - Kotlin") {
             val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_kotlin_dsl")
