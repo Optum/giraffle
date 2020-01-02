@@ -6,11 +6,6 @@ import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.gradle.testkit.runner.TaskOutcome
-import org.mockserver.client.server.MockServerClient
-import org.mockserver.integration.ClientAndServer
-import org.mockserver.model.HttpRequest.request
-import org.mockserver.model.HttpResponse.response
-import org.mockserver.model.Parameter.param
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.lifecycle.CachingMode
 import org.spekframework.spek2.style.specification.describe
@@ -38,36 +33,6 @@ object GiraffleFunctionalTest : Spek({
                 Files.createFile(testProjectDir.resolve("build.gradle")).toFile() }
             val gsqlScript by memoized(CachingMode.GROUP) {
                 Files.createFile(testProjectDir.resolve("db_scripts/schema.gsql")).toFile() }
-
-            describe("GsqlTokenTask Test") {
-                var server = MockServerClient("localhost", restPort)
-                beforeGroup {
-                    buildFile.fillFromResource("token.gradle")
-                    server = ClientAndServer.startClientAndServer(restPort)
-                    server.`when`(
-                        request()
-                            .withMethod("GET")
-                            .withPath("/requesttoken")
-                            .withQueryStringParameters(param("secret", "b2cd023976abe4855e675b23677adda8"))
-                    )
-                    .respond(
-                        response()
-                            .withBody("{\"code\":\"REST-0000\",\"expiration\":1580254963,\"error\":false,\"message\":\"Generate new token successfully.\",\"token\":\"o9fhgnc3dm9glac9e072uc6qhb0hibs6\"}")
-                    )
-                }
-
-                afterGroup {
-                    server.close()
-                }
-
-                it("getToken task should call to tigergraph, return a token, assign it to tigergraph plugin extension") {
-                    val buildResult = execute(testProjectDir.toFile(), "getToken", "-i")
-
-                    assert(buildResult.output.contains("o9fhgnc3dm9glac9e072uc6qhb0hibs6")) {
-                        "getToken should output token value\n\n${buildResult.output}"
-                    }
-                }
-            }
 
             describe("Test script commands") {
                 beforeGroup {
