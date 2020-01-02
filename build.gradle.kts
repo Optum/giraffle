@@ -187,6 +187,7 @@ dependencies {
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}") {
         // exclude(group = "org.jetbrains.kotlin")
     }
+    testImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okhttp}")
 
     testRuntimeOnly(kotlin("reflect"))
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spek}") {
@@ -195,7 +196,6 @@ dependencies {
     }
 
     testImplementation("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformVersion}")
-    testImplementation("org.mock-server:mockserver-netty:5.3.0")
 
     intTestImplementation(gradleTestKit())
 }
