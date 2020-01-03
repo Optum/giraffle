@@ -32,7 +32,7 @@ Tigergraph, and vice versa. See the
 
 ```kotlin
 plugins {
-    id("com.optum.giraffle") version "1.3.2.1"
+    id("com.optum.giraffle") version "1.3.3"
 }
 
 repositories {

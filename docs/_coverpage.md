@@ -1,4 +1,4 @@
-# Giraffle <small>1.3.2.1</small>
+# Giraffle <small>1.3.3</small>
 
 > A Plugin for Gradle and Tigergraph
 
