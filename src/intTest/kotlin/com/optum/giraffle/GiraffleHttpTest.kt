@@ -23,7 +23,7 @@ object GiraffleHttpTest : Spek({
             server.shutdown()
         }
         it("getToken should call tigergraph, return a token, assign it to tigergraph extension") {
-            val buildResult = execute(testProjectDir.toFile(), "getToken", "-i")
+            val buildResult = execute(testProjectDir.toFile(), "gsqlToken", "-i")
             assert(buildResult.output.contains("o9fhgnc3dm9glac9e072uc6qhb0hibs6")) {
                 "getToken should output token value\n\n${buildResult.output}"
             }

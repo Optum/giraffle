@@ -10,11 +10,3 @@ tigergraph {
     authSecret = "b2cd023976abe4855e675b23677adda8"
     serverName = "localhost"
 }
-
-task getToken(type: GsqlTokenTask) {
-    doLast {
-        println(tigergraph.token.get())
-    }
-}
-
-

@@ -71,8 +71,8 @@ open class GsqlPlugin : Plugin<Project> {
         registerGsqlShell()
         registerGsqlTask()
         registerNewProject()
-        registerTokenTask()
-        registerDeleteTokenTask()
+        registerTokenTask(gsqlPluginExtension)
+        registerDeleteTokenTask(gsqlPluginExtension)
 
         logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
 
@@ -109,15 +109,21 @@ open class GsqlPlugin : Plugin<Project> {
             newProject.description = "Create scaffolding for new project"
         }
 
-    private fun Project.registerTokenTask(): TaskProvider<GsqlTokenTask> =
+    private fun Project.registerTokenTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTokenTask> =
         tasks.register(gsqlTokenTaskName, GsqlTokenTask::class.java) { gsqlToken ->
             gsqlToken.group = authGroup
             gsqlToken.description = "Uses Tigergraph's REST endpoint to obtain an OAUTH token"
+            gsqlToken.host.set(gsqlPluginExtension.serverName)
+            gsqlToken.uriScheme.set(gsqlPluginExtension.uriScheme)
+            gsqlToken.defaultPort.set(gsqlPluginExtension.restPort)
         }
 
-    private fun Project.registerDeleteTokenTask(): TaskProvider<GsqlTokenDeleteTask> =
+    private fun Project.registerDeleteTokenTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlTokenDeleteTask> =
         tasks.register(gsqlDeleteTokenTask, GsqlTokenDeleteTask::class.java) { gsqlDeleteToken ->
             gsqlDeleteToken.group = authGroup
             gsqlDeleteToken.description = "Uses Tigergraph's REST end point to delete an OAUTH token"
+            gsqlDeleteToken.host.set(gsqlPluginExtension.serverName)
+            gsqlDeleteToken.uriScheme.set(gsqlPluginExtension.uriScheme)
+            gsqlDeleteToken.defaultPort.set(gsqlPluginExtension.restPort)
         }
 }

@@ -8,6 +8,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
 
@@ -27,18 +28,13 @@ abstract class GsqlTokenAbstract : DefaultTask() {
         project.extensions.getByType(GsqlPluginExtension::class.java)
 
     @Input
-    protected val uriScheme: UriScheme = gsqlPluginExtension.uriScheme.get()
+    val uriScheme: Property<UriScheme> = project.objects.property(UriScheme::class.java)
 
     @Input
-    protected val host: String
+    val host: Property<String> = project.objects.property(String::class.java)
 
     @Input
-    protected val defaultPort: Int
-
-    init {
-        this.host = gsqlPluginExtension.serverName.get()
-        this.defaultPort = gsqlPluginExtension.restPort.get()
-    }
+    val defaultPort: Property<Int> = project.objects.property(Int::class.java)
 
     @Input
     fun getUrl(): String = getHttpUrl().toString()
@@ -46,9 +42,9 @@ abstract class GsqlTokenAbstract : DefaultTask() {
     @Input
     fun getHttpUrl(): HttpUrl {
         return HttpUrl.Builder()
-            .scheme(uriScheme.scheme)
-            .host(host)
-            .port(defaultPort)
+            .scheme(uriScheme.get().scheme)
+            .host(host.get())
+            .port(defaultPort.get())
             .addPathSegment("requesttoken")
             .build()
     }
