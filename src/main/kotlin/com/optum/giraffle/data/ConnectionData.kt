@@ -1,6 +1,8 @@
 package com.optum.giraffle.data
 
 import com.optum.giraffle.Configurations.rest_pp_port
+import com.optum.giraffle.UriScheme
+import java.io.File
 import java.io.Serializable
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
@@ -15,10 +17,11 @@ class ConnectionData(project: Project) {
     private val adminPassword: Property<String> = project.objects.property(String::class.java)
     private val serverName: Property<String> = project.objects.property(String::class.java)
     private val graphName: Property<String> = project.objects.property(String::class.java)
-    private val restPort: Property<String> = project.objects.property(String::class.java)
+    private val restPort: Property<Int> = project.objects.property(Int::class.java)
     private val gsqlClientVersion: Property<String> = project.objects.property(String::class.java)
     private val caCert: Property<String> = project.objects.property(String::class.java)
-    private val logDir: Property<String> = project.objects.property(String::class.java)
+    private val logDir: Property<File> = project.objects.property(File::class.java)
+    private val uriScheme: Property<UriScheme> = project.objects.property(UriScheme::class.java)
 
     @Input
     @Optional
@@ -56,9 +59,9 @@ class ConnectionData(project: Project) {
     fun setGraphName(graph: Provider<String>) = this.graphName.set(graph)
 
     @Input
-    fun getRestPort(): String = restPort.getOrElse(rest_pp_port)
+    fun getRestPort(): Int = restPort.getOrElse(rest_pp_port)
 
-    fun setRestPort(port: Provider<String>) = this.restPort.set(port)
+    fun setRestPort(port: Provider<Int>) = this.restPort.set(port)
 
     @Input
     @Optional
@@ -74,9 +77,14 @@ class ConnectionData(project: Project) {
 
     @Input
     @Optional
-    fun getLogDir(): String? = logDir.orNull
+    fun getLogDir(): File? = logDir.orNull
 
-    fun setLogDir(logdir: Provider<String>) = this.logDir.set(logdir)
+    fun setLogDir(logdir: Provider<File>) = this.logDir.set(logdir)
+
+    @Input
+    fun getUriScheme() = uriScheme.get()
+
+    fun setUriScheme(scheme: Provider<UriScheme>) = this.uriScheme.set(scheme)
 }
 
 data class ConnectDataSerializable(
@@ -88,5 +96,6 @@ data class ConnectDataSerializable(
     @get:Input val graphName: String,
     @get:Input val gsqlClientVersion: String?,
     @get:Input val caCert: String?,
-    @get:Input val logDir: String?
+    @get:Input val logDir: String?,
+    @get:Input val uriScheme: UriScheme?
 ) : Serializable

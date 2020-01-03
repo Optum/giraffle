@@ -1,5 +1,6 @@
 package com.optum.giraffle
 
+import java.io.File
 import org.gradle.api.Project
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.MapProperty
@@ -88,14 +89,14 @@ open class GsqlPluginExtension(project: Project) {
      *
      * @return the rest port
      */
-    val restPort: Property<String> = project.objects.property(String::class.java)
+    val restPort: Property<Int> = project.objects.property(Int::class.java)
 
     /**
      * Returns the the port to use for the UI/gsql server
      *
      * @return the gsql port
      */
-    val gsqlPort: Property<String> = project.objects.property(String::class.java)
+    val gsqlPort: Property<Int> = project.objects.property(Int::class.java)
 
     /**
      * Returns the gsql client version to use
@@ -116,5 +117,12 @@ open class GsqlPluginExtension(project: Project) {
      *
      * @return the logdir path
      */
-    val logDir: Property<String> = project.objects.property(String::class.java)
+    val logDir: Property<File> = project.objects.property(File::class.java)
+
+    /**
+     * Returns the uriScheme used by the Tigergraph server
+     *
+     * @return the uriScheme
+     */
+    val uriScheme: Property<UriScheme> = project.objects.property(UriScheme::class.java)
 }

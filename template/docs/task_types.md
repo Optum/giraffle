@@ -1,4 +1,9 @@
-# GsqlCopySources
+# Tasks and Types
+This plugin defines several tasks and a task type.
+
+## Tasks
+
+### gsqlCopySources
 This is a task type that copies gsql files from your
 [`scriptDir`](gsql_task.md#scriptDir) and copies them to your project's build
 directory.
@@ -12,10 +17,18 @@ by setting [`scriptDir`](configuration.md#scriptDir) directory as it's `from`
 and takes any [`tokens`](configuration.md#tokens) to perform any replacements
 within your source files.
 
-All tasks that use the [`GsqlTask`](gsql_task.md) type automatically
+All tasks that use the [`GsqlTask`](#gsqlTask) type automatically
 [dependsOn][2] this task.
 
-# GsqlShell
+### gsqlDeleteToken
+This task deletes the authentication token created by [`gsqlToken`](#gsqlToken).
+
+### gsqlNewProject
+This task allows you to create a new project interactively. This  task guides
+you through the process of setting up a gradle Tigergraph project, and creates
+a skeleton structure for your project.
+
+### gsqlShell
 This task type and it's task, `gsqlShell` allows a user to run the gsql client
 interactively.  This represents a huge convenience when working with a remote
 Tigergraph server.
@@ -44,10 +57,19 @@ $ gradle --console=plain gsqlShell --super-user
 ?> You can always get more information about a gradle task by executing the `help` task.
 `gradle help --task gsqlShell`
 
-# New Project
-This type / task allows you to create a new project interactively. It's use is
-experimental at this time, and more documentation will follow once it's more
-stable.
+### gsqlToken
+This task uses [`authSecret`](configuration.md#authSecret) to make a connection
+to the Tigergraph REST++ server and obtain a token. This token is then stored
+in the plugin's extension as a property. It's accessible to your build script
+as `tigergraph.token`. Once your done with your token, you can have it deleted
+by using the [`gsqlDeleteToken`](#gsqlDeleteToken) task.
+
+## Types
+
+### GsqlTask
+This is the work horse of the plugin. Using this task is how you invoke locally
+stored gsql scripts against your remote (or local) Tigergraph server. See
+[Configuration](configuration.md#GsqlTask) for all the options.
 
 [1]: https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#org.gradle.api.Project:copy(groovy.lang.Closure)
 [2]: https://docs.gradle.org/current/dsl/org.gradle.api.Task.html#org.gradle.api.Task:dependsOn
