@@ -10,7 +10,6 @@ plugins {
     `maven-publish`
     signing
     id("com.gradle.plugin-publish") version Versions.pluginPublish
-    id("gradle.site") version Versions.site
     kotlin("jvm") version Versions.kotlin
     id("org.jmailen.kotlinter") version Versions.kotlinter
     id("net.saliman.properties") version Versions.saliman
@@ -35,12 +34,6 @@ buildScan {
     termsOfServiceAgree = "yes"
 
     publishAlways()
-}
-
-site {
-    outputDir.set(file("$rootDir/docs"))
-    websiteUrl.set(webUrl)
-    vcsUrl.set(githubUrl)
 }
 
 kotlinter {
@@ -81,7 +74,7 @@ tasks {
     }
 
     wrapper {
-        gradleVersion = "6.0.1"
+        gradleVersion = "6.4.1"
     }
 }
 
