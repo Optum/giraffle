@@ -13,8 +13,11 @@ import com.optum.giraffle.tasks.GsqlTask
 import com.optum.giraffle.tasks.GsqlTokenDeleteTask
 import com.optum.giraffle.tasks.GsqlTokenTask
 import com.optum.giraffle.tasks.NewProject
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
+import org.gradle.api.artifacts.DependencySet
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.tasks.TaskProvider
 
@@ -59,13 +62,13 @@ open class GsqlPlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = project.run {
         // Register extension for dsl
         val gsqlPluginExtension = extensions.create(extensionName, GsqlPluginExtension::class.java, project)
-        gsqlPluginExtension.scriptDir.convention(layout.projectDirectory.dir(scriptDirectoryName))
-        gsqlPluginExtension.outputDir.convention(layout.buildDirectory.dir(scriptDirectoryName))
-        gsqlPluginExtension.tokens.convention(emptyMap())
-        gsqlPluginExtension.restPort.convention(rest_pp_port)
-        gsqlPluginExtension.gsqlPort.convention(gsql_port)
-        gsqlPluginExtension.uriScheme.convention(UriScheme.HTTP)
-        gsqlPluginExtension.serverName.convention(host_value)
+        gsqlPluginExtension.scriptDir.set(layout.projectDirectory.dir(scriptDirectoryName))
+        gsqlPluginExtension.outputDir.set(layout.buildDirectory.dir(scriptDirectoryName))
+        gsqlPluginExtension.tokens.set(emptyMap())
+        gsqlPluginExtension.restPort.set(rest_pp_port)
+        gsqlPluginExtension.gsqlPort.set(gsql_port)
+        gsqlPluginExtension.uriScheme.set(UriScheme.HTTP)
+        gsqlPluginExtension.serverName.set(host_value)
 
         val gsqlCopySources = registerGsqlCopySourcesTask(gsqlPluginExtension)
         registerGsqlShell()
@@ -80,10 +83,14 @@ open class GsqlPlugin : Plugin<Project> {
             task.dependsOn(gsqlCopySources)
         }
 
-        configurations.maybeCreate(gsqlRuntime)
-            .description = "Gsql Runtime for Tigergraph Plugin"
+        val config: Configuration = configurations.create(gsqlRuntime)
+            .setVisible(false)
+            .setDescription("Gsql Runtime for Tigergraph Plugin")
 
-        dependencies.add(gsqlRuntime, "com.tigergraph.client:gsql_client:$gsql_client_version")
+        config.defaultDependencies(Action<DependencySet>() {
+            it.add(project.dependencies.create("com.tigergraph.client:gsql_client:$gsql_client_version"))
+        })
+        // dependencies.add(gsqlRuntime, "com.tigergraph.client:gsql_client:$gsql_client_version")
     }
 
     private fun Project.registerGsqlCopySourcesTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlCopySources> =
