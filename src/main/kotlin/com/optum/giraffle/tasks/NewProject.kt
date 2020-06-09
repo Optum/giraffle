@@ -4,6 +4,7 @@ import com.optum.giraffle.Configurations.net_saliman_properties_version
 import java.io.File
 import java.nio.file.Files
 import java.util.Date
+import org.apache.tools.ant.DirectoryScanner
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.gradle.api.AntBuilder
 import org.gradle.api.DefaultTask
@@ -146,8 +147,11 @@ open class NewProject : DefaultTask() {
         newTokens["propertiesPlugin"] = if (enableProperties) "\n    id(\"net.saliman.properties\") version \"$net_saliman_properties_version\"" else ""
 
         // Using gradle copy, its the easiest way to take advantage of ReplaceTokens
+
         project.copy {
             it.run {
+                DirectoryScanner.removeDefaultExclude("**/.gitignore")
+
                 from(resourceDir)
                 filter(mapOf("tokens" to newTokens), ReplaceTokens::class.java)
                 into(outputDir)
