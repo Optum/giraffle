@@ -31,7 +31,7 @@ build.gradle.kts
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.3.3"
+    id("com.optum.giraffle") version "1.3.4.1-SNAPSHOT"
     id("net.saliman.properties") version "1.5.1"
 }
 

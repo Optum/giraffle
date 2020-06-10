@@ -22,7 +22,10 @@ val projectDescription: String by project
 group = projectGroup
 version = projectVersion
 description = projectDescription
-extra["isReleaseVersion"] = !version.toString().endsWith("SNAPSHOT")
+
+project.ext {
+    set("isReleaseVersion", !version.toString().endsWith("SNAPSHOT") )
+}
 
 val filterTokens = hashMapOf("project_version" to projectVersion)
 
@@ -257,6 +260,6 @@ signing {
     sign(configurations.archives.get())
     setRequired(Callable {
         gradle.taskGraph.hasTask("pubishPlugins") &&
-        (project.extra["isReleaseVersion"] as Boolean)
+        (project.ext["isReleaseVersion"] as Boolean)
     })
 }
