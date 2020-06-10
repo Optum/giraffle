@@ -25,7 +25,7 @@ build.gradle.kts
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.3.4.1-SNAPSHOT"
+    id("com.optum.giraffle") version "1.3.4.1"
     id("net.saliman.properties") version "1.5.1"
 }
 
@@ -145,7 +145,11 @@ buildscript {
 }
 
 plugins {
-    id("com.optum.giraffle") version "1.3.4.1-SNAPSHOT"
+<<<<<<< HEAD
+    id("com.optum.giraffle") version "1.3.4"
+=======
+    id("com.optum.giraffle") version "1.3.4.1"
+>>>>>>> Update version
     id("net.saliman.properties") version "1.5.1"
     id("io.github.http-builder-ng.http-plugin") version "0.1.1"
 }
