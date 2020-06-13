@@ -3,11 +3,11 @@ package com.optum.giraffle.tasks
 import com.optum.giraffle.Configurations.gsqlRuntime
 import com.optum.giraffle.GsqlPluginExtension
 import com.optum.giraffle.data.ConnectionData
-import java.io.File
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.options.Option
+import java.io.File
 
 abstract class GsqlAbstract : JavaExec() {
 
@@ -16,8 +16,8 @@ abstract class GsqlAbstract : JavaExec() {
 
     @Internal
     var superUser: Boolean = false
-    @Option(option = "super-user", description = "Set the super-user option for the task(s) being run.")
-    set
+        @Option(option = "super-user", description = "Set the super-user option for the task(s) being run.")
+        set
 
     @Internal
     protected val gsqlPluginExtension: GsqlPluginExtension
@@ -51,20 +51,22 @@ abstract class GsqlAbstract : JavaExec() {
     abstract fun buildArgs(): List<String>
 
     protected fun determineUser(superUser: Boolean): List<String> =
-            when (superUser) {
-                true -> getAdminCredentials()
-                false -> getNonPrivCredentials()
-            }
+        when (superUser) {
+            true -> getAdminCredentials()
+            false -> getNonPrivCredentials()
+        }
 
     private fun getAdminCredentials(): List<String> =
-            getCredentials(
-                    connectionData.getAdminUserName(),
-                    connectionData.getAdminPassword())
+        getCredentials(
+            connectionData.getAdminUserName(),
+            connectionData.getAdminPassword()
+        )
 
     private fun getNonPrivCredentials(): List<String> =
-            getCredentials(
-                    connectionData.getUserName(),
-                    connectionData.getPassword())
+        getCredentials(
+            connectionData.getUserName(),
+            connectionData.getPassword()
+        )
 
     private fun getCredentials(usernameProperty: String?, passwordProperty: String?): List<String> {
         val list: MutableList<String> = mutableListOf()

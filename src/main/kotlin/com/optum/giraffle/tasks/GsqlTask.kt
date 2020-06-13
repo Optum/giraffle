@@ -1,13 +1,13 @@
 package com.optum.giraffle.tasks
 
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
 import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 open class GsqlTask() : GsqlAbstract() {
 
@@ -45,14 +45,16 @@ open class GsqlTask() : GsqlAbstract() {
         args = decide(scriptPath, scriptCommand)
 
         val argOutput = args
-        logger.info("Args: ${
+        logger.info(
+            "Args: ${
             argOutput!!.map {
                 when (it == this.connectionData.getPassword() || it == this.connectionData.getAdminPassword()) {
                     true -> "********"
                     false -> it
                 }
             }
-        }")
+            }"
+        )
         super.exec()
     }
 

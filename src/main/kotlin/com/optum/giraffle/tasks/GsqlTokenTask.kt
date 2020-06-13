@@ -1,9 +1,9 @@
 package com.optum.giraffle.tasks
 
-import java.io.IOException
 import okhttp3.Request
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import java.io.IOException
 
 open class GsqlTokenTask : GsqlTokenAbstract() {
     @TaskAction

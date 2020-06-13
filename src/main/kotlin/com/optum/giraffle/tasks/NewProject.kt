@@ -1,14 +1,14 @@
 package com.optum.giraffle.tasks
 
 import com.optum.giraffle.Configurations.net_saliman_properties_version
-import java.io.File
-import java.nio.file.Files
-import java.util.Date
 import org.apache.tools.ant.DirectoryScanner
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.gradle.api.AntBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import java.io.File
+import java.nio.file.Files
+import java.util.Date
 
 open class NewProject : DefaultTask() {
     /**
@@ -162,7 +162,8 @@ open class NewProject : DefaultTask() {
         // We'll make a backup if the destination file already exists
         if (destFile.exists()) {
             destFile.copyTo(
-            File(project.projectDir, "backup-$filename"), overwrite = true)
+                File(project.projectDir, "backup-$filename"), overwrite = true
+            )
         }
         File(outputDir.toFile(), filename).copyTo(destFile, overwrite = true)
     }

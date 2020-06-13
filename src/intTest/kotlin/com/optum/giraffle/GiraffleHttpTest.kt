@@ -1,17 +1,18 @@
 package com.optum.giraffle
 
-import java.nio.file.Files
 import okhttp3.mockwebserver.MockWebServer
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.lifecycle.CachingMode
 import org.spekframework.spek2.style.specification.describe
+import java.nio.file.Files
 
 object GiraffleHttpTest : Spek({
     val server = MockWebServer()
     val dispatcher = SuccessDispatcher()
     val testProjectDir by memoized(CachingMode.GROUP) { Files.createTempDirectory("giraffle") }
     val buildFile by memoized(CachingMode.GROUP) {
-        Files.createFile(testProjectDir.resolve("build.gradle")).toFile() }
+        Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+    }
 
     describe("Giraffle Token Task Test") {
         beforeGroup {

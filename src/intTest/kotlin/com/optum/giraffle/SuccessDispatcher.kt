@@ -22,9 +22,10 @@ class SuccessDispatcher() : Dispatcher() {
         val pathWithoutQueryParams = request.requestUrl?.encodedPath ?: return errorResponse
 
         when (pathWithoutQueryParams) {
-            "/requesttoken" -> return MockResponse()
-                .setResponseCode(200)
-                .setBody(jsonAdapter.toJson(responseJson))
+            "/requesttoken" ->
+                return MockResponse()
+                    .setResponseCode(200)
+                    .setBody(jsonAdapter.toJson(responseJson))
         }
         return errorResponse
     }

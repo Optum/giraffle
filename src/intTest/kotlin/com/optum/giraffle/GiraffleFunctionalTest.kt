@@ -1,14 +1,14 @@
 package com.optum.giraffle
 
+import org.gradle.testkit.runner.TaskOutcome
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.lifecycle.CachingMode
+import org.spekframework.spek2.style.specification.describe
 import java.nio.file.Files
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import org.gradle.testkit.runner.TaskOutcome
-import org.spekframework.spek2.Spek
-import org.spekframework.spek2.lifecycle.CachingMode
-import org.spekframework.spek2.style.specification.describe
 
 const val antPropGroovy = "-DkotlinOrGroovy=g"
 const val antPropKotlin = "-DkotlinOrGroovy=k"
@@ -28,11 +28,14 @@ object GiraffleFunctionalTest : Spek({
 
         describe("Standard layout with db_scripts") {
             val scriptsDir by memoized(CachingMode.GROUP) {
-                Files.createDirectories(testProjectDir.resolve("db_scripts")) }
+                Files.createDirectories(testProjectDir.resolve("db_scripts"))
+            }
             val buildFile by memoized(CachingMode.GROUP) {
-                Files.createFile(testProjectDir.resolve("build.gradle")).toFile() }
+                Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+            }
             val gsqlScript by memoized(CachingMode.GROUP) {
-                Files.createFile(testProjectDir.resolve("db_scripts/schema.gsql")).toFile() }
+                Files.createFile(testProjectDir.resolve("db_scripts/schema.gsql")).toFile()
+            }
 
             describe("Test script commands") {
                 beforeGroup {
@@ -99,9 +102,11 @@ object GiraffleFunctionalTest : Spek({
 
             describe("multi run tests") {
                 val firstRun by memoized(CachingMode.GROUP) {
-                    execute(testProjectDir.toFile(), copySourcesTaskName) }
+                    execute(testProjectDir.toFile(), copySourcesTaskName)
+                }
                 val secondRun by memoized(CachingMode.GROUP) {
-                    execute(testProjectDir.toFile(), copySourcesTaskName) }
+                    execute(testProjectDir.toFile(), copySourcesTaskName)
+                }
                 beforeGroup {
                     scriptsDir.toFile().mkdirs()
                     buildFile.fillFromResource("simple.gradle")
@@ -114,7 +119,8 @@ object GiraffleFunctionalTest : Spek({
                     }
 
                     val buildDir = testProjectDir.resolve("build")
-                    assertTrue(buildDir.toFile().exists(),
+                    assertTrue(
+                        buildDir.toFile().exists(),
                         """
                             files should be copied from script dir to build directory.
 
@@ -137,11 +143,14 @@ object GiraffleFunctionalTest : Spek({
 
         describe("non standard layout") {
             val scriptsDir by memoized(CachingMode.GROUP) {
-                Files.createDirectories(testProjectDir.resolve("scripts")) }
+                Files.createDirectories(testProjectDir.resolve("scripts"))
+            }
             val buildFile by memoized(CachingMode.GROUP) {
-                Files.createFile(testProjectDir.resolve("build.gradle")).toFile() }
+                Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
+            }
             val gsqlScript by memoized(CachingMode.GROUP) {
-                Files.createFile(testProjectDir.resolve("scripts/schema.gsql")).toFile() }
+                Files.createFile(testProjectDir.resolve("scripts/schema.gsql")).toFile()
+            }
 
             describe("copy schema from nonstandard directory") {
                 beforeGroup {
@@ -161,9 +170,11 @@ object GiraffleFunctionalTest : Spek({
                     builtScript.toFile().readText(Charsets.UTF_8)
                 }
                 it("copy schema file to build directory from non-standard folder") {
-                    assertEquals(TaskOutcome.SUCCESS,
+                    assertEquals(
+                        TaskOutcome.SUCCESS,
                         buildResult.task(":$copySourcesTaskName")!!.outcome,
-                        "Task should be marked as SUCCESS")
+                        "Task should be marked as SUCCESS"
+                    )
                 }
                 it("built file should be copied to build directory") {
                     assertTrue(
