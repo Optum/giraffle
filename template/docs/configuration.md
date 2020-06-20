@@ -55,8 +55,9 @@ Set the default graph context for Tigergraph.
 ## gsqlClientVersion
 Set this property to specify the Tigergraph server version you will be connecting to.
 
-As of version 2.5.2 the supported version strings are:
+As of version 2.6.0 the supported version strings are:
 
+* `v2_6_0`
 * `v2_5_2`
 * `v2_5_0`
 * `v2_4_1`
