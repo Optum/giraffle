@@ -1,5 +1,4 @@
-:icla: link:INDIVIDUAL_CONTRIBUTOR_LICENSE.adoc[Individual Contributor License Agreement ("ICL")]
-:git-rewrite: link:https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+:icla: link:INDIVIDUAL_CONTRIBUTOR_LICENSE.adoc[Contributor License Agreement ("CLA")]
 = Contributing to Giraffle
 :toc:
 
@@ -17,10 +16,6 @@ This project has a link:CODE_OF_CONDUCT.md[Code of Conduct]. Participating in
 this project requires you to abide by its terms.  Please review our {icla}
 prior to submitting changes to the project.  Please direct any questions to
 opensource@optum.com.
-
-TIP: Our ICL requires contributors to `sign-off` on each commit.  Adding an
-alias to the project will make this easier. ```git config --local
-format.signoff true```
 
 [#question]
 == Got a Question or Problem?
@@ -70,15 +65,6 @@ information will increase the chances of your issue being dealt with quickly:
 Please read this guide and make sure you agree with our {icla}.
 
 * Write good commit messages
-* Sign-off every commit `git commit --signoff` or `git commit -s`, as directed
-  by the ICL.
-
-NOTE: If you forget to sign a commit, then you'll have to do a bit of rewriting
-history. Don't worry. It's pretty easy. If it's the latest commit, you can just
-run either `git commit -a -s` or `git commit --amend --signoff` to fix things.
-It gets a little trickier if you have to change something farther back in
-history but there are some good instructions {git-rewrite}[here] in the
-Changing Multiple Commit Messages section.
 
 * <<commit,Reference your issues>> within your commits.
 
@@ -131,9 +117,7 @@ $ git config user.name "J. Random User"
 $ git config user.email "j.random.user@example.com"
 ----
 
-NOTE: Signing-Off on your commit is agreeing with our ICL and attesting that
-you either wrote or have the rights to contribute the code. The name and email
-address must be valid as we cannot accept anonymous contributions.
+NOTE: The name and email address must be valid as we cannot accept anonymous contributions.
 
 Writing good commit logs is important. A commit log should describe what
 changed and why. Follow these guidelines when writing one:
@@ -204,6 +188,9 @@ Pull requests are usually reviewed within a few days. If you get comments that
 need to be to addressed, apply your changes in a separate commit and push that
 to your feature branch. Post a comment in the pull request afterwards; GitHub
 does not send out notifications when you add commits to existing pull requests.
+The first time you open a pull request in this repository, you will see a comment on your PR with a link that will allow you to sign our Contributor License Agreement (CLA) if necessary.
+
+NOTE: The link will take you to a page that allows you to view our CLA.  You will need to click the `Sign in with GitHub to agree button` and authorize the cla-assistant application to access the email addresses associated with your GitHub account.  Agreeing to the CLA is also considered to be an attestation that you either wrote or have the rights to contribute the code.  All committers to the PR branch will be required to sign the CLA, but you will only need to sign once.  This CLA applies to all repositories in the Optum org.
 
 That's it! Thank you for your contribution!
 
