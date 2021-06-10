@@ -5,14 +5,14 @@ import java.time.Duration
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
-    // id("org.jetbrains.kotlin.jvm") version Versions.kotlin
+    // id("org.jetbrains.kotlin.jvm") version Version.kotlin
     `java-gradle-plugin`
     `maven-publish`
     signing
-    id("com.gradle.plugin-publish") version Versions.pluginPublish
-    kotlin("jvm") version Versions.kotlin
-    id("org.jmailen.kotlinter") version Versions.kotlinter
-    id("net.saliman.properties") version Versions.saliman
+    id("com.gradle.plugin-publish") version Version.pluginPublish
+    kotlin("jvm") version Version.kotlin
+    id("org.jmailen.kotlinter") version Version.kotlinter
+    id("net.saliman.properties") version Version.saliman
 }
 
 val projectGroup: String by project
@@ -167,39 +167,39 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}")
-    implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
-    implementation("com.squareup.moshi:moshi-kotlin:${Versions.moshi}")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${Version.kotlin}")
+    implementation("com.squareup.okhttp3:okhttp:${Version.okhttp}")
+    implementation("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
 
     testImplementation(kotlin("test"))
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}") {
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Version.spek}") {
         // exclude(group = "org.jetbrains.kotlin")
     }
-    testImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okhttp}")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${Version.okhttp}")
 
     testRuntimeOnly(kotlin("reflect"))
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spek}") {
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Version.spek}") {
         exclude(group = "org.junit.platform")
         exclude(group = "org.jetbrains.kotlin")
     }
 
-    testImplementation("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformVersion}")
+    testImplementation("org.junit.platform:junit-platform-launcher:${Version.junitPlatformVersion}")
 
     "integrationTestImplementation"(project)
     "integrationTestImplementation"(kotlin("test"))
 
-    "integrationTestImplementation"("org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}") {
+    "integrationTestImplementation"("org.spekframework.spek2:spek-dsl-jvm:${Version.spek}") {
         // exclude(group = "org.jetbrains.kotlin")
     }
-    "integrationTestImplementation"("com.squareup.okhttp3:mockwebserver:${Versions.okhttp}")
+    "integrationTestImplementation"("com.squareup.okhttp3:mockwebserver:${Version.okhttp}")
 
     testRuntimeOnly(kotlin("reflect"))
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spek}") {
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Version.spek}") {
         exclude(group = "org.junit.platform")
         exclude(group = "org.jetbrains.kotlin")
     }
 
-    "integrationTestImplementation"("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformVersion}")
+    "integrationTestImplementation"("org.junit.platform:junit-platform-launcher:${Version.junitPlatformVersion}")
 
 }
 
