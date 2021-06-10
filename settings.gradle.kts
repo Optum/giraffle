@@ -11,3 +11,4 @@ pluginManagement {
 plugins {
     id("com.gradle.enterprise") version "3.0"
 }
+org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
