@@ -24,6 +24,8 @@ object GiraffleNewProjectTest : Spek({
             val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_kotlin_dsl")
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             buildFile.fillFromResource("newProject.gradle")
+            val settingsFile = Files.createFile(testProjectDir.resolve("settings.gradle")).toFile()
+            settingsFile.fillFromResource("settings.gradle")
 
             it("should create property files") {
                 val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
@@ -95,6 +97,8 @@ object GiraffleNewProjectTest : Spek({
             val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_groovy_dsl")
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             buildFile.fillFromResource("newProject.gradle")
+            val settingsFile = Files.createFile(testProjectDir.resolve("settings.gradle")).toFile()
+            settingsFile.fillFromResource("settings.gradle")
 
             it("groovy build should use properties plugin") {
                 val myAntProp = antProps.plus(antPropGroovy).plus(antPropProperty)
