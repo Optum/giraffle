@@ -103,13 +103,20 @@ tasks {
     }
 }
 
-val integrationTest by sourceSets.creating
+val integrationTest: SourceSet by sourceSets.creating {
+    compileClasspath += sourceSets.main.get().output
+}
 
+configurations {
+}
+/*
+ compileClasspath += sourceSets.main.get().output + configurations.testRuntime.get()
+ */
 val integrationTestTask = tasks.register<Test>("integrationTest") {
     description = "Runs the functional tests"
     group = JavaBasePlugin.VERIFICATION_GROUP
 
-    testClassesDirs = integrationTest.output.classesDirs
+    testClassesDirs = integrationTest.output.classesDirs 
     classpath = integrationTest.runtimeClasspath
     mustRunAfter(tasks.test)
 
@@ -119,6 +126,10 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
     }
 
     timeout.set(Duration.ofMinutes(2))
+}
+
+gradlePlugin {
+    testSourceSets(integrationTest)
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -165,12 +176,22 @@ repositories {
     mavenLocal()
 }
 
+val baseConfig: Configuration by configurations.creating
+
 dependencies {
+    baseConfig(kotlin("stdlib-jdk8"))
+    baseConfig("org.jetbrains.kotlin:kotlin-reflect:${Version.kotlin}")
+    baseConfig("com.squareup.okhttp3:okhttp:${Version.okhttp}")
+    baseConfig("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
+
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlin:kotlin-reflect:${Version.kotlin}")
     implementation("com.squareup.okhttp3:okhttp:${Version.okhttp}")
     implementation("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
 
+    testImplementation(project)
+
+    testImplementation(gradleTestKit())
     testImplementation(kotlin("test"))
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Version.spek}") {
         // exclude(group = "org.jetbrains.kotlin")
@@ -193,14 +214,17 @@ dependencies {
     }
     "integrationTestImplementation"("com.squareup.okhttp3:mockwebserver:${Version.okhttp}")
 
-    testRuntimeOnly(kotlin("reflect"))
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Version.spek}") {
+    "integrationTestImplementation"(kotlin("reflect"))
+    "integrationTestImplementation"("org.spekframework.spek2:spek-runner-junit5:${Version.spek}") {
         exclude(group = "org.junit.platform")
         exclude(group = "org.jetbrains.kotlin")
     }
 
     "integrationTestImplementation"("org.junit.platform:junit-platform-launcher:${Version.junitPlatformVersion}")
 
+    "integrationTestImplementation"("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
+}
+configurations {
 }
 
 gradlePlugin {

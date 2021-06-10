@@ -24,16 +24,16 @@ const val restPort = 9000
 
 object GiraffleFunctionalTest : Spek({
     describe("Giraffle Plugin") {
-        val testProjectDir by memoized(CachingMode.GROUP) { Files.createTempDirectory("giraffle") }
+        val testProjectDir by memoized(CachingMode.EACH_GROUP) { Files.createTempDirectory("giraffle") }
 
         describe("Standard layout with db_scripts") {
-            val scriptsDir by memoized(CachingMode.GROUP) {
+            val scriptsDir by memoized(CachingMode.EACH_GROUP) {
                 Files.createDirectories(testProjectDir.resolve("db_scripts"))
             }
-            val buildFile by memoized(CachingMode.GROUP) {
+            val buildFile by memoized(CachingMode.EACH_GROUP) {
                 Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             }
-            val gsqlScript by memoized(CachingMode.GROUP) {
+            val gsqlScript by memoized(CachingMode.EACH_GROUP) {
                 Files.createFile(testProjectDir.resolve("db_scripts/schema.gsql")).toFile()
             }
 
@@ -49,7 +49,7 @@ object GiraffleFunctionalTest : Spek({
             }
 
             describe("listing tasks") {
-                val buildResult by memoized(CachingMode.GROUP) {
+                val buildResult by memoized(CachingMode.EACH_GROUP) {
                     execute(testProjectDir.toFile(), "tasks", "--all")
                 }
                 beforeGroup {
@@ -101,10 +101,10 @@ object GiraffleFunctionalTest : Spek({
             }
 
             describe("multi run tests") {
-                val firstRun by memoized(CachingMode.GROUP) {
+                val firstRun by memoized(CachingMode.EACH_GROUP) {
                     execute(testProjectDir.toFile(), copySourcesTaskName)
                 }
-                val secondRun by memoized(CachingMode.GROUP) {
+                val secondRun by memoized(CachingMode.EACH_GROUP) {
                     execute(testProjectDir.toFile(), copySourcesTaskName)
                 }
                 beforeGroup {
@@ -142,13 +142,13 @@ object GiraffleFunctionalTest : Spek({
         }
 
         describe("non standard layout") {
-            val scriptsDir by memoized(CachingMode.GROUP) {
+            val scriptsDir by memoized(CachingMode.EACH_GROUP) {
                 Files.createDirectories(testProjectDir.resolve("scripts"))
             }
-            val buildFile by memoized(CachingMode.GROUP) {
+            val buildFile by memoized(CachingMode.EACH_GROUP) {
                 Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             }
-            val gsqlScript by memoized(CachingMode.GROUP) {
+            val gsqlScript by memoized(CachingMode.EACH_GROUP) {
                 Files.createFile(testProjectDir.resolve("scripts/schema.gsql")).toFile()
             }
 
@@ -160,13 +160,13 @@ object GiraffleFunctionalTest : Spek({
                     gsqlScript.fillFromResource("schema.gsql")
                 }
 
-                val buildResult by memoized(CachingMode.GROUP) {
+                val buildResult by memoized(CachingMode.EACH_GROUP) {
                     execute(testProjectDir.toFile(), copySourcesTaskName)
                 }
-                val builtScript by memoized(CachingMode.GROUP) {
+                val builtScript by memoized(CachingMode.EACH_GROUP) {
                     testProjectDir.resolve(outputSchemaScript)
                 }
-                val contents by memoized(CachingMode.GROUP) {
+                val contents by memoized(CachingMode.EACH_GROUP) {
                     builtScript.toFile().readText(Charsets.UTF_8)
                 }
                 it("copy schema file to build directory from non-standard folder") {

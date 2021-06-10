@@ -7,5 +7,5 @@ object Version {
     const val okhttp = "4.9.1"
     const val pluginPublish = "0.14.0"
     const val saliman = "1.5.1"
-    const val spek = "2.0.0"
+    const val spek = "2.0.7"
 }

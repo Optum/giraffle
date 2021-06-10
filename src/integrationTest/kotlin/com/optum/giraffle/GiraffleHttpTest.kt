@@ -9,8 +9,8 @@ import java.nio.file.Files
 object GiraffleHttpTest : Spek({
     val server = MockWebServer()
     val dispatcher = SuccessDispatcher()
-    val testProjectDir by memoized(CachingMode.GROUP) { Files.createTempDirectory("giraffle") }
-    val buildFile by memoized(CachingMode.GROUP) {
+    val testProjectDir by memoized(CachingMode.EACH_GROUP) { Files.createTempDirectory("giraffle") }
+    val buildFile by memoized(CachingMode.EACH_GROUP) {
         Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
     }
 
