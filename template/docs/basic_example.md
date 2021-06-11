@@ -30,7 +30,14 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    maven {
+       url = uri("https://maven.pkg.github.com/tigergraph/gsql_client")
+       credentials {
+          username=project.findProperty("gpr.user") as String
+          password=project.findProperty("gpr.key") as String
+       }
+    }
 }
 
 val gsqlGraphname: String by project // <1>
@@ -151,7 +158,14 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
+    maven {
+       url = uri("https://maven.pkg.github.com/tigergraph/gsql_client")
+       credentials {
+          username=project.findProperty("gpr.user") as String
+          password=project.findProperty("gpr.key") as String
+       }
+    }
 }
 
 http { // <2>
