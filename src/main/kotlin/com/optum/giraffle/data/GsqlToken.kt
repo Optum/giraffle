@@ -1,12 +1,12 @@
 package com.optum.giraffle.data
 
 import com.squareup.moshi.JsonClass
-import java.io.Serializable
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
+import java.io.Serializable
 
 class GsqlToken(project: Project) {
     private val code: Property<String> = project.objects.property(String::class.java)

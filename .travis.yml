@@ -2,8 +2,8 @@ language: java
 install: true
 jdk:
     - openjdk8
-    - openjdk11
-    - openjdk13
+      #- openjdk11
+      #- openjdk13
 script:
     - ./gradlew assemble -x signArchives -s
     - ./gradlew check -s

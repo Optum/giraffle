@@ -87,29 +87,31 @@ open class GsqlPlugin : Plugin<Project> {
             .setVisible(false)
             .setDescription("Gsql Runtime for Tigergraph Plugin")
 
-        config.defaultDependencies(Action<DependencySet>() {
-            it.add(project.dependencies.create("com.tigergraph.client:gsql_client:$gsql_client_version"))
-        })
+        config.defaultDependencies(
+            Action<DependencySet>() {
+                it.add(project.dependencies.create("com.tigergraph.client:gsql_client:$gsql_client_version"))
+            }
+        )
         // dependencies.add(gsqlRuntime, "com.tigergraph.client:gsql_client:$gsql_client_version")
     }
 
     private fun Project.registerGsqlCopySourcesTask(gsqlPluginExtension: GsqlPluginExtension): TaskProvider<GsqlCopySources> =
-            tasks.register(copySourcesTaskName, GsqlCopySources::class.java) { gsqlCopySources ->
-                gsqlCopySources.group = JavaBasePlugin.BUILD_TASK_NAME
-                gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
-                gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
-                gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir) // This isn't overridable at the moment. Should it be a property?
-                gsqlCopySources.tokens.putAll(gsqlPluginExtension.tokens)
-            }
+        tasks.register(copySourcesTaskName, GsqlCopySources::class.java) { gsqlCopySources ->
+            gsqlCopySources.group = JavaBasePlugin.BUILD_TASK_NAME
+            gsqlCopySources.description = "Copy gsql scripts from input directory to build directory prior to execution."
+            gsqlCopySources.inputDir.set(gsqlPluginExtension.scriptDir)
+            gsqlCopySources.outputDir.set(gsqlPluginExtension.outputDir) // This isn't overridable at the moment. Should it be a property?
+            gsqlCopySources.tokens.putAll(gsqlPluginExtension.tokens)
+        }
 
     private fun Project.registerGsqlTask(): TaskProvider<GsqlTask> =
-            tasks.register(gsqlTaskTypeName, GsqlTask::class.java)
+        tasks.register(gsqlTaskTypeName, GsqlTask::class.java)
 
     private fun Project.registerGsqlShell(): TaskProvider<GsqlShell> =
-            tasks.register(gsqlShellTaskName, GsqlShell::class.java) { gsqlShell ->
-                gsqlShell.group = "GSQL Interactive"
-                gsqlShell.description = "Run an interactive gsql shell session"
-            }
+        tasks.register(gsqlShellTaskName, GsqlShell::class.java) { gsqlShell ->
+            gsqlShell.group = "GSQL Interactive"
+            gsqlShell.description = "Run an interactive gsql shell session"
+        }
     private fun Project.registerNewProject(): TaskProvider<NewProject> =
         tasks.register("gsqlNewProject", NewProject::class.java) { newProject ->
             newProject.group = "GSQL Project Wizard"

@@ -1,12 +1,12 @@
 package com.optum.giraffle
 
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.specification.describe
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import org.spekframework.spek2.Spek
-import org.spekframework.spek2.style.specification.describe
 
 object GiraffleNewProjectTest : Spek({
     val antProps: Array<String> = arrayOf(
@@ -24,6 +24,8 @@ object GiraffleNewProjectTest : Spek({
             val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_kotlin_dsl")
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             buildFile.fillFromResource("newProject.gradle")
+            val settingsFile = Files.createFile(testProjectDir.resolve("settings.gradle")).toFile()
+            settingsFile.fillFromResource("settings.gradle")
 
             it("should create property files") {
                 val myAntProp = antProps.plus(antPropKotlin).plus(antPropProperty)
@@ -37,9 +39,9 @@ object GiraffleNewProjectTest : Spek({
                 val credCheck: (String) -> Boolean = { contents: String ->
                     with(contents) {
                         contains("gAdminUserName=tiger") and
-                        contains("gAdminPassword=tig3r") and
-                        contains("gUserName=joe_user") and
-                        contains("gPassword=s3cr3t")
+                            contains("gAdminPassword=tig3r") and
+                            contains("gUserName=joe_user") and
+                            contains("gPassword=s3cr3t")
                     }
                 }
 
@@ -95,6 +97,8 @@ object GiraffleNewProjectTest : Spek({
             val testProjectDir: Path = Files.createTempDirectory("giraffle_new_proj_wiz_groovy_dsl")
             val buildFile = Files.createFile(testProjectDir.resolve("build.gradle")).toFile()
             buildFile.fillFromResource("newProject.gradle")
+            val settingsFile = Files.createFile(testProjectDir.resolve("settings.gradle")).toFile()
+            settingsFile.fillFromResource("settings.gradle")
 
             it("groovy build should use properties plugin") {
                 val myAntProp = antProps.plus(antPropGroovy).plus(antPropProperty)

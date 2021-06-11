@@ -1,9 +1,9 @@
 package com.optum.giraffle
 
-import java.io.File
-import java.nio.file.Path
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
+import java.io.File
+import java.nio.file.Path
 
 fun File.fillFromResource(resourceName: String) {
     ClassLoader.getSystemResourceAsStream(resourceName).use { inputStream ->
@@ -13,14 +13,15 @@ fun File.fillFromResource(resourceName: String) {
 
 fun Path.printFiles(): String {
     return this.toFile().walkTopDown().fold("") {
-        acc: String, file: File -> "$acc\n$file"
+        acc: String, file: File ->
+        "$acc\n$file"
     }
 }
 
 fun execute(projectDir: File, vararg arguments: String): BuildResult {
     return GradleRunner.create()
-            .withProjectDir(projectDir)
-            .withArguments(arguments.toList())
-            .withPluginClasspath()
-            .build()
+        .withProjectDir(projectDir)
+        .withArguments(arguments.toList())
+        .withPluginClasspath()
+        .build()
 }

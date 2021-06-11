@@ -126,7 +126,7 @@ is to import the class at the top of your build file.
 import com.optum.giraffle.tasks.GsqlTask
 
 plugins {
-    id("com.optum.giraffle") version "1.3.4.1"
+    id("com.optum.giraffle") version "1.3.5"
 }
 
 val createSchema by tasks.registering(GsqlTask::class) {

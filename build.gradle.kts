@@ -1,18 +1,18 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.time.Duration
-org.apache.tools.ant.DirectoryScanner.removeDefaultExclude("**/.gitignore")
+
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin on the JVM.
-    // id("org.jetbrains.kotlin.jvm") version Versions.kotlin
+    // id("org.jetbrains.kotlin.jvm") version Version.kotlin
     `java-gradle-plugin`
     `maven-publish`
     signing
-    id("com.gradle.plugin-publish") version Versions.pluginPublish
-    kotlin("jvm") version Versions.kotlin
-    id("org.jmailen.kotlinter") version Versions.kotlinter
-    id("net.saliman.properties") version Versions.saliman
+    id("com.gradle.plugin-publish") version Version.pluginPublish
+    kotlin("jvm") version Version.kotlin
+    id("org.jmailen.kotlinter") version Version.kotlinter
+    id("net.saliman.properties") version Version.saliman
 }
 
 val projectGroup: String by project
@@ -77,7 +77,7 @@ tasks {
     }
 
     wrapper {
-        gradleVersion = "6.5"
+        gradleVersion = "7.0.2"
     }
 }
 
@@ -103,25 +103,22 @@ tasks {
     }
 }
 
-val intTest by sourceSets.creating {
-    compileClasspath += sourceSets.main.get().output + configurations.testRuntime.get()
-    runtimeClasspath += output + compileClasspath
+val integrationTest: SourceSet by sourceSets.creating {
+    compileClasspath += sourceSets.main.get().output
 }
 
-val intTestImplementation by configurations.getting {
-    extendsFrom(configurations.testImplementation.get())
+configurations {
 }
-val intTestRuntimeOnly by configurations.getting {
-    extendsFrom(configurations.testRuntimeOnly.get())
-}
-
-val integrationTest by tasks.registering(Test::class) {
+/*
+ compileClasspath += sourceSets.main.get().output + configurations.testRuntime.get()
+ */
+val integrationTestTask = tasks.register<Test>("integrationTest") {
     description = "Runs the functional tests"
     group = JavaBasePlugin.VERIFICATION_GROUP
 
-    testClassesDirs = intTest.output.classesDirs
-    classpath = intTest.runtimeClasspath
-    shouldRunAfter(tasks.test)
+    testClassesDirs = integrationTest.output.classesDirs 
+    classpath = integrationTest.runtimeClasspath
+    mustRunAfter(tasks.test)
 
     reports {
         html.destination = file("${html.destination}/functional")
@@ -129,6 +126,10 @@ val integrationTest by tasks.registering(Test::class) {
     }
 
     timeout.set(Duration.ofMinutes(2))
+}
+
+gradlePlugin {
+    testSourceSets(integrationTest)
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -159,7 +160,7 @@ tasks {
     }
 
     check {
-        dependsOn(integrationTest.get())
+        dependsOn(integrationTestTask)
     }
 
     processResources {
@@ -170,30 +171,60 @@ tasks {
 repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+    // jcenter()
+    mavenCentral()
     mavenLocal()
 }
 
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
-    implementation("com.squareup.moshi:moshi-kotlin:${Versions.moshi}")
+val baseConfig: Configuration by configurations.creating
 
+dependencies {
+    baseConfig(kotlin("stdlib-jdk8"))
+    baseConfig("org.jetbrains.kotlin:kotlin-reflect:${Version.kotlin}")
+    baseConfig("com.squareup.okhttp3:okhttp:${Version.okhttp}")
+    baseConfig("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
+
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${Version.kotlin}")
+    implementation("com.squareup.okhttp3:okhttp:${Version.okhttp}")
+    implementation("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
+
+    testImplementation(project)
+
+    testImplementation(gradleTestKit())
     testImplementation(kotlin("test"))
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Versions.spek}") {
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:${Version.spek}") {
         // exclude(group = "org.jetbrains.kotlin")
     }
-    testImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okhttp}")
+    testImplementation("com.squareup.okhttp3:mockwebserver:${Version.okhttp}")
 
     testRuntimeOnly(kotlin("reflect"))
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Versions.spek}") {
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:${Version.spek}") {
         exclude(group = "org.junit.platform")
         exclude(group = "org.jetbrains.kotlin")
     }
 
-    testImplementation("org.junit.platform:junit-platform-launcher:${Versions.junitPlatformVersion}")
+    testImplementation("org.junit.platform:junit-platform-launcher:${Version.junitPlatformVersion}")
 
-    intTestImplementation(gradleTestKit())
+    "integrationTestImplementation"(project)
+    "integrationTestImplementation"(kotlin("test"))
+
+    "integrationTestImplementation"("org.spekframework.spek2:spek-dsl-jvm:${Version.spek}") {
+        // exclude(group = "org.jetbrains.kotlin")
+    }
+    "integrationTestImplementation"("com.squareup.okhttp3:mockwebserver:${Version.okhttp}")
+
+    "integrationTestImplementation"(kotlin("reflect"))
+    "integrationTestImplementation"("org.spekframework.spek2:spek-runner-junit5:${Version.spek}") {
+        exclude(group = "org.junit.platform")
+        exclude(group = "org.jetbrains.kotlin")
+    }
+
+    "integrationTestImplementation"("org.junit.platform:junit-platform-launcher:${Version.junitPlatformVersion}")
+
+    "integrationTestImplementation"("com.squareup.moshi:moshi-kotlin:${Version.moshi}")
+}
+configurations {
 }
 
 gradlePlugin {
