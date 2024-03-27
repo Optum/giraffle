@@ -14,6 +14,8 @@ on a remote server. Giraffle also helps you keep environment specific
 configuration out of your code. Most importantly it helps you keep your
 credentials out of your code.
 
+!> Version `2.0` changes the default gsql\_client to `3.4.0`.
+
 !> Version `1.3.5` changes the default gsql\_client to `3.1.2`. This client
 is backwards compatible with previous versions. With `jcenter` shutting down it
 will be necessary to obtain the gsql\_client from a different repository. See

@@ -77,7 +77,7 @@ open class GsqlPlugin : Plugin<Project> {
         registerTokenTask(gsqlPluginExtension)
         registerDeleteTokenTask(gsqlPluginExtension)
 
-        logger.lifecycle("GSQL Plugin successfully applied to ${project.name}")
+        logger.lifecycle("GSQL Plugin 3_4_0 successfully applied to ${project.name}")
 
         tasks.withType(GsqlTask::class.java) { task ->
             task.dependsOn(gsqlCopySources)
